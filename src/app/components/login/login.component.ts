@@ -2,6 +2,9 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { LoginModel } from '../../models/login.model';
 import { FormValidateDirective } from 'form-validate-angular';
+import { HttpService } from '../../services/http.service';
+import { LoginResponseModel } from '../../models/login-response.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +16,10 @@ import { FormValidateDirective } from 'form-validate-angular';
 export class LoginComponent {
   login: LoginModel = new LoginModel();
   @ViewChild("password") password : ElementRef<HTMLInputElement> | undefined;
+
+  constructor(private http: HttpService, private router: Router){
+
+  }
 
   showOrHidePassword(){
     if(this.password === undefined){
@@ -28,7 +35,10 @@ export class LoginComponent {
 
   signIn(form:NgForm){
     if(form.valid){
-      
+      this.http.post<LoginResponseModel>("auth/login", this.login, (res) => {
+        localStorage.setItem("token", res.data!.token);
+        this.router.navigateByUrl("/");
+      })
     }
   }
 }
