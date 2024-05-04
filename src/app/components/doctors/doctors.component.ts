@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { departments } from '../../constants';
 import { FormsModule, NgForm } from '@angular/forms';
 import { FormValidateDirective } from 'form-validate-angular';
+import { SwalService } from '../../services/swal.service';
 
 @Component({
   selector: 'app-doctors',
@@ -22,8 +23,10 @@ export class DoctorsComponent implements OnInit{
   @ViewChild('addModalCloseBtn') addModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
   createModel: DoctorModel = new DoctorModel();  
 
-  constructor(private http: HttpService){
-
+  constructor(private http: HttpService, private swal: SwalService){
+    this.swal.callSwal('Title', 'Text', () => {
+      
+    });
   }
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class DoctorsComponent implements OnInit{
     if(form.valid){
       this.http.post("doctors/create", this.createModel, (res) => {
         console.log(res);
+        this.swal.callToastr(res.data, 'success');
         this.getAll();
         this.addModalCloseBtn?.nativeElement.click();
         this.createModel = new DoctorModel();
