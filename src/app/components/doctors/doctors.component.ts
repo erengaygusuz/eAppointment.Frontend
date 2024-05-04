@@ -24,9 +24,6 @@ export class DoctorsComponent implements OnInit{
   createModel: DoctorModel = new DoctorModel();  
 
   constructor(private http: HttpService, private swal: SwalService){
-    this.swal.callSwal('Title', 'Text', () => {
-      
-    });
   }
 
   ngOnInit(): void {
@@ -49,6 +46,14 @@ export class DoctorsComponent implements OnInit{
         this.createModel = new DoctorModel();
       })
     }
+  }
 
+  delete(id: string, fullName: string){
+    this.swal.callSwal("Delete Doctor", `Are you sure you want to delete ${fullName}?`, () => {
+      this.http.post<string>("doctors/deletebyid", {id: id}, (res) => {
+        this.swal.callToastr(res.data, 'info');
+        this.getAll();
+      })
+    })
   }
 }
