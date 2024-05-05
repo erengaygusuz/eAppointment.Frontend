@@ -21,7 +21,9 @@ export class DoctorsComponent implements OnInit{
   departments = departments;
 
   @ViewChild('addModalCloseBtn') addModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
+  @ViewChild('updateModalCloseBtn') updateModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
   createModel: DoctorModel = new DoctorModel();  
+  updateModel: DoctorModel = new DoctorModel();  
 
   constructor(private http: HttpService, private swal: SwalService){
   }
@@ -55,5 +57,21 @@ export class DoctorsComponent implements OnInit{
         this.getAll();
       })
     })
+  }
+
+  get(data: DoctorModel){
+    this.updateModel = {...data};
+    this.updateModel.departmentValue = data.department.value;
+  }
+
+  update(form: NgForm){
+    if(form.valid){
+      this.http.post("doctors/update", this.updateModel, (res) => {
+        console.log(res);
+        this.swal.callToastr(res.data, 'success');
+        this.getAll();
+        this.updateModalCloseBtn?.nativeElement.click();
+      })
+    }
   }
 }
