@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.css'
 })
-export class PatientComponent implements OnInit {
+export class PatientsComponent implements OnInit {
   patients: PatientModel[] = [];
 
   search: string = "";

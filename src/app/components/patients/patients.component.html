@@ -29,6 +29,7 @@
                 <tr>
                     <th>#</th>
                     <th>Full Name</th>
+                    <th>Identity Number</th>
                     <th>City / Town</th>
                     <th>Full Address</th>
                     <th>Operations</th>
@@ -40,7 +41,9 @@
                 <tr>
                     <td>{{$index + 1}}</td>
                     <td>{{patient.fullName}}</td>
+                    <td>{{patient.identityNumber}}</td>
                     <td>{{patient.city}} / {{patient.town}}</td>
+                    <td>{{patient.fullAddress}}</td>
                     <td>
                         <button (click)="get(patient)" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-sm btn-outline-primary me-1" title="Update">
                             <i class="fa-solid fa-edit"></i>
@@ -77,6 +80,11 @@
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class="form-group mt-2">
+                        <label>Identity Number</label>
+                        <input type="text" [(ngModel)] = "createModel.identityNumber" name="identityNumber" class="form-control" required minlength="11" maxlength="11" />
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group mt-2">
                         <label>City</label>
                         <input type="text" [(ngModel)] = "createModel.city" name="city" class="form-control" required minlength="3" />
                         <div class="invalid-feedback"></div>
@@ -88,7 +96,7 @@
                     </div>
                     <div class="form-group mt-2">
                         <label>Full Address</label>
-                        <textarea class="form-control" [(ngModel)] = "createModel.fullAddress" name="fullAddress" required maxlength="3"></textarea>
+                        <textarea class="form-control" [(ngModel)] = "createModel.fullAddress" name="fullAddress" required minlength="3"></textarea>
                         <div class="invalid-feedback"></div>
                     </div>
                 </div>
@@ -121,6 +129,11 @@
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class="form-group mt-2">
+                        <label>Identity Number</label>
+                        <input type="text" [(ngModel)] = "updateModel.identityNumber" name="updateIdentityNumber" class="form-control" required minlength="11" maxlength="11" />
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    <div class="form-group mt-2">
                         <label>City</label>
                         <input type="text" [(ngModel)] = "updateModel.city" name="updateCity" class="form-control" required minlength="3" />
                         <div class="invalid-feedback"></div>
@@ -132,7 +145,7 @@
                     </div>
                     <div class="form-group mt-2">
                         <label>Full Address</label>
-                        <textarea class="form-control" [(ngModel)] = "updateModel.fullAddress" name="updateFullAddress" required maxlength="3"></textarea>
+                        <textarea class="form-control" [(ngModel)] = "updateModel.fullAddress" name="updateFullAddress" required minlength="3"></textarea>
                         <div class="invalid-feedback"></div>
                     </div>
                 </div>
