@@ -4,6 +4,8 @@ import { DoctorModel } from '../../models/doctor.model';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DxSchedulerModule } from 'devextreme-angular';
+import { HttpService } from '../../services/http.service';
+import { AppointmentModel } from '../../models/appointment.model';
 
 @Component({
   selector: 'app-home',
@@ -19,21 +21,32 @@ export class HomeComponent {
   selectedDepartmentValue: number = 0;
   selectedDoctorId: number = 0;
 
-  appointments: any = [
-    {
-      startDate: new Date("2024-05-11 09:00"),
-      endDate: new Date("2024-05-11 09:30"),
-      title: "Ayşe Fatma"
-    },
-    {
-      startDate: new Date("2024-05-11 09:30"),
-      endDate: new Date("2024-05-11 10:00"),
-      title: "Eren Özcan"
-    },
-    {
-      startDate: new Date("2024-05-11 10:00"),
-      endDate: new Date("2024-05-11 10:30"),
-      title: "Sevgi Pıtır"
+  appointments: AppointmentModel[] = [];
+
+  constructor(private http: HttpService){
+
+  }
+
+  getAllDoctorByDepartment(){
+
+    this.selectedDoctorId = 0;
+
+    if(this.selectedDepartmentValue > 0){
+      this.http.post("appointments/getalldoctorsbydepartment", {
+        departmentValue: +this.selectedDepartmentValue
+      },(res) => {
+        this.doctors = res.data;
+      });
     }
-  ]
+  }
+
+  getAllAppointmentsByDoctorId(){
+    if(this.selectedDoctorId){
+      this.http.post<AppointmentModel[]>("appointments/getallappointmentsbydoctorid", {
+        doctorId: +this.selectedDoctorId
+      },(res) => {
+        this.appointments = res.data;
+      });
+    }
+  }
 }
