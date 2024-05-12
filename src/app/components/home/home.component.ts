@@ -121,4 +121,19 @@ export class HomeComponent {
       })
     });
   }
+
+  onAppointmentUpdating(event: any){
+    event.cancel = true;
+
+    const data = {
+      id: event.oldData.id,
+      startDate: this.date.transform(event.newData.startDate, "dd.MM.yyyy HH:mm"),
+      endDate: this.date.transform(event.newData.endDate, "dd.MM.yyyy HH:mm")
+    }
+
+    this.http.post("appointments/updateappointment", data, res => {
+      this.swal.callToastr(res.data);
+      this.getAllAppointmentsByDoctorId();
+    })
+  }
 }
