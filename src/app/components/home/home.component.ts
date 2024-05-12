@@ -62,7 +62,7 @@ export class HomeComponent {
     }
   }
 
-  onAppointmentFormOpening(event:any){
+  onAppointmentFormOpening(event: any){
     event.cancel = true;
     
     this.createAppointmentModel.startDate = this.date.transform(event.appointmentData.startDate, "dd.MM.yyyy HH:mm") ?? "";
@@ -103,5 +103,22 @@ export class HomeComponent {
         this.getAllAppointmentsByDoctorId();
       })
     }
+  }
+
+  onAppointmentDeleted(event: any){
+    event.cancel = true;
+  }
+
+  onAppointmentDeleting(event: any){
+    event.cancel = true;
+
+    this.swal.callSwal("Delete appointment?", `Do you want to delete ${event.appointmentData.patient.fullName} appointment?`, () => {
+      this.http.post("appointments/deleteappointmentbyid", {
+        id: event.appointmentData.id
+      }, res => {
+        this.swal.callToastr(res.data, "info");
+        this.getAllAppointmentsByDoctorId();
+      })
+    });
   }
 }
