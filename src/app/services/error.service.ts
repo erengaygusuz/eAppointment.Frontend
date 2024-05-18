@@ -18,6 +18,8 @@ export class ErrorService {
       message = 'API is not available';
     }else if(err.status === 404){
       message = 'API not found';
+    }else if(err.status === 401){
+      message = 'You are not allowed for this process';
     }else if(err.status === 500){
       message = '';
 
