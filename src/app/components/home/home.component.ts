@@ -54,7 +54,7 @@ export class HomeComponent {
     console.log(this.selectedDoctorId);
 
     if(this.selectedDoctorId){
-      this.http.post<AppointmentModel[]>("appointments/getallappointmentsbydoctorid", {
+      this.http.post<AppointmentModel[]>("appointments/getallbydoctorid", {
         doctorId: this.selectedDoctorId
       },(res) => {
         this.appointments = res.data;
@@ -96,7 +96,7 @@ export class HomeComponent {
 
   create(form: NgForm){
     if(form.valid){
-      this.http.post("appointments/createappointment", this.createAppointmentModel, res => {
+      this.http.post("appointments/create", this.createAppointmentModel, res => {
         this.swal.callToastr(res.data);
         this.addModalCloseBtn?.nativeElement.click();
         this.createAppointmentModel = new CreateAppointmentModel();
@@ -113,7 +113,7 @@ export class HomeComponent {
     event.cancel = true;
 
     this.swal.callSwal("Delete appointment?", `Do you want to delete ${event.appointmentData.patient.fullName} appointment?`, () => {
-      this.http.post("appointments/deleteappointmentbyid", {
+      this.http.post("appointments/deletebyid", {
         id: event.appointmentData.id
       }, res => {
         this.swal.callToastr(res.data, "info");
@@ -131,7 +131,7 @@ export class HomeComponent {
       endDate: this.date.transform(event.newData.endDate, "dd.MM.yyyy HH:mm")
     }
 
-    this.http.post("appointments/updateappointment", data, res => {
+    this.http.post("appointments/update", data, res => {
       this.swal.callToastr(res.data);
       this.getAllAppointmentsByDoctorId();
     })

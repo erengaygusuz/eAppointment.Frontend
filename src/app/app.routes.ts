@@ -8,6 +8,9 @@ import { AuthService } from './services/auth.service';
 import { DoctorsComponent } from './components/doctors/doctors.component';
 import { PatientsComponent } from './components/patients/patients.component';
 import { UsersComponent } from './components/users/users.component';
+import { AdminAuthGuard } from './guards/admin.auth.guard';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { DoctorAuthGuard } from './guards/doctor.auth.guard';
 
 export const routes: Routes = [
     {
@@ -25,7 +28,8 @@ export const routes: Routes = [
             },
             {
                 path: "doctors",
-                component: DoctorsComponent
+                component: DoctorsComponent,
+                canActivate: [DoctorAuthGuard]
             },
             {
                 path: "patients",
@@ -33,7 +37,12 @@ export const routes: Routes = [
             },
             {
                 path: "users",
-                component: UsersComponent
+                component: UsersComponent,
+                canActivate: [AdminAuthGuard]
+            },
+            {
+                path: "unauthorized",
+                component: UnauthorizedComponent
             }
         ]
     },

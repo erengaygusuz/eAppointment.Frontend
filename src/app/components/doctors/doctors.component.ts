@@ -8,6 +8,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { FormValidateDirective } from 'form-validate-angular';
 import { SwalService } from '../../services/swal.service';
 import { DoctorPipe } from '../../pipes/doctor.pipe';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-doctors',
@@ -29,7 +30,7 @@ export class DoctorsComponent implements OnInit{
   createModel: DoctorModel = new DoctorModel();  
   updateModel: DoctorModel = new DoctorModel();  
 
-  constructor(private http: HttpService, private swal: SwalService){
+  constructor(private http: HttpService, private swal: SwalService, public auth: AuthService){
   }
 
   ngOnInit(): void {

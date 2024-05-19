@@ -11,16 +11,24 @@
 <div class="mt-3">
     <div class="form-group">
         <div class="row">
-            <div class="col-xl-9 col-lg-8 col-md-6 col-sm-12 col-12 mt-2 mb-2">
-                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fa-solid fa-plus me-1"></i>
-                    <span>Add Doctor</span>
-                </button>
-            </div>
-            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 mt-2 mb-2 position-relative">
-                <input type="search" class="form-control" [(ngModel)] = "search" placeholder="Search doctor..." />
-                <i class="fa-solid fa-magnifying-glass search"></i>
-            </div>
+            @if(auth.tokenDecode.roles.includes("Admin")){
+                <div class="col-xl-9 col-lg-8 col-md-6 col-sm-12 col-12 mt-2 mb-2">
+                    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal">
+                        <i class="fa-solid fa-plus me-1"></i>
+                        <span>Add Doctor</span>
+                    </button>
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 mt-2 mb-2 position-relative">
+                    <input type="search" class="form-control" [(ngModel)] = "search" placeholder="Search doctor..." />
+                    <i class="fa-solid fa-magnifying-glass search"></i>
+                </div>
+            }
+            @else{
+                <div class="col-xl-3 offset-xl-9 col-lg-4 offset-lg-8 col-md-6 offset-md-6 col-sm-12 col-12 mt-2 mb-2 position-relative float-right">
+                    <input type="search" class="form-control" [(ngModel)] = "search" placeholder="Search doctor..." />
+                    <i class="fa-solid fa-magnifying-glass search"></i>
+                </div>
+            }
         </div>
     </div>
     <div class="form-group mt-1">
@@ -41,17 +49,52 @@
                     <td>{{doctor.fullName}}</td>
                     <td>{{doctor.department.name}}</td>
                     <td>
-                        <button (click)="get(doctor)" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-sm btn-outline-primary me-1" title="Update">
-                            <i class="fa-solid fa-edit"></i>
-                        </button>
-                        <button (click)="delete(doctor.id, doctor.fullName)" class="btn btn-sm btn-outline-danger" title="Delete">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        @if(auth.tokenDecode.roles.includes("Doctor")){
+                            <button (click)="get(doctor)" data-bs-toggle="modal" data-bs-target="#viewModal" class="btn btn-sm btn-outline-success me-1" title="View">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                        }
+                        @if(auth.tokenDecode.roles.includes("Admin")){
+                            <button (click)="get(doctor)" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-sm btn-outline-primary me-1" title="Update">
+                                <i class="fa-solid fa-edit"></i>
+                            </button>
+                            <button (click)="delete(doctor.id, doctor.fullName)" class="btn btn-sm btn-outline-danger" title="Delete">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        }
                     </td>
                 </tr>
                 }
             </tbody>
         </table>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">View Doctor Form</h1>
+                <button type="button" #addModalCloseBtn class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form #viewForm = "ngForm" autocomplete="off">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" [(ngModel)] = "updateModel.firstName" name="viewFirstName" class="form-control" [disabled]="true"/>
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Last Name</label>
+                        <input type="text" [(ngModel)] = "updateModel.lastName" name="viewLastName" class="form-control" [disabled]="true" />
+                    </div>
+                    <div class="form-group mt-2">
+                        <label>Department</label>
+                        <input type="text" [(ngModel)] = "updateModel.departmentValue" name="viewDepartmentValue" class="form-control" [disabled]="true" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
