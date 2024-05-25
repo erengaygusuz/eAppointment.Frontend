@@ -1,20 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { HttpService } from '../../services/http.service';
 import { DoctorModel } from '../../models/doctor.model';
-import { CommonModule } from '@angular/common';
 import { departments } from '../../constants';
-import { FormsModule, NgForm } from '@angular/forms';
-import { FormValidateDirective } from 'form-validate-angular';
+import { NgForm } from '@angular/forms';
 import { SwalService } from '../../services/swal.service';
-import { DoctorPipe } from '../../pipes/doctor.pipe';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-doctors',
-  standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, 
-    FormValidateDirective, DoctorPipe],
   templateUrl: './doctors.component.html',
   styleUrl: './doctors.component.css'
 })

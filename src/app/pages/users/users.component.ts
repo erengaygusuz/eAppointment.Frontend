@@ -1,9 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { FormValidateDirective } from 'form-validate-angular';
-import { UserPipe } from '../../pipes/user.pipe';
+import { NgForm } from '@angular/forms';
 import { UserModel } from '../../models/user.model';
 import { SwalService } from '../../services/swal.service';
 import { HttpService } from '../../services/http.service';
@@ -11,8 +7,6 @@ import { RoleModel } from '../../models/role.model';
 
 @Component({
   selector: 'app-users',
-  standalone: true,
-  imports: [CommonModule, FormsModule, FormValidateDirective, UserPipe, RouterLink],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })

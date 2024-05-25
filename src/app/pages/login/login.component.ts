@@ -1,15 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { LoginModel } from '../../models/login.model';
-import { FormValidateDirective } from 'form-validate-angular';
 import { HttpService } from '../../services/http.service';
 import { LoginResponseModel } from '../../models/login-response.model';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [FormsModule, FormValidateDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

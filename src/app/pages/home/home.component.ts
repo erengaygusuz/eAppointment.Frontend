@@ -1,21 +1,17 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { departments } from '../../constants';
 import { DoctorModel } from '../../models/doctor.model';
-import { FormsModule, NgForm } from '@angular/forms';
-import { CommonModule, DatePipe } from '@angular/common';
-import { DxSchedulerModule } from 'devextreme-angular';
+import { NgForm } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { HttpService } from '../../services/http.service';
 import { AppointmentModel } from '../../models/appointment.model';
 import { CreateAppointmentModel } from '../../models/create-appointment.model';
-import { FormValidateDirective } from 'form-validate-angular';
 import { SwalService } from '../../services/swal.service';
 
 declare const $:any;
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [FormsModule, CommonModule, DxSchedulerModule, FormValidateDirective],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   providers: [DatePipe]

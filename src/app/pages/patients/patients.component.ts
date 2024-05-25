@@ -2,16 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { PatientModel } from '../../models/patient.model';
 import { HttpService } from '../../services/http.service';
 import { SwalService } from '../../services/swal.service';
-import { FormsModule, NgForm } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { FormValidateDirective } from 'form-validate-angular';
-import { PatientPipe } from '../../pipes/patient.pipe';
-import { RouterLink } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-patient',
-  standalone: true,
-  imports: [CommonModule, FormsModule, FormValidateDirective, PatientPipe, RouterLink],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.css'
 })
