@@ -12,11 +12,12 @@ import { UsersComponent } from './pages/users/users.component';
 import { AdminAuthGuard } from './guards/admin.auth.guard';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { DoctorAuthGuard } from './guards/doctor.auth.guard';
+import { AppLayoutComponent } from './layout/app.layout.component';
 
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    component: AppLayoutComponent,
   },
   {
     path: '',
