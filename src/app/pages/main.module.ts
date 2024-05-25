@@ -19,6 +19,7 @@ import { DoctorPipe } from '../pipes/doctor.pipe';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { PatientPipe } from '../pipes/patient.pipe';
 import { UserPipe } from '../pipes/user.pipe';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UserPipe } from '../pipes/user.pipe';
     DoctorPipe,
     DxSchedulerModule,
     PatientPipe,
-    UserPipe
+    UserPipe,
+    ButtonModule
   ]
 })
 export class MainModule { }
