@@ -1,39 +1,33 @@
-<div class="row d-flex justify-content-center align-items-center" style="height: 98vh;">
-    <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3>Sign In</h3>
-                <p>Please fill your information to sign in</p>
-            </div>
-            <div class="card-body">
-                <form formValidate #loginForm="ngForm" autocomplete="off" (ngSubmit)="signIn(loginForm)">
-                    <div class="form-group">
-                        <label>
-                            Username or Email
-                        </label>
-                        <input type="text" class="form-control" [(ngModel)]="login.userNameOrEmail" name="userNameOrEmail" required minlength="3" />
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div class="form-group mt-2 position-relative">
-                        <label>
-                            Password
-                        </label>
-                        <input type="password" #password class="form-control" [(ngModel)]="login.password"  name="password" required />
-                        <div class="invalid-feedback"></div> 
-                        @if(password.type === "password"){
-                            <i class="fa-solid fa-eye eye" (click)="showOrHidePassword()"></i>
-                        }
-                        @else{
-                            <i class="fa-solid fa-eye-slash eye" (click)="showOrHidePassword()"></i>
-                        }                 
-                    </div>
-                    <div class="form-group mt-2">
-                        <button type="submit" class="btn btn-dark w-100">
-                            <i class="fa-solid fa-lock me-1"></i>
-                            Sign In
-                        </button>
-                    </div>
-                </form>
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <div class="text-900 text-3xl font-medium mb-3">Sign In</div>
+                    <span class="text-600 font-medium">Please fill your information to sign in</span>
+                </div>
+                <div>
+                    <form formValidate #loginForm="ngForm" autocomplete="off" (ngSubmit)="signIn(loginForm)">
+                        <label for="email" class="block text-900 text-xl font-medium mb-2">Username or Email</label>
+                        <input id="email" type="text" [(ngModel)]="login.userNameOrEmail" name="userNameOrEmail"
+                            required minlength="3" placeholder="Username or Email" pInputText
+                            class="w-full md:w-30rem mb-5" style="padding:1rem">
+                        <label for="password" class="block text-900 font-medium text-xl mb-2">Password</label>
+                        <p-password id="password" [(ngModel)]="login.password" name="password" required
+                            placeholder="Password" [toggleMask]="true" styleClass="mb-5"
+                            inputStyleClass="w-full p-3 md:w-30rem"></p-password>
+                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
+                            <div class="flex align-items-center">
+                                <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                                <label for="rememberme1">Remember me</label>
+                            </div>
+                            <a class="font-medium no-underline ml-2 text-right cursor-pointer"
+                                style="color: var(--primary-color)">Forgot password?</a>
+                        </div>
+                        <button type="submit" pButton pRipple label="Sign In" class="w-full p-3 text-xl"></button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
-import { LayoutsComponent } from './layouts/layouts.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { inject } from '@angular/core';
@@ -17,11 +16,11 @@ import { AppLayoutComponent } from './layout/app.layout.component';
 const routes: Routes = [
   {
     path: 'login',
-    component: AppLayoutComponent,
+    component: LoginComponent,
   },
   {
     path: '',
-    component: LayoutsComponent,
+    component: AppLayoutComponent,
     canActivateChild: [() => inject(AuthService).isAuthenticated()],
     children: [
       {

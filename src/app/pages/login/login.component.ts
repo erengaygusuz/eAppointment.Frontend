@@ -4,30 +4,33 @@ import { LoginModel } from '../../models/login.model';
 import { HttpService } from '../../services/http.service';
 import { LoginResponseModel } from '../../models/login-response.model';
 import { Router } from '@angular/router';
+import { LayoutService } from '../../layout/service/app.layout.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styles: [`
+        :host ::ng-deep .pi-eye,
+        :host ::ng-deep .pi-eye-slash {
+            transform:scale(1.6);
+            margin-right: 1rem;
+            color: var(--primary-color) !important;
+        }
+    `]
 })
 export class LoginComponent {
   login: LoginModel = new LoginModel();
-  @ViewChild("password") password : ElementRef<HTMLInputElement> | undefined;
 
-  constructor(private http: HttpService, private router: Router){
+  valCheck: string[] = ['remember'];
 
-  }
+  password!: string;
 
-  showOrHidePassword(){
-    if(this.password === undefined){
-      return;
-    }
+  constructor(
+    private http: HttpService, 
+    private router: Router, 
+    public layoutService: LayoutService)
+  {
 
-    if(this.password?.nativeElement.type === "password"){
-      this.password.nativeElement.type = "text";
-    }else{
-      this.password.nativeElement.type = "password";
-    }
   }
 
   signIn(form:NgForm){

@@ -20,6 +20,24 @@ import { DxSchedulerModule } from 'devextreme-angular';
 import { PatientPipe } from '../pipes/patient.pipe';
 import { UserPipe } from '../pipes/user.pipe';
 import { ButtonModule } from 'primeng/button';
+import { LoginRoutingModule } from './login/login-routing.module';
+import { CheckboxModule } from 'primeng/checkbox';
+import { PasswordModule } from 'primeng/password';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { RippleModule } from 'primeng/ripple';
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DropdownModule } from 'primeng/dropdown';
+import { TagModule } from 'primeng/tag';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { RatingModule } from 'primeng/rating';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 
 @NgModule({
   declarations: [
@@ -31,21 +49,42 @@ import { ButtonModule } from 'primeng/button';
     UnauthorizedComponent,
     UsersComponent,
     LayoutsComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule, 
-    RouterLink, 
-    FormsModule, 
-    FormValidateDirective, 
+    AppRoutingModule,
+    RouterLink,
+    FormsModule,
+    FormValidateDirective,
     DoctorPipe,
     DxSchedulerModule,
     PatientPipe,
     UserPipe,
-    ButtonModule
-  ]
+    ButtonModule,
+    CommonModule,
+    LoginRoutingModule,
+    ButtonModule,
+    CheckboxModule,
+    InputTextModule,
+    FormsModule,
+    PasswordModule,
+    TableModule,
+    DialogModule,
+    RippleModule,
+    ToastModule,
+    ToolbarModule,
+    ConfirmDialogModule,
+    InputTextareaModule,
+    FileUploadModule,
+    DropdownModule,
+    TagModule,
+    RadioButtonModule,
+    RatingModule,
+    InputNumberModule,
+    BreadcrumbModule
+  ],
 })
-export class MainModule { }
+export class MainModule {}

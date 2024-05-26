@@ -1,177 +1,122 @@
-<div class="mt-3 d-flex justify-content-between align-items-center">
-    <h3>Doctors Page</h3>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
-            <li class="breadcrumb-item active">Doctors</li>
-        </ol>
-    </nav>
-</div>
-
-<div class="mt-3">
-    <div class="form-group">
-        <div class="row">
-            @if(auth.tokenDecode.roles.includes("Admin")){
-                <div class="col-xl-9 col-lg-8 col-md-6 col-sm-12 col-12 mt-2 mb-2">
-                    <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addModal">
-                        <i class="fa-solid fa-plus me-1"></i>
-                        <span>Add Doctor</span>
-                    </button>
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <div class="flex justify-content-between align-items-center flex-wrap mb-3">
+                <div class="flex align-items-center justify-content-center">
+                    <span class="font-bold text-3xl">Doctors Page</span>
                 </div>
-                <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 col-12 mt-2 mb-2 position-relative">
-                    <input type="search" class="form-control" [(ngModel)] = "search" placeholder="Search doctor..." />
-                    <i class="fa-solid fa-magnifying-glass search"></i>
+                <div class="flex align-items-center justify-content-center">
+                    <p-breadcrumb [model]="items" [home]="{icon: 'pi pi-home'}">
+                    </p-breadcrumb>
                 </div>
-            }
-            @else{
-                <div class="col-xl-3 offset-xl-9 col-lg-4 offset-lg-8 col-md-6 offset-md-6 col-sm-12 col-12 mt-2 mb-2 position-relative float-right">
-                    <input type="search" class="form-control" [(ngModel)] = "search" placeholder="Search doctor..." />
-                    <i class="fa-solid fa-magnifying-glass search"></i>
-                </div>
-            }
-        </div>
-    </div>
-    <div class="form-group mt-1">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Full Name</th>
-                    <th>Department</th>
-                    <th>Operations</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for(doctor of doctors | doctor: search; track doctor)
-                {
-                <tr>
-                    <td>{{$index + 1}}</td>
-                    <td>{{doctor.fullName}}</td>
-                    <td>{{doctor.department.name}}</td>
-                    <td>
-                        @if(auth.tokenDecode.roles.includes("Doctor")){
-                            <button (click)="get(doctor)" data-bs-toggle="modal" data-bs-target="#viewModal" class="btn btn-sm btn-outline-success me-1" title="View">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                        }
-                        @if(auth.tokenDecode.roles.includes("Admin")){
-                            <button (click)="get(doctor)" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-sm btn-outline-primary me-1" title="Update">
-                                <i class="fa-solid fa-edit"></i>
-                            </button>
-                            <button (click)="delete(doctor.id, doctor.fullName)" class="btn btn-sm btn-outline-danger" title="Delete">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        }
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- View Modal -->
-<div class="modal fade" id="viewModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">View Doctor Form</h1>
-                <button type="button" #addModalCloseBtn class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form #viewForm = "ngForm" autocomplete="off">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" [(ngModel)] = "updateModel.firstName" name="viewFirstName" class="form-control" [disabled]="true"/>
+            <p-toast />
+            <p-toolbar styleClass="mb-4 gap-2">
+                <ng-template pTemplate="left">
+                    <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
+                        (click)="openNew()" />
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <span class="p-input-icon-left mb-2">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(doctorTable, $event)"
+                            placeholder="Search Doctor" class="w-full" />
+                    </span>
+                </ng-template>
+            </p-toolbar>
+            <p-table #doctorTable [value]="doctors" [rows]="10" [paginator]="true"
+                [globalFilterFields]="['fullName', 'department.name']" [tableStyle]="{ 'min-width': '75rem' }"
+                [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th pSortableColumn="fullName" style="min-width:15rem">
+                            <div class="flex justify-content-between align-items-center flex-wrap">
+                                <div class="flex align-items-center justify-content-center">
+                                    <span>Full Name</span>
+                                </div>
+                                <div class="flex align-items-center justify-content-center">
+                                    <p-columnFilter type="text" field="fullName" display="menu"
+                                        placeholder="Search by Full Name"></p-columnFilter>
+                                    <p-sortIcon field="fullName" />
+                                </div>
+                            </div>
+                        </th>
+                        <th pSortableColumn="department.name" style="min-width:15rem">
+                            <div class="flex justify-content-between align-items-center flex-wrap">
+                                <div class="flex align-items-center justify-content-center">
+                                    <span>Department Name</span>
+                                </div>
+                                <div class="flex align-items-center justify-content-center">
+                                    <p-columnFilter type="text" field="department.name" display="menu"
+                                        placeholder="Search by Department Name"></p-columnFilter>
+                                    <p-sortIcon field="department.name" />
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            Operations
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-doctor>
+                    <tr>
+                        <td>
+                            {{ doctor.fullName }}
+                        </td>
+                        <td>
+                            {{ doctor.department.name }}
+                        </td>
+                        <td>
+                            <div class="flex justify-content-center flex-wrap">
+                                <p-button pRipple icon="fa-solid fa-pen-to-square" class="mr-2" [rounded]="true"
+                                    [outlined]="true" severity="success" (click)="editDoctor(doctor)" />
+                                <p-button pRipple icon="fa-solid fa-trash" severity="danger" [rounded]="true"
+                                    [outlined]="true" (click)="deleteDoctor(doctor)" />
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="flex align-items-center justify-content-between">
+                        In total there are {{ doctors ? doctors.length : 0 }} doctors.
                     </div>
-                    <div class="form-group mt-2">
-                        <label>Last Name</label>
-                        <input type="text" [(ngModel)] = "updateModel.lastName" name="viewLastName" class="form-control" [disabled]="true" />
+                </ng-template>
+            </p-table>
+            <p-dialog [(visible)]="doctorDialog" [style]="{ width: '450px' }" header="Doctor Details" [modal]="true"
+                styleClass="p-fluid">
+                <ng-template pTemplate="content">
+                    <div class="field">
+                        <label for="doctor.firstName">First Name</label>
+                        <input type="text" pInputText id="doctor.firstName" [(ngModel)]="doctor.firstName" required
+                            autofocus />
+                        <small class="p-error" *ngIf="submitted && !doctor.firstName">
+                            First Name is required.
+                        </small>
                     </div>
-                    <div class="form-group mt-2">
-                        <label>Department</label>
-                        <input type="text" [(ngModel)] = "updateModel.departmentValue" name="viewDepartmentValue" class="form-control" [disabled]="true" />
+                    <div class="field">
+                        <label for="doctor.lastName">Last Name</label>
+                        <input type="text" pInputText id="doctor.lastName" [(ngModel)]="doctor.lastName" required
+                            autofocus />
+                        <small class="p-error" *ngIf="submitted && !doctor.lastName">
+                            Last Name is required.
+                        </small>
                     </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                    <div class="field">
+                        <label for="department.name">Department</label>
+                        <p-dropdown appendTo="body" [options]="departmentDropdownItems" [(ngModel)]="selectedDepartment" placeholder="Select a Department"
+                            [showClear]="true">
+                        </p-dropdown>
+                    </div>
+                </ng-template>
 
-<!-- Create Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Add Doctor Form</h1>
-                <button type="button" #addModalCloseBtn class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form #addForm = "ngForm" formValidate autocomplete="off" (ngSubmit) = "add(addForm)">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" [(ngModel)] = "createModel.firstName" name="firstName" class="form-control" required minlength="3" />
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label>Last Name</label>
-                        <input type="text" [(ngModel)] = "createModel.lastName" name="lastName" class="form-control" required minlength="3" />
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label>Department</label>
-                        <select class="form-control" [(ngModel)] = "createModel.departmentValue" name="department" required="">
-                            <option [value]=0>Select...</option>
-                            @for(department of departments; track department){
-                            <option [value]="department.value">{{department.name}}</option>
-                            }
-                        </select>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-dark w-100">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Update Modal -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5">Update Doctor Form</h1>
-                <button type="button" #updateModalCloseBtn class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form #updateForm = "ngForm" formValidate autocomplete="off" (ngSubmit) = "update(updateForm)">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" [(ngModel)] = "updateModel.firstName" name="updateFirstName" class="form-control" required minlength="3" />
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label>Last Name</label>
-                        <input type="text" [(ngModel)] = "updateModel.lastName" name="updateLastName" class="form-control" required minlength="3" />
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    <div class="form-group mt-2">
-                        <label>Department</label>
-                        <select class="form-control" [(ngModel)] = "updateModel.departmentValue" name="updateDepartment" required="">
-                            <option [value]=0>Select...</option>
-                            @for(department of departments; track department){
-                            <option [value]="department.value">{{department.name}}</option>
-                            }
-                        </select>
-                        <div class="invalid-feedback"></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary w-100">Update</button>
-                </div>
-            </form>
+                <ng-template pTemplate="footer">
+                    <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideDialog()" />
+                    <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="saveDoctor()" />
+                </ng-template>
+            </p-dialog>
+            <p-confirmDialog [style]="{ width: '450px' }" />
         </div>
     </div>
 </div>
