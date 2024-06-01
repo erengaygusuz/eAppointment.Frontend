@@ -14,10 +14,9 @@
                 (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
             <app-doctor-dialog 
                 [visibility]="doctorDialog"
-                [doctor]="doctor"
+                [doctor]="doctorModel"
                 [departmentDropdownItems]="departmentDropdownItems"
-                [selectedDepartment]="selectedDepartment"
-                (saveDoctor)="saveDoctor()"
+                (saveDoctor)="saveDoctor($event.form)"
                 (changeVisibility)="changeVisibility($event.visibility)"/>
         </div>
     </div>

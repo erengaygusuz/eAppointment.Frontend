@@ -1,34 +1,34 @@
-<p-dialog [(visible)]="visibility" [style]="{ width: '450px' }" header="{{title}}" [modal]="true"
-    styleClass="p-fluid" (onHide)="this.changeVisibility.emit({ visibility: false })">
-    
+<p-dialog [(visible)]="visibility" [style]="{ width: '450px' }" header="{{title}}" [modal]="true" styleClass="p-fluid"
+    (onHide)="this.changeVisibility.emit({ visibility: false })">
     <ng-template pTemplate="content">
-        <div class="field">
-            <label for="doctor.firstName">First Name</label>
-            <input type="text" pInputText id="doctor.firstName" [(ngModel)]="doctor.firstName" required
-                autofocus />
-            <small class="p-error" *ngIf="!doctor.firstName">
-                First Name is required.
-            </small>
-        </div>
-        <div class="field">
-            <label for="doctor.lastName">Last Name</label>
-            <input type="text" pInputText id="doctor.lastName" [(ngModel)]="doctor.lastName" required
-                autofocus />
-            <small class="p-error" *ngIf="!doctor.lastName">
-                Last Name is required.
-            </small>
-        </div>
-        <div class="field">
-            <label for="department.name">Department</label>
-            <p-dropdown appendTo="body" [options]="departmentDropdownItems" [(ngModel)]="selectedDepartment" placeholder="Select a Department"
-                [showClear]="true">
-            </p-dropdown>
-        </div>
+        <form #doctorDialogForm="ngForm" (ngSubmit)="onSubmit(doctorDialogForm)" autocomplete="off">
+            <div class="field">
+                <label for="doctor.firstName">First Name</label>
+                <input type="text" pInputText id="doctor.firstName" [(ngModel)]="doctor.firstName" required autofocus
+                    name="doctor.firstname" />
+                <div class="p-error">
+                </div>
+            </div>
+            <div class="field">
+                <label for="doctor.lastName">Last Name</label>
+                <input type="text" pInputText id="doctor.lastName" [(ngModel)]="doctor.lastName" required autofocus
+                    name="doctor.lastname" />
+                <div class="p-error">
+                </div>
+            </div>
+            <div class="field">
+                <label for="department.name">Department</label>
+                <p-dropdown appendTo="body" [options]="departmentDropdownItems" [(ngModel)]="doctor.departmentValue"
+                    placeholder="Select a Department" [showClear]="true" name="department.name">
+                </p-dropdown>
+                <div class="p-error">
+                </div>
+            </div>
+            <div class="flex align-items-end justify-content-end mt-5">
+                <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true"
+                (click)="this.changeVisibility.emit({ visibility: false })" />
+                <p-button pRipple label="Save" icon="pi pi-check" [text]="true" type="submit" />
+            </div>
+        </form>
     </ng-template>
-
-    <ng-template pTemplate="footer">
-        <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="this.changeVisibility.emit({ visibility: false })" />
-        <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="this.saveDoctor.emit()" />
-    </ng-template>
-
 </p-dialog>

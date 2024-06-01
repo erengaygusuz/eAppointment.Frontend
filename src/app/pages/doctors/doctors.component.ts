@@ -34,8 +34,7 @@ export class DoctorsComponent implements OnInit {
     | ElementRef<HTMLButtonElement>
     | undefined;
 
-  createModel: DoctorModel = new DoctorModel();
-  updateModel: DoctorModel = new DoctorModel();
+  doctorModel: DoctorModel = new DoctorModel();
 
   doctorDialog: boolean = false;
 
@@ -102,14 +101,23 @@ export class DoctorsComponent implements OnInit {
     });
   }
 
-  add(form: NgForm) {
+  saveDoctor(form: NgForm) {
     if (form.valid) {
-      this.http.post('doctors/create', this.createModel, (res) => {
+
+      let url = "";
+
+      if(this.doctorModel.id == '' ){
+        url = 'doctors/create';
+      }else{
+        url = 'doctors/update';
+      }
+
+      this.http.post(url, this.doctorModel, (res) => {
         console.log(res);
         this.swal.callToastr(res.data, 'success');
         this.getAll();
-        this.addModalCloseBtn?.nativeElement.click();
-        this.createModel = new DoctorModel();
+        this.doctorDialog = false;
+        this.doctorModel = new DoctorModel();
       });
     }
   }
@@ -127,21 +135,10 @@ export class DoctorsComponent implements OnInit {
     );
   }
 
-  get(data: DoctorModel) {
-    this.updateModel = { ...data };
-    this.updateModel.departmentValue = data.department.value;
-  }
-
-  update(form: NgForm) {
-    if (form.valid) {
-      this.http.post('doctors/update', this.updateModel, (res) => {
-        console.log(res);
-        this.swal.callToastr(res.data, 'success');
-        this.getAll();
-        this.updateModalCloseBtn?.nativeElement.click();
-      });
-    }
-  }
+  // get(data: DoctorModel) {
+  //   this.updateModel = { ...data };
+  //   this.updateModel.departmentValue = data.department.value;
+  // }
 
   addRecord() {
     this.doctor = new DoctorModel();
@@ -152,30 +149,10 @@ export class DoctorsComponent implements OnInit {
     this.doctorDialog = visibility;
   }
 
-  deleteSelectedDoctors() {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete the selected doctors?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.doctors = this.doctors.filter(
-          (val) => !this.selectedDoctors?.includes(val)
-        );
-        this.selectedDoctors = null;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Doctors Deleted',
-          life: 3000,
-        });
-      },
-    });
-  }
-
   editRecord(doctor: DoctorModel) {
-    this.doctor = { ...doctor };
+    this.doctorModel = { ...doctor };
 
-    this.selectedDepartment.value = doctor.departmentValue;
+    this.doctorModel.departmentValue = doctor.department.value;
 
     this.doctorDialog = true;
   }
@@ -196,56 +173,6 @@ export class DoctorsComponent implements OnInit {
         });
       },
     });
-  }
-
-  saveDoctor() {
-
-    if (this.doctor.fullName?.trim()) {
-      if (this.doctor.id) {
-        this.doctors[this.findIndexById(this.doctor.id)] = this.doctor;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Doctor Updated',
-          life: 3000,
-        });
-      } else {
-        this.doctor.id = this.createId();
-        this.doctors.push(this.doctor);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Doctor Created',
-          life: 3000,
-        });
-      }
-
-      this.doctors = [...this.doctors];
-      this.doctorDialog = false;
-      this.doctor = new DoctorModel();
-    }
-  }
-
-  findIndexById(id: string): number {
-    let index = -1;
-    for (let i = 0; i < this.doctors.length; i++) {
-      if (this.doctors[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-
-    return index;
-  }
-
-  createId(): string {
-    let id = '';
-    var chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (var i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
   }
 
   onGlobalFilter(table: Table, event: Event) {

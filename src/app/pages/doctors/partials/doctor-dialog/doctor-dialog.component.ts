@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DoctorModel } from '../../../../models/doctor.model';
 import { SelectItem } from 'primeng/api';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-doctor-dialog',
@@ -17,6 +18,10 @@ export class DoctorDialogComponent {
   @Input() selectedDepartment: SelectItem = { value: '' };
   @Input() submitted: boolean = false;
 
-  @Output() saveDoctor = new EventEmitter<any>();
+  @Output() saveDoctor = new EventEmitter<{ form: NgForm }>();
   @Output() changeVisibility = new EventEmitter<{ visibility: boolean }>();
+
+  onSubmit(form: NgForm){
+    this.saveDoctor.emit({ form: form });
+  }
 }
