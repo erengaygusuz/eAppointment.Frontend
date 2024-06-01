@@ -7,6 +7,7 @@ import { SwalService } from '../../services/swal.service';
 import { AuthService } from '../../services/auth.service';
 import { MessageService, ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
+import { TableColumnInfoModel } from '../../models/table.column.info.model';
 
 @Component({
   selector: 'app-doctors',
@@ -28,9 +29,11 @@ export class DoctorsComponent implements OnInit {
   @ViewChild('addModalCloseBtn') addModalCloseBtn:
     | ElementRef<HTMLButtonElement>
     | undefined;
+
   @ViewChild('updateModalCloseBtn') updateModalCloseBtn:
     | ElementRef<HTMLButtonElement>
     | undefined;
+
   createModel: DoctorModel = new DoctorModel();
   updateModel: DoctorModel = new DoctorModel();
 
@@ -40,13 +43,29 @@ export class DoctorsComponent implements OnInit {
 
   selectedDoctors!: DoctorModel[] | null;
 
-  submitted: boolean = false;
-
   items: MenuItem[] | undefined;
 
   home: MenuItem | undefined;
 
   selectedDepartment: SelectItem = { value: '' };
+
+  tableColumnInfos: TableColumnInfoModel[] = [
+      { 
+          columnName: 'Full Name', 
+          columnFieldName: 'fullName'
+      },
+      { 
+          columnName: 'Department Name', 
+          columnFieldName: 'department.name'
+      }
+  ];
+
+  globalFilterFieldsData: string[] = [
+    'fullName', 
+    'department.name'
+  ];
+
+  tableName: string = "doctorsTable";
 
   constructor(
     private http: HttpService,
@@ -124,10 +143,13 @@ export class DoctorsComponent implements OnInit {
     }
   }
 
-  openNew() {
+  addRecord() {
     this.doctor = new DoctorModel();
-    this.submitted = false;
     this.doctorDialog = true;
+  }
+
+  changeVisibility(visibility: boolean){
+    this.doctorDialog = visibility;
   }
 
   deleteSelectedDoctors() {
@@ -150,7 +172,7 @@ export class DoctorsComponent implements OnInit {
     });
   }
 
-  editDoctor(doctor: DoctorModel) {
+  editRecord(doctor: DoctorModel) {
     this.doctor = { ...doctor };
 
     this.selectedDepartment.value = doctor.departmentValue;
@@ -158,7 +180,7 @@ export class DoctorsComponent implements OnInit {
     this.doctorDialog = true;
   }
 
-  deleteDoctor(doctor: DoctorModel) {
+  deleteRecord(doctor: DoctorModel) {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete ' + doctor.fullName + '?',
       header: 'Confirm',
@@ -176,13 +198,7 @@ export class DoctorsComponent implements OnInit {
     });
   }
 
-  hideDialog() {
-    this.doctorDialog = false;
-    this.submitted = false;
-  }
-
   saveDoctor() {
-    this.submitted = true;
 
     if (this.doctor.fullName?.trim()) {
       if (this.doctor.id) {

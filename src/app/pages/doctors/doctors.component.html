@@ -1,122 +1,24 @@
 <div class="grid">
     <div class="col-12">
         <div class="card">
-            <div class="flex justify-content-between align-items-center flex-wrap mb-3">
-                <div class="flex align-items-center justify-content-center">
-                    <span class="font-bold text-3xl">Doctors Page</span>
-                </div>
-                <div class="flex align-items-center justify-content-center">
-                    <p-breadcrumb [model]="items" [home]="{icon: 'pi pi-home'}">
-                    </p-breadcrumb>
-                </div>
-            </div>
-            <p-toast />
-            <p-toolbar styleClass="mb-4 gap-2">
-                <ng-template pTemplate="left">
-                    <p-button pRipple severity="success" label="New" icon="pi pi-plus" class="mr-2"
-                        (click)="openNew()" />
-                </ng-template>
-                <ng-template pTemplate="right">
-                    <span class="p-input-icon-left mb-2">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input pInputText type="text" #filter (input)="onGlobalFilter(doctorTable, $event)"
-                            placeholder="Search Doctor" class="w-full" />
-                    </span>
-                </ng-template>
-            </p-toolbar>
-            <p-table #doctorTable [value]="doctors" [rows]="10" [paginator]="true"
-                [globalFilterFields]="['fullName', 'department.name']" [tableStyle]="{ 'min-width': '75rem' }"
-                [rowHover]="true" dataKey="id"
-                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                [showCurrentPageReport]="true">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th pSortableColumn="fullName" style="min-width:15rem">
-                            <div class="flex justify-content-between align-items-center flex-wrap">
-                                <div class="flex align-items-center justify-content-center">
-                                    <span>Full Name</span>
-                                </div>
-                                <div class="flex align-items-center justify-content-center">
-                                    <p-columnFilter type="text" field="fullName" display="menu"
-                                        placeholder="Search by Full Name"></p-columnFilter>
-                                    <p-sortIcon field="fullName" />
-                                </div>
-                            </div>
-                        </th>
-                        <th pSortableColumn="department.name" style="min-width:15rem">
-                            <div class="flex justify-content-between align-items-center flex-wrap">
-                                <div class="flex align-items-center justify-content-center">
-                                    <span>Department Name</span>
-                                </div>
-                                <div class="flex align-items-center justify-content-center">
-                                    <p-columnFilter type="text" field="department.name" display="menu"
-                                        placeholder="Search by Department Name"></p-columnFilter>
-                                    <p-sortIcon field="department.name" />
-                                </div>
-                            </div>
-                        </th>
-                        <th>
-                            Operations
-                        </th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-doctor>
-                    <tr>
-                        <td>
-                            {{ doctor.fullName }}
-                        </td>
-                        <td>
-                            {{ doctor.department.name }}
-                        </td>
-                        <td>
-                            <div class="flex justify-content-center flex-wrap">
-                                <p-button pRipple icon="fa-solid fa-pen-to-square" class="mr-2" [rounded]="true"
-                                    [outlined]="true" severity="success" (click)="editDoctor(doctor)" />
-                                <p-button pRipple icon="fa-solid fa-trash" severity="danger" [rounded]="true"
-                                    [outlined]="true" (click)="deleteDoctor(doctor)" />
-                            </div>
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="summary">
-                    <div class="flex align-items-center justify-content-between">
-                        In total there are {{ doctors ? doctors.length : 0 }} doctors.
-                    </div>
-                </ng-template>
-            </p-table>
-            <p-dialog [(visible)]="doctorDialog" [style]="{ width: '450px' }" header="Doctor Details" [modal]="true"
-                styleClass="p-fluid">
-                <ng-template pTemplate="content">
-                    <div class="field">
-                        <label for="doctor.firstName">First Name</label>
-                        <input type="text" pInputText id="doctor.firstName" [(ngModel)]="doctor.firstName" required
-                            autofocus />
-                        <small class="p-error" *ngIf="submitted && !doctor.firstName">
-                            First Name is required.
-                        </small>
-                    </div>
-                    <div class="field">
-                        <label for="doctor.lastName">Last Name</label>
-                        <input type="text" pInputText id="doctor.lastName" [(ngModel)]="doctor.lastName" required
-                            autofocus />
-                        <small class="p-error" *ngIf="submitted && !doctor.lastName">
-                            Last Name is required.
-                        </small>
-                    </div>
-                    <div class="field">
-                        <label for="department.name">Department</label>
-                        <p-dropdown appendTo="body" [options]="departmentDropdownItems" [(ngModel)]="selectedDepartment" placeholder="Select a Department"
-                            [showClear]="true">
-                        </p-dropdown>
-                    </div>
-                </ng-template>
-
-                <ng-template pTemplate="footer">
-                    <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" (click)="hideDialog()" />
-                    <p-button pRipple label="Save" icon="pi pi-check" [text]="true" (click)="saveDoctor()" />
-                </ng-template>
-            </p-dialog>
-            <p-confirmDialog [style]="{ width: '450px' }" />
+            <app-page-header 
+                [breadcrumbItems]="items" 
+                [pageTitle]="'Doctors Page'" />
+            <app-advanced-table
+                [tableDatas]="doctors"
+                [globalFilterFields]="globalFilterFieldsData"
+                [tableColumnInfos] = "tableColumnInfos"
+                (addRecord)="addRecord()"
+                (editRecord)="editRecord($event.tableData)"
+                (deleteRecord)="deleteRecord($event.tableData)"
+                (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
+            <app-doctor-dialog 
+                [visibility]="doctorDialog"
+                [doctor]="doctor"
+                [departmentDropdownItems]="departmentDropdownItems"
+                [selectedDepartment]="selectedDepartment"
+                (saveDoctor)="saveDoctor()"
+                (changeVisibility)="changeVisibility($event.visibility)"/>
         </div>
     </div>
 </div>

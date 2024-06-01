@@ -19,25 +19,19 @@ import { DoctorPipe } from '../pipes/doctor.pipe';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { PatientPipe } from '../pipes/patient.pipe';
 import { UserPipe } from '../pipes/user.pipe';
-import { ButtonModule } from 'primeng/button';
 import { LoginRoutingModule } from './login/login-routing.module';
 import { CheckboxModule } from 'primeng/checkbox';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { DialogModule } from 'primeng/dialog';
 import { RippleModule } from 'primeng/ripple';
-import { ToastModule } from 'primeng/toast';
-import { ToolbarModule } from 'primeng/toolbar';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FileUploadModule } from 'primeng/fileupload';
-import { DropdownModule } from 'primeng/dropdown';
 import { TagModule } from 'primeng/tag';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { ComponentsModule } from '../components/components.module';
+import { DoctorDialogModule } from './doctors/doctors.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +43,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     UnauthorizedComponent,
     UsersComponent,
     LayoutsComponent,
-    NavbarComponent,
+    NavbarComponent    
   ],
   imports: [
     CommonModule,
@@ -63,28 +57,21 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
     DxSchedulerModule,
     PatientPipe,
     UserPipe,
-    ButtonModule,
     CommonModule,
     LoginRoutingModule,
-    ButtonModule,
     CheckboxModule,
     InputTextModule,
     FormsModule,
     PasswordModule,
-    TableModule,
-    DialogModule,
     RippleModule,
-    ToastModule,
-    ToolbarModule,
-    ConfirmDialogModule,
     InputTextareaModule,
     FileUploadModule,
-    DropdownModule,
     TagModule,
     RadioButtonModule,
     RatingModule,
     InputNumberModule,
-    BreadcrumbModule
-  ],
+    ComponentsModule,
+    DoctorDialogModule
+  ]
 })
 export class MainModule {}
