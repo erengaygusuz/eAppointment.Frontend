@@ -3,7 +3,6 @@ import { HttpService } from '../../services/http.service';
 import { DoctorModel } from '../../models/doctor.model';
 import { departments } from '../../constants';
 import { NgForm } from '@angular/forms';
-import { SwalService } from '../../services/swal.service';
 import { AuthService } from '../../services/auth.service';
 import { MessageService, ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -22,31 +21,13 @@ export class DoctorsComponent implements OnInit {
 
   departmentDropdownItems: SelectItem[] = [];
 
-  loading: boolean = true;
-
-  search: string = '';
-
-  @ViewChild('addModalCloseBtn') addModalCloseBtn:
-    | ElementRef<HTMLButtonElement>
-    | undefined;
-
-  @ViewChild('updateModalCloseBtn') updateModalCloseBtn:
-    | ElementRef<HTMLButtonElement>
-    | undefined;
-
-  doctorModel: DoctorModel = new DoctorModel();
+  doctorModel = new DoctorModel();
 
   doctorDialog: boolean = false;
-
-  doctor!: DoctorModel;
-
-  selectedDoctors!: DoctorModel[] | null;
 
   items: MenuItem[] | undefined;
 
   home: MenuItem | undefined;
-
-  selectedDepartment: SelectItem = { value: '' };
 
   tableColumnInfos: TableColumnInfoModel[] = [
       { 
@@ -68,7 +49,6 @@ export class DoctorsComponent implements OnInit {
 
   constructor(
     private http: HttpService,
-    private swal: SwalService,
     public auth: AuthService,
     private messageService: MessageService, 
     private confirmationService: ConfirmationService
@@ -97,8 +77,20 @@ export class DoctorsComponent implements OnInit {
   getAll() {
     this.http.post<DoctorModel[]>('doctors/getall', {}, (res) => {
       this.doctors = res.data;
-      this.loading = false;
     });
+  }
+
+  addRecord() {
+    this.doctorModel = new DoctorModel();
+    this.doctorDialog = true;
+  }
+
+  editRecord(doctor: DoctorModel) {
+    this.doctorModel = { ...doctor };
+
+    this.doctorModel.departmentValue = doctor.department.value;
+
+    this.doctorDialog = true;
   }
 
   saveDoctor(form: NgForm) {
@@ -114,47 +106,20 @@ export class DoctorsComponent implements OnInit {
 
       this.http.post(url, this.doctorModel, (res) => {
         console.log(res);
-        this.swal.callToastr(res.data, 'success');
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: res.data,
+          life: 3000,
+        });
+
         this.getAll();
+
         this.doctorDialog = false;
         this.doctorModel = new DoctorModel();
       });
     }
-  }
-
-  delete(id: string, fullName: string) {
-    this.swal.callSwal(
-      'Delete Doctor',
-      `Are you sure you want to delete ${fullName}?`,
-      () => {
-        this.http.post<string>('doctors/deletebyid', { id: id }, (res) => {
-          this.swal.callToastr(res.data, 'info');
-          this.getAll();
-        });
-      }
-    );
-  }
-
-  // get(data: DoctorModel) {
-  //   this.updateModel = { ...data };
-  //   this.updateModel.departmentValue = data.department.value;
-  // }
-
-  addRecord() {
-    this.doctor = new DoctorModel();
-    this.doctorDialog = true;
-  }
-
-  changeVisibility(visibility: boolean){
-    this.doctorDialog = visibility;
-  }
-
-  editRecord(doctor: DoctorModel) {
-    this.doctorModel = { ...doctor };
-
-    this.doctorModel.departmentValue = doctor.department.value;
-
-    this.doctorDialog = true;
   }
 
   deleteRecord(doctor: DoctorModel) {
@@ -163,16 +128,23 @@ export class DoctorsComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.doctors = this.doctors.filter((val) => val.id !== doctor.id);
-        this.doctor = new DoctorModel();
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Doctor Deleted',
-          life: 3000,
+        this.http.post<string>('doctors/deletebyid', { id: doctor.id }, (res) => {
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: `Doctor ${doctor.fullName} Deleted`,
+            life: 3000,
+          });
+
+          this.getAll();
         });
       },
     });
+  }
+
+  changeVisibility(visibility: boolean){
+    this.doctorDialog = visibility;
   }
 
   onGlobalFilter(table: Table, event: Event) {
