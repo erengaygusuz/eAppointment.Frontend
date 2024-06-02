@@ -14,11 +14,12 @@ import { DoctorDialogComponent } from './partials/doctor-dialog/doctor-dialog.co
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../../app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
+import { FormValidateDirective } from 'form-validate-angular';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import { RouterLink } from '@angular/router';
     ButtonModule,
     DropdownModule,
     DialogModule,
+    FormValidateDirective,
+    ReactiveFormsModule
   ],
   exports:[
     DoctorDialogComponent

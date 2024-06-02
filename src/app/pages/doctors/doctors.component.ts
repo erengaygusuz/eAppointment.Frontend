@@ -1,8 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http.service';
 import { DoctorModel } from '../../models/doctor.model';
 import { departments } from '../../constants';
-import { NgForm } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { MessageService, ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -23,7 +23,7 @@ export class DoctorsComponent implements OnInit {
 
   doctorModel = new DoctorModel();
 
-  doctorDialog: boolean = false;
+  doctorDialogVisibility: boolean = false;
 
   items: MenuItem[] | undefined;
 
@@ -82,7 +82,7 @@ export class DoctorsComponent implements OnInit {
 
   addRecord() {
     this.doctorModel = new DoctorModel();
-    this.doctorDialog = true;
+    this.doctorDialogVisibility = true;
   }
 
   editRecord(doctor: DoctorModel) {
@@ -90,10 +90,10 @@ export class DoctorsComponent implements OnInit {
 
     this.doctorModel.departmentValue = doctor.department.value;
 
-    this.doctorDialog = true;
+    this.doctorDialogVisibility = true;
   }
 
-  saveDoctor(form: NgForm) {
+  saveDoctor(form: FormGroup) {
     if (form.valid) {
 
       let url = "";
@@ -116,7 +116,7 @@ export class DoctorsComponent implements OnInit {
 
         this.getAll();
 
-        this.doctorDialog = false;
+        this.doctorDialogVisibility = false;
         this.doctorModel = new DoctorModel();
       });
     }
@@ -144,7 +144,7 @@ export class DoctorsComponent implements OnInit {
   }
 
   changeVisibility(visibility: boolean){
-    this.doctorDialog = visibility;
+    this.doctorDialogVisibility = visibility;
   }
 
   onGlobalFilter(table: Table, event: Event) {

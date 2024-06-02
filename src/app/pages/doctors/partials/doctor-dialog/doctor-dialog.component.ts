@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DoctorModel } from '../../../../models/doctor.model';
 import { SelectItem } from 'primeng/api';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-doctor-dialog',
@@ -12,16 +12,29 @@ export class DoctorDialogComponent {
 
   title: string = "Doctors Dialog";
 
+  doctorForm: FormGroup;
+
   @Input() visibility: boolean = false;
   @Input() doctor: DoctorModel = new DoctorModel();
   @Input() departmentDropdownItems: SelectItem[] = [];
-  @Input() selectedDepartment: SelectItem = { value: '' };
-  @Input() submitted: boolean = false;
-
-  @Output() saveDoctor = new EventEmitter<{ form: NgForm }>();
+  
+  @Output() saveDoctor = new EventEmitter<{ form: FormGroup }>();
   @Output() changeVisibility = new EventEmitter<{ visibility: boolean }>();
 
-  onSubmit(form: NgForm){
-    this.saveDoctor.emit({ form: form });
+  isFormSubmitted: boolean = false;
+
+  onSubmit(){
+
+    this.isFormSubmitted =  true;
+
+    this.saveDoctor.emit({ form: this.doctorForm });
+  }
+
+  constructor(){
+    this.doctorForm = new FormGroup({
+      firstname: new FormControl("", [Validators.required]),
+      lastname: new FormControl("", [Validators.required]),
+      department: new FormControl(0, [Validators.pattern("[^0]+")])
+    });
   }
 }

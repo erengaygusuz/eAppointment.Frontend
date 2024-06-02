@@ -14,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from '../app-routing.module';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { FormValidateDirective } from 'form-validate-angular';
 import { DoctorPipe } from '../pipes/doctor.pipe';
 import { DxSchedulerModule } from 'devextreme-angular';
 import { PatientPipe } from '../pipes/patient.pipe';
@@ -52,7 +51,6 @@ import { DoctorDialogModule } from './doctors/doctors.module';
     AppRoutingModule,
     RouterLink,
     FormsModule,
-    FormValidateDirective,
     DoctorPipe,
     DxSchedulerModule,
     PatientPipe,

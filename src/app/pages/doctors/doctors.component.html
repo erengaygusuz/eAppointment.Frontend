@@ -13,7 +13,7 @@
                 (deleteRecord)="deleteRecord($event.tableData)"
                 (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
             <app-doctor-dialog 
-                [visibility]="doctorDialog"
+                [visibility]="doctorDialogVisibility"
                 [doctor]="doctorModel"
                 [departmentDropdownItems]="departmentDropdownItems"
                 (saveDoctor)="saveDoctor($event.form)"
