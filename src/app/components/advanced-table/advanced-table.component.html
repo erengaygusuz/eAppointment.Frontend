@@ -7,7 +7,7 @@
         <span class="p-input-icon-left mb-2">
             <i class="fa-solid fa-magnifying-glass"></i>
             <input pInputText type="text" #filter (input)="this.onGlobalFilter.emit({table: tableName, event: $event})"
-                placeholder="Search Doctor" class="w-full" />
+                placeholder={{tableSearchBoxPlaceHolder}} class="w-full" />
         </span>
     </ng-template>
 </p-toolbar>
@@ -57,7 +57,7 @@
     </ng-template>
     <ng-template pTemplate="summary">
         <div class="flex align-items-center justify-content-between">
-            In total there are {{ tableDatas ? tableDatas.length : 0 }} doctors.
+            {{tableSummaryInfo}}
         </div>
     </ng-template>
 </p-table>

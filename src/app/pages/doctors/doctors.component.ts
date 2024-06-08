@@ -50,6 +50,10 @@ export class DoctorsComponent implements OnInit {
 
   tableName: string = "doctorsTable";
 
+  tableSummaryInfo: string = '';
+
+  tableSearchBoxPlaceHolder: string = 'Search Doctor';
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -88,6 +92,8 @@ export class DoctorsComponent implements OnInit {
 
         this.doctors.push(doctorDto);
       });      
+
+      this.tableSummaryInfo = `In total there are ${this.doctors ? this.doctors.length : 0 } doctors.`;
     });
   }
 

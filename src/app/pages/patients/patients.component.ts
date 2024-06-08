@@ -58,6 +58,10 @@ export class PatientsComponent implements OnInit {
 
   tableName: string = 'patientsTable';
 
+  tableSummaryInfo: string = '';
+
+  tableSearchBoxPlaceHolder: string = 'Search Patient';
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -82,7 +86,9 @@ export class PatientsComponent implements OnInit {
         let patientDto = this.mapper.map(PatientMappingProfile.DomainToDto, patient);
 
         this.patients.push(patientDto);
-      });      
+      }); 
+      
+      this.tableSummaryInfo = `In total there are ${this.patients ? this.patients.length : 0 } patients.`;
     });
   }
 

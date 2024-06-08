@@ -23,6 +23,9 @@ export class AdvancedTableComponent {
   @Output() editRecord = new EventEmitter<{ tableData: any }>();
   @Output() deleteRecord = new EventEmitter<{ tableData: any }>();
 
+  @Input() tableSummaryInfo: string = "";
+  @Input() tableSearchBoxPlaceHolder: string = "";
+
   getTableColumnData<T extends any>(model: T): object[]{
 
     let tempDataList: any[] = [];
