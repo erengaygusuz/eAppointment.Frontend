@@ -13,13 +13,13 @@
 </p-toolbar>
 
 <p-table #tableName [value]="tableDatas" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]"
-    [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '70rem' }" [rowHover]="true" dataKey="id"
+    [globalFilterFields]="globalFilterFields" [rowHover]="false" dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="header">
         <tr>
             @for(tableColumnInfo of tableColumnInfos; track tableColumnInfo)
             {
-            <th pSortableColumn="{{tableColumnInfo.columnFieldName}}" style="min-width:15rem">
+            <th pSortableColumn="{{tableColumnInfo.columnFieldName}}">
                 <div class="flex justify-content-between align-items-center flex-wrap">
                     <div class="flex align-items-center justify-content-center">
                         <span>{{tableColumnInfo.columnName}}</span>

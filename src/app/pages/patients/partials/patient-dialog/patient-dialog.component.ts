@@ -33,7 +33,10 @@ export class PatientDialogComponent {
     this.patientForm = new FormGroup({
       firstname: new FormControl("", [Validators.required]),
       lastname: new FormControl("", [Validators.required]),
-      department: new FormControl(0, [Validators.pattern("[^0]+")])
+      identityNumber: new FormControl("", [Validators.required]),
+      city: new FormControl("", [Validators.required]),
+      town: new FormControl("", [Validators.required]),
+      fullAddress: new FormControl("", [Validators.required]),
     });
   }
 }
