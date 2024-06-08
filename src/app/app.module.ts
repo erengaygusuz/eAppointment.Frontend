@@ -6,6 +6,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MainModule } from './pages/main.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppLayoutModule } from './layout/app.layout.module';
+import { MapperModule } from '@dynamic-mapper/angular';
+import { DoctorMappingProfile } from './mapping/doctor.mapping.profile';
+import { PatientMappingProfile } from './mapping/patient.mapping.profile';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,8 @@ import { AppLayoutModule } from './layout/app.layout.module';
     AppRoutingModule,
     HttpClientModule,
     MainModule,
-    AppLayoutModule
+    AppLayoutModule,
+    MapperModule.withProfiles([DoctorMappingProfile, PatientMappingProfile])
   ],
   providers: [],
   bootstrap: [AppComponent]

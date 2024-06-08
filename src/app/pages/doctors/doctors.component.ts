@@ -7,6 +7,9 @@ import { AuthService } from '../../services/auth.service';
 import { MessageService, ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableColumnInfoModel } from '../../models/table.column.info.model';
+import { DoctorDto } from '../../dtos/doctor.dto';
+import { Mapper } from '@dynamic-mapper/angular';
+import { DoctorMappingProfile } from '../../mapping/doctor.mapping.profile';
 
 @Component({
   selector: 'app-doctors',
@@ -15,7 +18,7 @@ import { TableColumnInfoModel } from '../../models/table.column.info.model';
   providers: [MessageService, ConfirmationService],
 })
 export class DoctorsComponent implements OnInit {
-  doctors: DoctorModel[] = [];
+  doctors: DoctorDto[] = [];
 
   departments = departments;
 
@@ -51,7 +54,8 @@ export class DoctorsComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService, 
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -76,7 +80,14 @@ export class DoctorsComponent implements OnInit {
 
   getAll() {
     this.http.post<DoctorModel[]>('doctors/getall', {}, (res) => {
-      this.doctors = res.data;
+
+      this.doctors = [];
+
+      res.data.forEach((doctor: DoctorModel) => {
+        let doctorDto = this.mapper.map(DoctorMappingProfile.DomainToDto, doctor);
+
+        this.doctors.push(doctorDto);
+      });      
     });
   }
 
@@ -85,10 +96,13 @@ export class DoctorsComponent implements OnInit {
     this.doctorDialogVisibility = true;
   }
 
-  editRecord(doctor: DoctorModel) {
-    this.doctorModel = { ...doctor };
+  editRecord(doctor: DoctorDto) {
 
-    this.doctorModel.departmentValue = doctor.department.value;
+    let doctorFromDoctorDto = this.mapper.map(DoctorMappingProfile.DtoToDomain, doctor);    
+
+    this.doctorModel = { ...doctorFromDoctorDto };
+
+    this.doctorModel.departmentValue = doctorFromDoctorDto.department.value;
 
     this.doctorDialogVisibility = true;
   }
@@ -122,18 +136,20 @@ export class DoctorsComponent implements OnInit {
     }
   }
 
-  deleteRecord(doctor: DoctorModel) {
+  deleteRecord(doctor: DoctorDto) {
+    let doctorFromDoctorDto = this.mapper.map(DoctorMappingProfile.DtoToDomain, doctor);  
+
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + doctor.fullName + '?',
+      message: 'Are you sure you want to delete ' + doctorFromDoctorDto.fullName + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.http.post<string>('doctors/deletebyid', { id: doctor.id }, (res) => {
+        this.http.post<string>('doctors/deletebyid', { id: doctorFromDoctorDto.id }, (res) => {
 
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
-            detail: `Doctor ${doctor.fullName} Deleted`,
+            detail: `Doctor ${doctorFromDoctorDto.fullName} Deleted`,
             life: 3000,
           });
 

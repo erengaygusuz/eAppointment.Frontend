@@ -7,7 +7,7 @@ import { DoctorModel } from '../models/doctor.model';
 })
 export class DoctorPipe implements PipeTransform {
 
-  transform(value: DoctorModel[],  search: string) : DoctorModel[] {
+  transform(value: DoctorModel[], search: string) : DoctorModel[] {
     if(!search){
       return value;
     }

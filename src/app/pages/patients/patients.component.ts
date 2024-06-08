@@ -1,71 +1,165 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { PatientModel } from '../../models/patient.model';
+import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http.service';
-import { SwalService } from '../../services/swal.service';
-import { NgForm } from '@angular/forms';
+import { PatientModel } from '../../models/patient.model';
+import { FormGroup } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import {
+  MessageService,
+  ConfirmationService,
+  MenuItem,
+} from 'primeng/api';
+import { Table } from 'primeng/table';
+import { TableColumnInfoModel } from '../../models/table.column.info.model';
+import { PatientDto } from '../../dtos/patient.dto';
+import { Mapper } from '@dynamic-mapper/angular';
+import { PatientMappingProfile } from '../../mapping/patient.mapping.profile';
 
 @Component({
-  selector: 'app-patient',
+  selector: 'app-patients',
   templateUrl: './patients.component.html',
-  styleUrl: './patients.component.css'
+  styleUrl: './patients.component.css',
+  providers: [MessageService, ConfirmationService],
 })
 export class PatientsComponent implements OnInit {
-  patients: PatientModel[] = [];
+  patients: PatientDto[] = [];
 
-  search: string = "";
+  patientModel = new PatientModel();
 
-  @ViewChild('addModalCloseBtn') addModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
-  @ViewChild('updateModalCloseBtn') updateModalCloseBtn: ElementRef<HTMLButtonElement> | undefined;
-  
-  createModel: PatientModel = new PatientModel();  
-  updateModel: PatientModel = new PatientModel();  
+  patientDialogVisibility: boolean = false;
 
-  constructor(private http: HttpService, private swal: SwalService){
-  }
+  items: MenuItem[] | undefined;
+
+  home: MenuItem | undefined;
+
+  tableColumnInfos: TableColumnInfoModel[] = [
+    {
+      columnName: 'Full Name',
+      columnFieldName: 'fullName',
+    },
+    {
+      columnName: 'Identity Number',
+      columnFieldName: 'identityNumber',
+    },
+    {
+      columnName: 'City',
+      columnFieldName: 'city',
+    },
+    {
+      columnName: 'Town',
+      columnFieldName: 'town',
+    },
+    {
+      columnName: 'Full Address',
+      columnFieldName: 'fullAddress',
+    },
+  ];
+
+  globalFilterFieldsData: string[] = ['fullName', 'identityNumber', 'city', 'town', 'fullAddress'];
+
+  tableName: string = 'patientsTable';
+
+  constructor(
+    private http: HttpService,
+    public auth: AuthService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private readonly mapper: Mapper
+  ) {}
 
   ngOnInit(): void {
     this.getAll();
+
+    this.items = [{ label: 'Patients' }];
+
+    this.home = { icon: 'pi pi-home', routerLink: '/' };
   }
 
-  getAll(){
-    this.http.post<PatientModel[]>("patients/getall", {}, (res) => {
-      this.patients = res.data;
-    })
+  getAll() {
+    this.http.post<PatientModel[]>('patients/getall', {}, (res) => {
+      this.patients = [];
+
+      res.data.forEach((patient: PatientModel) => {
+        let patientDto = this.mapper.map(PatientMappingProfile.DomainToDto, patient);
+
+        this.patients.push(patientDto);
+      });      
+    });
   }
 
-  add(form: NgForm){
-    if(form.valid){
-      this.http.post("patients/create", this.createModel, (res) => {
+  addRecord() {
+    this.patientModel = new PatientModel();
+    this.patientDialogVisibility = true;
+  }
+
+  editRecord(patient: PatientDto) {
+
+    let patientFromPatientDto = this.mapper.map(PatientMappingProfile.DtoToDomain, patient);    
+
+    this.patientModel = { ...patientFromPatientDto };
+    
+    this.patientDialogVisibility = true;
+  }
+
+  savePatient(form: FormGroup) {
+    if (form.valid) {
+      let url = '';
+
+      if (this.patientModel.id == '') {
+        url = 'patients/create';
+      } else {
+        url = 'patients/update';
+      }
+
+      this.http.post(url, this.patientModel, (res) => {
         console.log(res);
-        this.swal.callToastr(res.data, 'success');
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: res.data,
+          life: 3000,
+        });
+
         this.getAll();
-        this.addModalCloseBtn?.nativeElement.click();
-        this.createModel = new PatientModel();
-      })
+
+        this.patientDialogVisibility = false;
+        this.patientModel = new PatientModel();
+      });
     }
   }
 
-  delete(id: string, fullName: string){
-    this.swal.callSwal("Delete Patient", `Are you sure you want to delete ${fullName}?`, () => {
-      this.http.post<string>("patients/deletebyid", {id: id}, (res) => {
-        this.swal.callToastr(res.data, 'info');
-        this.getAll();
-      })
-    })
+  deleteRecord(patient: PatientDto) {
+
+    let patientFromPatientDto = this.mapper.map(PatientMappingProfile.DtoToDomain, patient);    
+
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + patientFromPatientDto.fullName + '?',
+      header: 'Confirm',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.http.post<string>(
+          'patients/deletebyid',
+          { id: patientFromPatientDto.id },
+          (res) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: `Patient ${patientFromPatientDto.fullName} Deleted`,
+              life: 3000,
+            });
+
+            this.getAll();
+          }
+        );
+      },
+    });
   }
 
-  get(data: PatientModel){
-    this.updateModel = {...data};
+  changeVisibility(visibility: boolean) {
+    this.patientDialogVisibility = visibility;
   }
 
-  update(form: NgForm){
-    if(form.valid){
-      this.http.post("patients/update", this.updateModel, (res) => {
-        console.log(res);
-        this.swal.callToastr(res.data, 'success');
-        this.getAll();
-        this.updateModalCloseBtn?.nativeElement.click();
-      })
-    }
+  onGlobalFilter(table: Table, event: Event) {
+    table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
   }
 }

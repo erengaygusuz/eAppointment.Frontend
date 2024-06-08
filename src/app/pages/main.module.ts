@@ -30,7 +30,8 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ComponentsModule } from '../components/components.module';
-import { DoctorDialogModule } from './doctors/doctors.module';
+import { DoctorsModule } from './doctors/doctors.module';
+import { PatientsModule } from './patients/patients.module';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { DoctorDialogModule } from './doctors/doctors.module';
     RatingModule,
     InputNumberModule,
     ComponentsModule,
-    DoctorDialogModule
+    DoctorsModule,
+    PatientsModule
   ]
 })
 export class MainModule {}

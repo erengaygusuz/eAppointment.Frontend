@@ -10,7 +10,6 @@ import { TagModule } from 'primeng/tag';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { RatingModule } from 'primeng/rating';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DoctorDialogComponent } from './partials/doctor-dialog/doctor-dialog.component';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
@@ -20,10 +19,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { FormValidateDirective } from 'form-validate-angular';
+import { PatientDialogComponent } from './partials/patient-dialog/patient-dialog.component';
 
 @NgModule({
   declarations: [
-    DoctorDialogComponent
+    PatientDialogComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +49,7 @@ import { FormValidateDirective } from 'form-validate-angular';
     ReactiveFormsModule
   ],
   exports:[
-    DoctorDialogComponent
+    PatientDialogComponent
   ]
 })
-export class DoctorsModule {}
+export class PatientsModule {}

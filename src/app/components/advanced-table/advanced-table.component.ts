@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableColumnInfoModel } from '../../models/table.column.info.model';
 import { Table } from 'primeng/table';
-import { DoctorModel } from '../../models/doctor.model';
 
 @Component({
   selector: 'app-advanced-table',
@@ -21,6 +20,23 @@ export class AdvancedTableComponent {
 
   @Input() tableData: any;
 
-  @Output() editRecord = new EventEmitter<{ tableData: DoctorModel }>();
-  @Output() deleteRecord = new EventEmitter<{ tableData: DoctorModel }>();
+  @Output() editRecord = new EventEmitter<{ tableData: any }>();
+  @Output() deleteRecord = new EventEmitter<{ tableData: any }>();
+
+  getTableColumnData<T extends any>(model: T): object[]{
+
+    let tempDataList: any[] = [];
+    
+    let index = 0;
+
+    for (let prop in model) {
+      if(index !== 0){
+        tempDataList.push(model[prop]);
+      }
+
+      index++;
+    }
+
+    return tempDataList;
+  }
 }

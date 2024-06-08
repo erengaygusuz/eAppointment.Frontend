@@ -12,34 +12,25 @@
     </ng-template>
 </p-toolbar>
 
-<p-table 
-    #tableName
-    [value]="tableDatas" 
-    [rows]="10" 
-    [paginator]="true"
-    [rowsPerPageOptions]="[5, 10, 20]"
-    [globalFilterFields]="globalFilterFields" 
-    [tableStyle]="{ 'min-width': '70rem' }"
-    [rowHover]="true" 
-    dataKey="id"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [showCurrentPageReport]="true">
+<p-table #tableName [value]="tableDatas" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]"
+    [globalFilterFields]="globalFilterFields" [tableStyle]="{ 'min-width': '70rem' }" [rowHover]="true" dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
     <ng-template pTemplate="header">
         <tr>
             @for(tableColumnInfo of tableColumnInfos; track tableColumnInfo)
             {
-                <th pSortableColumn="{{tableColumnInfo.columnFieldName}}" style="min-width:15rem">
-                    <div class="flex justify-content-between align-items-center flex-wrap">
-                        <div class="flex align-items-center justify-content-center">
-                            <span>{{tableColumnInfo.columnName}}</span>
-                        </div>
-                        <div class="flex align-items-center justify-content-center">
-                            <p-columnFilter type="text" field="{{tableColumnInfo.columnFieldName}}" display="menu"
-                                placeholder="Search by {{tableColumnInfo.columnName}}"></p-columnFilter>
-                            <p-sortIcon field="{{tableColumnInfo.columnFieldName}}" />
-                        </div>
+            <th pSortableColumn="{{tableColumnInfo.columnFieldName}}" style="min-width:15rem">
+                <div class="flex justify-content-between align-items-center flex-wrap">
+                    <div class="flex align-items-center justify-content-center">
+                        <span>{{tableColumnInfo.columnName}}</span>
                     </div>
-                </th>
+                    <div class="flex align-items-center justify-content-center">
+                        <p-columnFilter type="text" field="{{tableColumnInfo.columnFieldName}}" display="menu"
+                            placeholder="Search by {{tableColumnInfo.columnName}}"></p-columnFilter>
+                        <p-sortIcon field="{{tableColumnInfo.columnFieldName}}" />
+                    </div>
+                </div>
+            </th>
             }
             <th>
                 Operations
@@ -48,18 +39,18 @@
     </ng-template>
     <ng-template pTemplate="body" let-tableData>
         <tr>
+            @for(columnData of this.getTableColumnData(tableData); track columnData)
+            {
             <td>
-                {{ tableData.fullName }}
+                {{ columnData }}
             </td>
-            <td>
-                {{ tableData.department.name }}
-            </td>
+            }
             <td>
                 <div class="flex justify-content-center flex-wrap">
-                    <p-button pRipple icon="fa-solid fa-pen-to-square" class="mr-2" [rounded]="true"
-                        [outlined]="true" severity="success" (click)="this.editRecord.emit({ tableData: tableData })" />
-                    <p-button pRipple icon="fa-solid fa-trash" severity="danger" [rounded]="true"
-                        [outlined]="true" (click)="this.deleteRecord.emit({ tableData: tableData })" />
+                    <p-button pRipple icon="fa-solid fa-pen-to-square" class="mr-2" [rounded]="true" [outlined]="true"
+                        severity="success" (click)="this.editRecord.emit({ tableData: tableData })" />
+                    <p-button pRipple icon="fa-solid fa-trash" severity="danger" [rounded]="true" [outlined]="true"
+                        (click)="this.deleteRecord.emit({ tableData: tableData })" />
                 </div>
             </td>
         </tr>
