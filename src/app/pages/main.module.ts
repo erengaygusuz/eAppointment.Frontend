@@ -32,6 +32,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { ComponentsModule } from '../components/components.module';
 import { DoctorsModule } from './doctors/doctors.module';
 import { PatientsModule } from './patients/patients.module';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { PatientsModule } from './patients/patients.module';
     InputNumberModule,
     ComponentsModule,
     DoctorsModule,
-    PatientsModule
+    PatientsModule,
+    UsersModule
   ]
 })
 export class MainModule {}

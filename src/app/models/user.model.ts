@@ -1,3 +1,5 @@
+import { RoleModel } from "./role.model";
+
 export class UserModel {
     id: string = "";
     firstName: string = "";
@@ -6,6 +8,5 @@ export class UserModel {
     userName: string = "";
     email: string = "";
     password: string = "";
-    roleIds: string[] = [];
-    roleNames: string[] = [];
+    roles: RoleModel[] = [];
 }

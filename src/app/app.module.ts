@@ -9,6 +9,7 @@ import { AppLayoutModule } from './layout/app.layout.module';
 import { MapperModule } from '@dynamic-mapper/angular';
 import { DoctorMappingProfile } from './mapping/doctor.mapping.profile';
 import { PatientMappingProfile } from './mapping/patient.mapping.profile';
+import { UserMappingProfile } from './mapping/user.mapping.profile';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { PatientMappingProfile } from './mapping/patient.mapping.profile';
     HttpClientModule,
     MainModule,
     AppLayoutModule,
-    MapperModule.withProfiles([DoctorMappingProfile, PatientMappingProfile])
+    MapperModule.withProfiles([DoctorMappingProfile, PatientMappingProfile, UserMappingProfile])
   ],
   providers: [],
   bootstrap: [AppComponent]
