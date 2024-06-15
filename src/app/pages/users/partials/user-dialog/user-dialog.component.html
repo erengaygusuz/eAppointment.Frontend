@@ -68,7 +68,7 @@
             <div class="field">
                 <label for="user.roles">Roles</label>
                 <p-multiSelect [options]="userRoleDropdownItems" [(ngModel)]="user.roles" optionLabel="name"
-                    placeholder="Select Roles" required formControlName="roles"/>
+                    placeholder="Select Roles" required formControlName="roles" appendTo="body"/>
                 <div *ngIf="
                         userForm.controls['roles'].invalid && 
                         isFormSubmitted">

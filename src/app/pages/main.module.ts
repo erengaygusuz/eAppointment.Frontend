@@ -33,6 +33,8 @@ import { ComponentsModule } from '../components/components.module';
 import { DoctorsModule } from './doctors/doctors.module';
 import { PatientsModule } from './patients/patients.module';
 import { UsersModule } from './users/users.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { UsersModule } from './users/users.module';
     ComponentsModule,
     DoctorsModule,
     PatientsModule,
-    UsersModule
+    UsersModule,
+    FullCalendarModule,
+    HomeModule
   ]
 })
 export class MainModule {}
