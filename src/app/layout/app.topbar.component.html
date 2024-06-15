@@ -1,8 +1,5 @@
 <div class="layout-topbar">
-    <a class="layout-topbar-logo" routerLink="">
-        <img src="assets/layout/images/{{layoutService.config().colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo">
-        <span>SAKAI</span>
-    </a>
+        <span class="layout-topbar-logo justify-content-center">e-Appointment</span>
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle(); onTopbarClick()">
         <i class="pi pi-bars"></i>
@@ -13,17 +10,21 @@
     </button>
 
     <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-calendar"></i>
-            <span>Calendar</span>
-        </button>
-        <button class="p-link layout-topbar-button">
-            <i class="pi pi-user"></i>
-            <span>Profile</span>
-        </button>
-        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
-            <i class="pi pi-cog"></i>
-            <span>Settings</span>
-        </button>
+        <div class="flex justify-content-between align-items-center flex-wrap">
+            <button class="p-link layout-topbar-button" (click)="onThemeChange(
+                (selectedTheme == 'assets/layout/styles/theme/lara-light-indigo/theme' ? 
+                'assets/layout/styles/theme/lara-dark-indigo/theme' : 'assets/layout/styles/theme/lara-light-indigo/theme'), !isDarkThemeSelected)">
+                @if(isDarkThemeSelected){
+                    <i class="pi fa-regular fa-moon"></i>
+                }@else{
+                    <i class="pi fa-solid fa-sun"></i>
+                }
+            </button>
+            <button class="p-link layout-topbar-button">
+                <i class="pi pi-user"></i>
+                <span>Profile</span>
+            </button>
+        </div>
+        
     </div>
 </div>
