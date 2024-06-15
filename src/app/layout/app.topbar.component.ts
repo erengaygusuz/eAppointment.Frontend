@@ -22,10 +22,22 @@ export class AppTopBarComponent implements OnInit{
 
     isDarkThemeSelected: boolean = false;
 
+    countries: any[] | undefined;
+
+    selectedCountry: any | undefined;
+
     constructor(public layoutService: LayoutService, private topbarService: TopBarService, private themeService: ThemeService ) { }
 
     ngOnInit(): void {
         this.themeService.setTheme(this.selectedTheme);
+
+        this.countries = [
+            { name: 'Turkey', code: 'TR' },
+            { name: 'United Kingdoms', code: 'GB' },
+            { name: 'United States', code: 'US' }
+        ];
+
+        this.selectedCountry = this.countries[0];
     }
 
     onThemeChange(theme: string, themeCondition: boolean){

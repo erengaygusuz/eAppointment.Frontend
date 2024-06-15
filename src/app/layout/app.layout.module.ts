@@ -18,6 +18,10 @@ import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { MenuModule } from 'primeng/menu';
+import { AvatarModule } from 'primeng/avatar';
+import { ButtonModule } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
     declarations: [
@@ -42,7 +46,11 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
         RouterModule,
         AppConfigModule,
         InputSwitchModule,
-        ToggleButtonModule
+        ToggleButtonModule,
+        AvatarModule,
+        MenuModule,
+        ButtonModule,
+        DropdownModule
     ],
     exports: [AppLayoutComponent]
 })
