@@ -3,12 +3,12 @@
 
     <button #menubutton class="p-link layout-menu-button layout-topbar-button"
         (click)="layoutService.onMenuToggle(); onTopbarClick()">
-        <i class="pi pi-bars"></i>
+        <i class="pi fa-solid fa-bars"></i>
     </button>
 
     <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
         (click)="layoutService.showProfileSidebar()">
-        <i class="pi pi-ellipsis-v"></i>
+        <i class="pi fa-solid fa-ellipsis-vertical"></i>
     </button>
 
     <div #topbarmenu class="layout-topbar-menu"
@@ -41,7 +41,7 @@
                 }
             </button>
             <button class="p-link layout-topbar-button">
-                <i class="pi pi-user"></i>
+                <i class="pi fa-solid fa-user"></i>
                 <span class="inline-flex flex-column">
                     <span class="font-bold">Amy Elsner</span>
                     <span class="text-sm">Admin</span>

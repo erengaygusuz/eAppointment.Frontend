@@ -1,7 +1,9 @@
 import { MappingPair, Profile } from '@dynamic-mapper/mapper';
 import { PatientModel } from '../models/patient.model';
 import { PatientDto } from '../dtos/patient.dto';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class PatientMappingProfile extends Profile {
   static readonly DomainToDto = new MappingPair(PatientModel, PatientDto);
   static readonly DtoToDomain = new MappingPair(PatientDto, PatientModel);

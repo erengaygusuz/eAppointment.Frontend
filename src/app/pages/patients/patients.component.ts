@@ -13,9 +13,18 @@ import { TableColumnInfoModel } from '../../models/table.column.info.model';
 import { PatientDto } from '../../dtos/patient.dto';
 import { Mapper } from '@dynamic-mapper/angular';
 import { PatientMappingProfile } from '../../mapping/patient.mapping.profile';
+import { PageHeaderComponent } from '../../components/page-header/page-header.component';
+import { AdvancedTableComponent } from '../../components/advanced-table/advanced-table.component';
+import { PatientDialogComponent } from './partials/patient-dialog/patient-dialog.component';
 
 @Component({
   selector: 'app-patients',
+  standalone: true,
+  imports: [
+    PageHeaderComponent,
+    AdvancedTableComponent,
+    PatientDialogComponent
+  ],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.css',
   providers: [MessageService, ConfirmationService],

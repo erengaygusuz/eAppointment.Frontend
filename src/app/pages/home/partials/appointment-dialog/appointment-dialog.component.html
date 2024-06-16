@@ -3,8 +3,28 @@
     <ng-template pTemplate="content">
         <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="appointmentForm">
             <div class="field">
+                <label for="appointment.startDate">Start Date</label>
+                <input type="text" pInputText value="{{appointment.startDate}}" disabled />
+            </div>
+            <div class="field">
+                <label for="appointment.endDate">End Date</label>
+                <input type="text" pInputText value="{{appointment.endDate}}" disabled />
+            </div>
+            <div class="field">
+                <label for="appointment.identityNumber">Identity Number</label>
+                <input type="text" pInputText [(ngModel)]="appointment.identityNumber" required
+                    formControlName="identityNumber" />
+                <div *ngIf="
+                        appointmentForm.controls['identityNumber'].invalid && 
+                        (isFormSubmitted || 
+                        appointmentForm.controls['identityNumber'].touched || 
+                        appointmentForm.controls['identityNumber'].dirty)">
+                    <small class="p-error" *ngIf="appointmentForm.controls['identityNumber'].errors?.['required']">This field is required</small>
+                </div>
+            </div>
+            <div class="field">
                 <label for="appointment.firstName">First Name</label>
-                <input type="text" pInputText [(ngModel)]="appointment.firstName" required autofocus
+                <input type="text" pInputText [(ngModel)]="appointment.firstName" required 
                     formControlName="firstname" />
                 <div *ngIf="
                         appointmentForm.controls['firstname'].invalid && 
@@ -16,7 +36,7 @@
             </div>
             <div class="field">
                 <label for="appointment.lastName">Last Name</label>
-                <input type="text" pInputText [(ngModel)]="appointment.lastName" required autofocus
+                <input type="text" pInputText [(ngModel)]="appointment.lastName" required 
                     formControlName="lastname" />
                 <div *ngIf="
                         appointmentForm.controls['lastname'].invalid && 
@@ -24,6 +44,42 @@
                         appointmentForm.controls['lastname'].touched || 
                         appointmentForm.controls['lastname'].dirty)">
                     <small class="p-error" *ngIf="appointmentForm.controls['lastname'].errors?.['required']">This field is required</small>
+                </div>
+            </div>
+            <div class="field">
+                <label for="appointment.city">City</label>
+                <input type="text" pInputText [(ngModel)]="appointment.city" required 
+                    formControlName="city" />
+                <div *ngIf="
+                        appointmentForm.controls['city'].invalid && 
+                        (isFormSubmitted || 
+                        appointmentForm.controls['city'].touched || 
+                        appointmentForm.controls['city'].dirty)">
+                    <small class="p-error" *ngIf="appointmentForm.controls['city'].errors?.['required']">This field is required</small>
+                </div>
+            </div>
+            <div class="field">
+                <label for="appointment.town">Town</label>
+                <input type="text" pInputText [(ngModel)]="appointment.town" required 
+                    formControlName="town" />
+                <div *ngIf="
+                        appointmentForm.controls['town'].invalid && 
+                        (isFormSubmitted || 
+                        appointmentForm.controls['town'].touched || 
+                        appointmentForm.controls['town'].dirty)">
+                    <small class="p-error" *ngIf="appointmentForm.controls['town'].errors?.['required']">This field is required</small>
+                </div>
+            </div>
+            <div class="field">
+                <label for="appointment.fullAddress">Full Address</label>
+                <textarea rows="3" pInputTextarea  [(ngModel)]="appointment.fullAddress" required 
+                    formControlName="fullAddress"></textarea>
+                <div *ngIf="
+                        appointmentForm.controls['fullAddress'].invalid && 
+                        (isFormSubmitted || 
+                        appointmentForm.controls['fullAddress'].touched || 
+                        appointmentForm.controls['fullAddress'].dirty)">
+                    <small class="p-error" *ngIf="appointmentForm.controls['fullAddress'].errors?.['required']">This field is required</small>
                 </div>
             </div>
             <div class="flex align-items-end justify-content-end mt-5">

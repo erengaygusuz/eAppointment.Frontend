@@ -1,11 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { LayoutService } from "./service/app.layout.service";
-import { TopBarService } from '../services/topbar.service';
-import { ThemeService } from '../services/theme.service';
+import { LayoutService } from "../../services/app.layout.service";
+import { TopBarService } from '../../services/topbar.service';
+import { ThemeService } from '../../services/theme.service';
+import { CommonModule } from '@angular/common';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-topbar',
+    standalone: true,
+    imports: [
+        CommonModule,
+        DropdownModule,
+        FormsModule
+    ],
     templateUrl: './app.topbar.component.html'
 })
 export class AppTopBarComponent implements OnInit{

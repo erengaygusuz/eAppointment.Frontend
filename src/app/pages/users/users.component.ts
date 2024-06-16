@@ -14,9 +14,18 @@ import { UserDto } from '../../dtos/user.dto';
 import { Mapper } from '@dynamic-mapper/angular';
 import { UserMappingProfile } from '../../mapping/user.mapping.profile';
 import { RoleModel } from '../../models/role.model';
+import { PageHeaderComponent } from '../../components/page-header/page-header.component';
+import { AdvancedTableComponent } from '../../components/advanced-table/advanced-table.component';
+import { UserDialogComponent } from './partials/user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-users',
+  standalone: true,
+  imports: [
+    PageHeaderComponent,
+    AdvancedTableComponent,
+    UserDialogComponent
+  ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
   providers: [MessageService, ConfirmationService],

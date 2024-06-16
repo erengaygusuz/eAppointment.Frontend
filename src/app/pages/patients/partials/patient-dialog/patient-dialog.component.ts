@@ -1,10 +1,24 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PatientModel } from '../../../../models/patient.model';
-import { SelectItem } from 'primeng/api';
-import { FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-patient-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    DialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    InputTextareaModule 
+  ],
   templateUrl: './patient-dialog.component.html',
   styleUrl: './patient-dialog.component.css'
 })

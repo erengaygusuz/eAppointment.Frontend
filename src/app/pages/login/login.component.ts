@@ -1,13 +1,27 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormsModule, NgForm } from '@angular/forms';
 import { LoginModel } from '../../models/login.model';
 import { HttpService } from '../../services/http.service';
-import { LoginResponseModel } from '../../models/login-response.model';
+import { LoginResponseModel } from '../../models/login.response.model';
 import { Router } from '@angular/router';
-import { LayoutService } from '../../layout/service/app.layout.service';
+import { LayoutService } from '../../services/app.layout.service';
+import { CommonModule } from '@angular/common';
+import { PasswordModule } from 'primeng/password';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    PasswordModule,
+    CheckboxModule,
+    ButtonModule,
+    InputTextModule
+  ],
   templateUrl: './login.component.html',
   styles: [`
         :host ::ng-deep .pi-eye,

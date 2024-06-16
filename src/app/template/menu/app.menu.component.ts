@@ -1,9 +1,16 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
-import { LayoutService } from './service/app.layout.service';
+import { LayoutService } from '../../services/app.layout.service';
+import { CommonModule } from '@angular/common';
+import { AppMenuitemComponent } from '../menu-item/app.menuitem.component';
 
 @Component({
   selector: 'app-menu',
+  standalone: true,
+  imports: [
+    CommonModule,
+    AppMenuitemComponent
+  ],
   templateUrl: './app.menu.component.html',
 })
 export class AppMenuComponent implements OnInit {
@@ -36,7 +43,7 @@ export class AppMenuComponent implements OnInit {
             routerLink: ['/users'],
           },
         ],
-      }
+      },
     ];
   }
 }

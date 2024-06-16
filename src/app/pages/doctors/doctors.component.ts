@@ -10,9 +10,18 @@ import { TableColumnInfoModel } from '../../models/table.column.info.model';
 import { DoctorDto } from '../../dtos/doctor.dto';
 import { Mapper } from '@dynamic-mapper/angular';
 import { DoctorMappingProfile } from '../../mapping/doctor.mapping.profile';
+import { PageHeaderComponent } from '../../components/page-header/page-header.component';
+import { AdvancedTableComponent } from '../../components/advanced-table/advanced-table.component';
+import { DoctorDialogComponent } from './partials/doctor-dialog/doctor-dialog.component';
 
 @Component({
   selector: 'app-doctors',
+  standalone: true,
+  imports: [
+    PageHeaderComponent,
+    AdvancedTableComponent,
+    DoctorDialogComponent
+  ],
   templateUrl: './doctors.component.html',
   styleUrl: './doctors.component.css',
   providers: [MessageService, ConfirmationService],

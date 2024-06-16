@@ -1,9 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TableColumnInfoModel } from '../../models/table.column.info.model';
-import { Table } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToolbarModule } from 'primeng/toolbar';
+import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-advanced-table',
+  standalone: true,
+  imports: [
+    ButtonModule,
+    TableModule,
+    ConfirmDialogModule,
+    ToolbarModule,
+    ToastModule,
+    InputTextModule
+  ],
   templateUrl: './advanced-table.component.html',
   styleUrl: './advanced-table.component.css'
 })

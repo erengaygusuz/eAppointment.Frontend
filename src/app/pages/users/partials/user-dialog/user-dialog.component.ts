@@ -1,10 +1,25 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UserModel } from '../../../../models/user.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RoleModel } from '../../../../models/role.model';
+import { CommonModule } from '@angular/common';
+import { DialogModule } from 'primeng/dialog';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-user-dialog',
+  standalone: true,
+  imports: [
+    CommonModule,
+    DialogModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MultiSelectModule,
+    ButtonModule,
+    InputTextModule
+  ],
   templateUrl: './user-dialog.component.html',
   styleUrl: './user-dialog.component.css'
 })
