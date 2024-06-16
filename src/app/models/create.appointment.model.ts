@@ -1,4 +1,5 @@
 export class CreateAppointmentModel{
+    id: string = "";
     startDate: string = "";
     endDate: string = "";
     doctorId: string = "";
