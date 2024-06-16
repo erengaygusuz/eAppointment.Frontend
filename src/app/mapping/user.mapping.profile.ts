@@ -74,7 +74,7 @@ export class UserMappingProfile extends Profile {
 
   getUserRoles(id: string){
 
-    this.http.post<RoleModel[]>("users/getallrolesbyusername", {id: id}, res => {
+    this.http.post<RoleModel[]>("users/getallrolesbyuserid", {id: id}, res => {
 
       this.userRoles = res.data;
 

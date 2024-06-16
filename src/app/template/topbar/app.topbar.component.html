@@ -43,11 +43,11 @@
             <button class="p-link layout-topbar-button">
                 <i class="pi fa-solid fa-user"></i>
                 <span class="inline-flex flex-column">
-                    <span class="font-bold">Amy Elsner</span>
-                    <span class="text-sm">Admin</span>
+                    <span class="font-bold">{{authService.tokenDecode.name}}</span>
+                    <span class="text-sm">{{userRoles}}</span>
                 </span>
             </button>
-            <button class="p-link layout-topbar-button">
+            <button class="p-link layout-topbar-button" (click)="signOut()">
                 <i class="pi fa-solid fa-right-from-bracket"></i>
                 <span>Logout</span>
             </button>
