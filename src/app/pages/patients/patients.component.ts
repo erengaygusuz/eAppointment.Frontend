@@ -3,11 +3,7 @@ import { HttpService } from '../../services/http.service';
 import { PatientModel } from '../../models/patient.model';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import {
-  MessageService,
-  ConfirmationService,
-  MenuItem,
-} from 'primeng/api';
+import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableColumnInfoModel } from '../../models/table.column.info.model';
 import { PatientDto } from '../../dtos/patient.dto';
@@ -23,7 +19,7 @@ import { PatientDialogComponent } from './partials/patient-dialog/patient-dialog
   imports: [
     PageHeaderComponent,
     AdvancedTableComponent,
-    PatientDialogComponent
+    PatientDialogComponent,
   ],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.css',
@@ -63,7 +59,13 @@ export class PatientsComponent implements OnInit {
     },
   ];
 
-  globalFilterFieldsData: string[] = ['fullName', 'identityNumber', 'city', 'town', 'fullAddress'];
+  globalFilterFieldsData: string[] = [
+    'fullName',
+    'identityNumber',
+    'city',
+    'town',
+    'fullAddress',
+  ];
 
   tableName: string = 'patientsTable';
 
@@ -76,7 +78,7 @@ export class PatientsComponent implements OnInit {
     public auth: AuthService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
   ) {}
 
   ngOnInit(): void {
@@ -92,12 +94,15 @@ export class PatientsComponent implements OnInit {
       this.patients = [];
 
       res.data.forEach((patient: PatientModel) => {
-        let patientDto = this.mapper.map(PatientMappingProfile.DomainToDto, patient);
+        const patientDto = this.mapper.map(
+          PatientMappingProfile.DomainToDto,
+          patient,
+        );
 
         this.patients.push(patientDto);
-      }); 
-      
-      this.tableSummaryInfo = `In total there are ${this.patients ? this.patients.length : 0 } patients.`;
+      });
+
+      this.tableSummaryInfo = `In total there are ${this.patients ? this.patients.length : 0} patients.`;
     });
   }
 
@@ -107,11 +112,13 @@ export class PatientsComponent implements OnInit {
   }
 
   editRecord(patient: PatientDto) {
-
-    let patientFromPatientDto = this.mapper.map(PatientMappingProfile.DtoToDomain, patient);    
+    const patientFromPatientDto = this.mapper.map(
+      PatientMappingProfile.DtoToDomain,
+      patient,
+    );
 
     this.patientModel = { ...patientFromPatientDto };
-    
+
     this.patientDialogVisibility = true;
   }
 
@@ -144,18 +151,23 @@ export class PatientsComponent implements OnInit {
   }
 
   deleteRecord(patient: PatientDto) {
-
-    let patientFromPatientDto = this.mapper.map(PatientMappingProfile.DtoToDomain, patient);    
+    const patientFromPatientDto = this.mapper.map(
+      PatientMappingProfile.DtoToDomain,
+      patient,
+    );
 
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + patientFromPatientDto.fullName + '?',
+      message:
+        'Are you sure you want to delete ' +
+        patientFromPatientDto.fullName +
+        '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.http.post<string>(
           'patients/deletebyid',
           { id: patientFromPatientDto.id },
-          (res) => {
+          () => {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
@@ -164,7 +176,7 @@ export class PatientsComponent implements OnInit {
             });
 
             this.getAll();
-          }
+          },
         );
       },
     });

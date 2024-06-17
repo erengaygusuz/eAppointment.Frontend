@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   activeTheme: string = '';
 
-  getTheme(){
+  getTheme() {
     return this.activeTheme;
   }
 
-  setTheme(theme: string){
-    let themeLink = document.getElementById('theme-css') as HTMLLinkElement;
+  setTheme(theme: string) {
+    const themeLink = document.getElementById('theme-css') as HTMLLinkElement;
 
-    console.log(themeLink)
+    console.log(themeLink);
 
-    if (themeLink){
+    if (themeLink) {
       themeLink.href = theme + '.css';
     }
 

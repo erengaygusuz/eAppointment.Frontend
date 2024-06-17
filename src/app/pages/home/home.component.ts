@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { departments } from '../../constants';
 import { DepartmentModel, DoctorModel } from '../../models/doctor.model';
-import {
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpService } from '../../services/http.service';
 import { AppointmentModel } from '../../models/appointment.model';
@@ -14,11 +10,7 @@ import { SwalService } from '../../services/swal.service';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { CalendarOptions } from '@fullcalendar/core';
-import {
-  ConfirmationService,
-  MenuItem,
-  MessageService,
-} from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import {
   FullCalendarComponent,
   FullCalendarModule,
@@ -28,8 +20,6 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
 import { DropdownModule } from 'primeng/dropdown';
 import { AppointmentDialogComponent } from './partials/appointment-dialog/appointment-dialog.component';
 import { ToastModule } from 'primeng/toast';
-
-declare const $: any;
 
 @Component({
   selector: 'app-home',
@@ -42,7 +32,7 @@ declare const $: any;
     DropdownModule,
     FullCalendarModule,
     AppointmentDialogComponent,
-    ToastModule
+    ToastModule,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -98,7 +88,7 @@ export class HomeComponent implements OnInit {
     private date: DatePipe,
     private swal: SwalService,
     private topbarService: TopBarService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
@@ -125,27 +115,33 @@ export class HomeComponent implements OnInit {
   handleEventDrop(arg: any) {
     const data = {
       id: arg.event.id,
-      startDate: this.date.transform(arg.event.startStr, 'dd.MM.yyyy HH:mm') ?? '',
+      startDate:
+        this.date.transform(arg.event.startStr, 'dd.MM.yyyy HH:mm') ?? '',
       endDate: this.date.transform(arg.event.endStr, 'dd.MM.yyyy HH:mm') ?? '',
     };
 
-    this.http.post('appointments/update', data, (res) => {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Successful',
-        detail: res.data,
-        life: 3000,
-      });
+    this.http.post(
+      'appointments/update',
+      data,
+      (res) => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: res.data,
+          life: 3000,
+        });
 
-      this.createAppointmentModel = new CreateAppointmentModel();
+        this.createAppointmentModel = new CreateAppointmentModel();
 
-      this.getAllAppointmentsByDoctorId();
-    }, (err) => {
-      this.getAllAppointmentsByDoctorId();
-    });
+        this.getAllAppointmentsByDoctorId();
+      },
+      () => {
+        this.getAllAppointmentsByDoctorId();
+      },
+    );
   }
 
-  handleEventClick(arg: any){
+  handleEventClick(arg: any) {
     this.deleteRecord(arg);
   }
 
@@ -160,7 +156,7 @@ export class HomeComponent implements OnInit {
     this.createAppointmentModel.startDate =
       this.date.transform(arg.dateStr, 'dd.MM.yyyy HH:mm') ?? '';
 
-    let endDate: Date = new Date(arg.date);
+    const endDate: Date = new Date(arg.date);
     endDate.setMinutes(endDate.getMinutes() + 30);
 
     this.createAppointmentModel.endDate =
@@ -221,11 +217,11 @@ export class HomeComponent implements OnInit {
           id: this.selectedAppointment.id,
           startDate: this.date.transform(
             this.selectedAppointment.startDate,
-            'dd.MM.yyyy HH:mm'
+            'dd.MM.yyyy HH:mm',
           ),
           endDate: this.date.transform(
             this.selectedAppointment.endDate,
-            'dd.MM.yyyy HH:mm'
+            'dd.MM.yyyy HH:mm',
           ),
         };
 
@@ -259,9 +255,9 @@ export class HomeComponent implements OnInit {
           (res) => {
             this.swal.callToastr(res.data, 'info');
             this.getAllAppointmentsByDoctorId();
-          }
+          },
         );
-      }
+      },
     );
   }
 
@@ -280,7 +276,7 @@ export class HomeComponent implements OnInit {
         },
         (res) => {
           this.doctors = res.data;
-        }
+        },
       );
     }
   }
@@ -295,12 +291,11 @@ export class HomeComponent implements OnInit {
         (res) => {
           this.appointments = res.data;
 
-          let calendar = this.calendarComponent.getApi();
+          const calendar = this.calendarComponent.getApi();
 
           calendar.removeAllEvents();
 
           for (let i = 0; i < this.appointments.length; i++) {
-
             calendar.addEvent({
               id: this.appointments[i].id,
               start: this.appointments[i].startDate,
@@ -309,7 +304,7 @@ export class HomeComponent implements OnInit {
               patient: this.appointments[i].patient,
             });
           }
-        }
+        },
       );
     }
   }

@@ -13,41 +13,41 @@ import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.compone
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
-    {
-      path: 'login',
-      component: LoginComponent,
-    },
-    {
-      path: '',
-      component: AppLayoutComponent,
-      canActivateChild: [() => inject(AuthService).isAuthenticated()],
-      children: [
-        {
-          path: '',
-          component: HomeComponent,
-        },
-        {
-          path: 'doctors',
-          component: DoctorsComponent,
-          canActivate: [DoctorAuthGuard],
-        },
-        {
-          path: 'patients',
-          component: PatientsComponent,
-        },
-        {
-          path: 'users',
-          component: UsersComponent,
-          canActivate: [AdminAuthGuard],
-        },
-        {
-          path: 'unauthorized',
-          component: UnauthorizedComponent,
-        },
-      ],
-    },
-    {
-      path: '**',
-      component: NotFoundComponent,
-    },
-  ];
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
+    path: '',
+    component: AppLayoutComponent,
+    canActivateChild: [() => inject(AuthService).isAuthenticated()],
+    children: [
+      {
+        path: '',
+        component: HomeComponent,
+      },
+      {
+        path: 'doctors',
+        component: DoctorsComponent,
+        canActivate: [DoctorAuthGuard],
+      },
+      {
+        path: 'patients',
+        component: PatientsComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AdminAuthGuard],
+      },
+      {
+        path: 'unauthorized',
+        component: UnauthorizedComponent,
+      },
+    ],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  },
+];

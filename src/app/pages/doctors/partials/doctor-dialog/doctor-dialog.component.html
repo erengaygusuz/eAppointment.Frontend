@@ -1,47 +1,100 @@
-<p-dialog [(visible)]="visibility" [style]="{ width: '450px' }" header="{{title}}" [modal]="true" styleClass="p-fluid"
-    (onHide)="this.changeVisibility.emit({ visibility: false })" >
-    <ng-template pTemplate="content">
-        <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="doctorForm">
-            <div class="field">
-                <label for="doctor.firstName">First Name</label>
-                <input type="text" pInputText [(ngModel)]="doctor.firstName" required autofocus
-                    formControlName="firstname" />
-                <div *ngIf="
-                        doctorForm.controls['firstname'].invalid && 
-                        (isFormSubmitted || 
-                        doctorForm.controls['firstname'].touched || 
-                        doctorForm.controls['firstname'].dirty)">
-                    <small class="p-error" *ngIf="doctorForm.controls['firstname'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="doctor.lastName">Last Name</label>
-                <input type="text" pInputText [(ngModel)]="doctor.lastName" required autofocus
-                    formControlName="lastname" />
-                <div *ngIf="
-                        doctorForm.controls['lastname'].invalid && 
-                        (isFormSubmitted || 
-                        doctorForm.controls['lastname'].touched || 
-                        doctorForm.controls['lastname'].dirty)">
-                    <small class="p-error" *ngIf="doctorForm.controls['lastname'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="department.name">Department</label>
-                <p-dropdown appendTo="body" [options]="departmentDropdownItems" [(ngModel)]="doctor.departmentValue"
-                    placeholder="Select a Department" formControlName="department" required>
-                </p-dropdown>
-                <div *ngIf="
-                        doctorForm.controls['department'].invalid && 
-                        isFormSubmitted">
-                    <small class="p-error" *ngIf="doctorForm.controls['department'].errors?.['pattern']">This field is required</small>
-                </div>
-            </div>
-            <div class="flex align-items-end justify-content-end mt-5">
-                <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true"
-                    (click)="this.changeVisibility.emit({ visibility: false })" />
-                <p-button pRipple label="Save" icon="pi pi-check" [text]="true" type="submit" />
-            </div>
-        </form>
-    </ng-template>
+<p-dialog
+  [(visible)]="visibility"
+  [style]="{ width: '450px' }"
+  header="{{ title }}"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="this.changeVisibility.emit({ visibility: false })"
+>
+  <ng-template pTemplate="content">
+    <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="doctorForm">
+      <div class="field">
+        <label for="doctor.firstName">First Name</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="doctor.firstName"
+          required
+          autofocus
+          formControlName="firstname"
+        />
+        <div
+          *ngIf="
+            doctorForm.controls['firstname'].invalid &&
+            (isFormSubmitted ||
+              doctorForm.controls['firstname'].touched ||
+              doctorForm.controls['firstname'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="doctorForm.controls['firstname'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="doctor.lastName">Last Name</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="doctor.lastName"
+          required
+          autofocus
+          formControlName="lastname"
+        />
+        <div
+          *ngIf="
+            doctorForm.controls['lastname'].invalid &&
+            (isFormSubmitted ||
+              doctorForm.controls['lastname'].touched ||
+              doctorForm.controls['lastname'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="doctorForm.controls['lastname'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="department.name">Department</label>
+        <p-dropdown
+          appendTo="body"
+          [options]="departmentDropdownItems"
+          [(ngModel)]="doctor.departmentValue"
+          placeholder="Select a Department"
+          formControlName="department"
+          required
+        >
+        </p-dropdown>
+        <div
+          *ngIf="doctorForm.controls['department'].invalid && isFormSubmitted"
+        >
+          <small
+            class="p-error"
+            *ngIf="doctorForm.controls['department'].errors?.['pattern']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="flex align-items-end justify-content-end mt-5">
+        <p-button
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          [text]="true"
+          (click)="this.changeVisibility.emit({ visibility: false })"
+        />
+        <p-button
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          [text]="true"
+          type="submit"
+        />
+      </div>
+    </form>
+  </ng-template>
 </p-dialog>

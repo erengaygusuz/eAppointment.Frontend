@@ -3,11 +3,7 @@ import { HttpService } from '../../services/http.service';
 import { UserModel } from '../../models/user.model';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import {
-  MessageService,
-  ConfirmationService,
-  MenuItem,
-} from 'primeng/api';
+import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableColumnInfoModel } from '../../models/table.column.info.model';
 import { UserDto } from '../../dtos/user.dto';
@@ -21,11 +17,7 @@ import { UserDialogComponent } from './partials/user-dialog/user-dialog.componen
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [
-    PageHeaderComponent,
-    AdvancedTableComponent,
-    UserDialogComponent
-  ],
+  imports: [PageHeaderComponent, AdvancedTableComponent, UserDialogComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
   providers: [MessageService, ConfirmationService],
@@ -59,10 +51,15 @@ export class UsersComponent implements OnInit {
     {
       columnName: 'Role Names',
       columnFieldName: 'roles',
-    }
+    },
   ];
 
-  globalFilterFieldsData: string[] = ['fullName', 'username', 'email', 'roleNames'];
+  globalFilterFieldsData: string[] = [
+    'fullName',
+    'username',
+    'email',
+    'roleNames',
+  ];
 
   tableName: string = 'usersTable';
 
@@ -75,7 +72,7 @@ export class UsersComponent implements OnInit {
     public auth: AuthService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
   ) {}
 
   ngOnInit(): void {
@@ -92,17 +89,17 @@ export class UsersComponent implements OnInit {
       this.users = [];
 
       res.data.forEach((user: UserModel) => {
-        let userDto = this.mapper.map(UserMappingProfile.DomainToDto, user);
+        const userDto = this.mapper.map(UserMappingProfile.DomainToDto, user);
 
         this.users.push(userDto);
-      }); 
-      
-      this.tableSummaryInfo = `In total there are ${this.users ? this.users.length : 0 } users.`;
+      });
+
+      this.tableSummaryInfo = `In total there are ${this.users ? this.users.length : 0} users.`;
     });
   }
 
-  getAllRoles(){
-    this.http.post<RoleModel[]>("users/getallroles", {}, res => {
+  getAllRoles() {
+    this.http.post<RoleModel[]>('users/getallroles', {}, (res) => {
       this.userRoleDropdownItems = res.data;
     });
   }
@@ -113,16 +110,17 @@ export class UsersComponent implements OnInit {
   }
 
   editRecord(user: UserDto) {
-
-    let userFromUserDto = this.mapper.map(UserMappingProfile.DtoToDomain, user);    
+    const userFromUserDto = this.mapper.map(
+      UserMappingProfile.DtoToDomain,
+      user,
+    );
 
     this.userModel = { ...userFromUserDto };
-    
+
     this.userDialogVisibility = true;
   }
 
   saveUser(form: FormGroup) {
-
     if (form.valid) {
       let url = '';
 
@@ -151,18 +149,21 @@ export class UsersComponent implements OnInit {
   }
 
   deleteRecord(user: UserDto) {
-
-    let userFromUserDto = this.mapper.map(UserMappingProfile.DtoToDomain, user);    
+    const userFromUserDto = this.mapper.map(
+      UserMappingProfile.DtoToDomain,
+      user,
+    );
 
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + userFromUserDto.fullName + '?',
+      message:
+        'Are you sure you want to delete ' + userFromUserDto.fullName + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.http.post<string>(
           'users/deletebyid',
           { id: userFromUserDto.id },
-          (res) => {
+          () => {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
@@ -171,7 +172,7 @@ export class UsersComponent implements OnInit {
             });
 
             this.getAll();
-          }
+          },
         );
       },
     });
@@ -182,8 +183,7 @@ export class UsersComponent implements OnInit {
   }
 
   onGlobalFilter(table: Table, event: Event) {
-
-    let incomingData = (event.target as HTMLInputElement);
+    const incomingData = event.target as HTMLInputElement;
 
     table.filterGlobal(incomingData.value, 'contains');
   }

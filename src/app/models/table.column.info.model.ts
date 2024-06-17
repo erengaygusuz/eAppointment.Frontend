@@ -1,4 +1,4 @@
 export class TableColumnInfoModel {
-    columnName: string = "";
-    columnFieldName: string = "";
+  columnName: string = '';
+  columnFieldName: string = '';
 }

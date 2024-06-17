@@ -7,10 +7,7 @@ import { AppMenuitemComponent } from '../menu-item/app.menuitem.component';
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [
-    CommonModule,
-    AppMenuitemComponent
-  ],
+  imports: [CommonModule, AppMenuitemComponent],
   templateUrl: './app.menu.component.html',
 })
 export class AppMenuComponent implements OnInit {

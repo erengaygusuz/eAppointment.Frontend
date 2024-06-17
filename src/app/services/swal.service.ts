@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SwalService {
+  constructor() {}
 
-  constructor() { }
-
-  callToastr(title: string, icon: SweetAlertIcon = 'success'){
+  callToastr(title: string, icon: SweetAlertIcon = 'success') {
     Swal.fire({
       title: title,
       timer: 3000,
@@ -17,11 +16,11 @@ export class SwalService {
       showConfirmButton: false,
       showCancelButton: false,
       showCloseButton: false,
-      toast: true
-    })
+      toast: true,
+    });
   }
 
-  callSwal(title: string, text: string, callback: () => void){
+  callSwal(title: string, text: string, callback: () => void) {
     Swal.fire({
       title: title,
       text: text,
@@ -29,14 +28,18 @@ export class SwalService {
       showConfirmButton: true,
       confirmButtonText: 'Delete',
       showCancelButton: true,
-      cancelButtonText: 'Cancel'
-    }).then(res => {
-      if(res.isConfirmed){
+      cancelButtonText: 'Cancel',
+    }).then((res) => {
+      if (res.isConfirmed) {
         callback();
       }
-    })
+    });
   }
 }
 
-export type SweetAlertIcon = 'success' | 'error' | 'warning' | 'info' | 'question'
-
+export type SweetAlertIcon =
+  | 'success'
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'question';

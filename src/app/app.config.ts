@@ -14,6 +14,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
-    importProvidersFrom(MapperModule.withProfiles([DoctorMappingProfile, PatientMappingProfile, UserMappingProfile]))
-  ]
+    importProvidersFrom(
+      MapperModule.withProfiles([
+        DoctorMappingProfile,
+        PatientMappingProfile,
+        UserMappingProfile,
+      ]),
+    ),
+  ],
 };

@@ -3,20 +3,19 @@ import { UserModel } from '../models/user.model';
 
 @Pipe({
   name: 'user',
-  standalone: true
+  standalone: true,
 })
 export class UserPipe implements PipeTransform {
-
-  transform(value: UserModel[],  search: string) : UserModel[] {
-    if(!search){
+  transform(value: UserModel[], search: string): UserModel[] {
+    if (!search) {
       return value;
     }
 
-    return value.filter(p => 
-      p.fullName.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-      p.userName.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
-      p.email.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+    return value.filter(
+      (p) =>
+        p.fullName.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+        p.userName.toLocaleLowerCase().includes(search.toLocaleLowerCase()) ||
+        p.email.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
     );
   }
-
 }

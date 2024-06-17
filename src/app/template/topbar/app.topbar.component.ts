@@ -34,7 +34,7 @@ export class AppTopBarComponent implements OnInit {
 
   selectedCountry: any | undefined;
 
-  userRoles: string = "";
+  userRoles: string = '';
 
   constructor(
     public layoutService: LayoutService,
@@ -42,7 +42,7 @@ export class AppTopBarComponent implements OnInit {
     private themeService: ThemeService,
     public authService: AuthService,
     private router: Router,
-    private http: HttpService
+    private http: HttpService,
   ) {}
 
   ngOnInit(): void {
@@ -72,17 +72,22 @@ export class AppTopBarComponent implements OnInit {
     this.topbarService.onTopbarClick();
   }
 
-  signOut(){
-    localStorage.removeItem("token");
-    this.router.navigateByUrl("/login");
+  signOut() {
+    localStorage.removeItem('token');
+    this.router.navigateByUrl('/login');
   }
 
   getUserRoles(id: string) {
-
-    this.http.post<RoleModel[]>("users/getallrolesbyuserid", {id: id}, res => {
-
-      this.userRoles = res.data.map((role: RoleModel) => { return role.name }).join(',');
-
-    });
+    this.http.post<RoleModel[]>(
+      'users/getallrolesbyuserid',
+      { id: id },
+      (res) => {
+        this.userRoles = res.data
+          .map((role: RoleModel) => {
+            return role.name;
+          })
+          .join(',');
+      },
+    );
   }
 }

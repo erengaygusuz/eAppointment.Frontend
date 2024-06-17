@@ -59,7 +59,7 @@ export class AppLayoutComponent implements OnDestroy {
   constructor(
     public layoutService: LayoutService,
     public renderer: Renderer2,
-    public router: Router
+    public router: Router,
   ) {
     this.overlayMenuOpenSubscription =
       this.layoutService.overlayOpen$.subscribe(() => {
@@ -72,7 +72,7 @@ export class AppLayoutComponent implements OnDestroy {
                 this.appSidebar.el.nativeElement.isSameNode(event.target) ||
                 this.appSidebar.el.nativeElement.contains(event.target) ||
                 this.appTopbar.menuButton.nativeElement.isSameNode(
-                  event.target
+                  event.target,
                 ) ||
                 this.appTopbar.menuButton.nativeElement.contains(event.target)
               );
@@ -80,7 +80,7 @@ export class AppLayoutComponent implements OnDestroy {
               if (isOutsideClicked) {
                 this.hideMenu();
               }
-            }
+            },
           );
         }
 
@@ -93,17 +93,17 @@ export class AppLayoutComponent implements OnDestroy {
                 this.appTopbar.menu.nativeElement.isSameNode(event.target) ||
                 this.appTopbar.menu.nativeElement.contains(event.target) ||
                 this.appTopbar.topbarMenuButton.nativeElement.isSameNode(
-                  event.target
+                  event.target,
                 ) ||
                 this.appTopbar.topbarMenuButton.nativeElement.contains(
-                  event.target
+                  event.target,
                 )
               );
 
               if (isOutsideClicked) {
                 this.hideProfileMenu();
               }
-            }
+            },
           );
         }
 
@@ -154,9 +154,9 @@ export class AppLayoutComponent implements OnDestroy {
       document.body.className = document.body.className.replace(
         new RegExp(
           '(^|\\b)' + 'blocked-scroll'.split(' ').join('|') + '(\\b|$)',
-          'gi'
+          'gi',
         ),
-        ' '
+        ' ',
       );
     }
   }

@@ -5,14 +5,12 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet
-  ],
+  imports: [RouterOutlet],
   template: '<router-outlet></router-outlet>',
 })
 export class AppComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {
-    this.primengConfig.csp.set({nonce: '...'});
+    this.primengConfig.csp.set({ nonce: '...' });
   }
 
   ngOnInit() {

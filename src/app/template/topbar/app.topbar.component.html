@@ -1,56 +1,83 @@
 <div class="layout-topbar">
-    <span class="layout-topbar-logo justify-content-center">e-Appointment</span>
+  <span class="layout-topbar-logo justify-content-center">e-Appointment</span>
 
-    <button #menubutton class="p-link layout-menu-button layout-topbar-button"
-        (click)="layoutService.onMenuToggle(); onTopbarClick()">
-        <i class="pi fa-solid fa-bars"></i>
-    </button>
+  <button
+    #menubutton
+    class="p-link layout-menu-button layout-topbar-button"
+    (click)="layoutService.onMenuToggle(); onTopbarClick()"
+  >
+    <i class="pi fa-solid fa-bars"></i>
+  </button>
 
-    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
-        (click)="layoutService.showProfileSidebar()">
-        <i class="pi fa-solid fa-ellipsis-vertical"></i>
-    </button>
+  <button
+    #topbarmenubutton
+    class="p-link layout-topbar-menu-button layout-topbar-button"
+    (click)="layoutService.showProfileSidebar()"
+  >
+    <i class="pi fa-solid fa-ellipsis-vertical"></i>
+  </button>
 
-    <div #topbarmenu class="layout-topbar-menu"
-        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
-        <div class="flex justify-content-between align-items-center flex-wrap">
-            <p-dropdown class="p-link" [options]="countries" [(ngModel)]="selectedCountry" optionLabel="name" 
-                placeholder="Select a Country">
-                <ng-template pTemplate="selectedItem">
-                    <div class="flex align-items-center gap-2">
-                        <span [class]="'fi fi-' + selectedCountry.code.toLowerCase()"></span>
-                    </div>
-                </ng-template>
-                <ng-template let-country pTemplate="item">
-                    <div class="flex align-items-center gap-2">
-                        <span [class]="'fi fi-' + country.code.toLowerCase()"></span>
-                        <div>{{ country.name }}</div>
-                    </div>
-                </ng-template>
-            </p-dropdown>
-            <button class="p-link layout-topbar-button"
-                (click)="onThemeChange(
-                (selectedTheme == 'assets/layout/styles/theme/lara-light-indigo/theme' ? 
-                'assets/layout/styles/theme/lara-dark-indigo/theme' : 'assets/layout/styles/theme/lara-light-indigo/theme'), !isDarkThemeSelected)">
-                @if(isDarkThemeSelected){
-                <i class="pi fa-regular fa-moon"></i>
-                <span>Dark</span>
-                }@else{
-                <i class="pi fa-solid fa-sun"></i>
-                <span>Light</span>
-                }
-            </button>
-            <button class="p-link layout-topbar-button">
-                <i class="pi fa-solid fa-user"></i>
-                <span class="inline-flex flex-column">
-                    <span class="font-bold">{{authService.tokenDecode.name}}</span>
-                    <span class="text-sm">{{userRoles}}</span>
-                </span>
-            </button>
-            <button class="p-link layout-topbar-button" (click)="signOut()">
-                <i class="pi fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-            </button>
-        </div>
+  <div
+    #topbarmenu
+    class="layout-topbar-menu"
+    [ngClass]="{
+      'layout-topbar-menu-mobile-active':
+        layoutService.state.profileSidebarVisible,
+    }"
+  >
+    <div class="flex justify-content-between align-items-center flex-wrap">
+      <p-dropdown
+        class="p-link"
+        [options]="countries"
+        [(ngModel)]="selectedCountry"
+        optionLabel="name"
+        placeholder="Select a Country"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2">
+            <span
+              [class]="'fi fi-' + selectedCountry.code.toLowerCase()"
+            ></span>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <span [class]="'fi fi-' + country.code.toLowerCase()"></span>
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <button
+        class="p-link layout-topbar-button"
+        (click)="
+          onThemeChange(
+            selectedTheme ==
+              'assets/layout/styles/theme/lara-light-indigo/theme'
+              ? 'assets/layout/styles/theme/lara-dark-indigo/theme'
+              : 'assets/layout/styles/theme/lara-light-indigo/theme',
+            !isDarkThemeSelected
+          )
+        "
+      >
+        @if (isDarkThemeSelected) {
+          <i class="pi fa-regular fa-moon"></i>
+          <span>Dark</span>
+        } @else {
+          <i class="pi fa-solid fa-sun"></i>
+          <span>Light</span>
+        }
+      </button>
+      <button class="p-link layout-topbar-button">
+        <i class="pi fa-solid fa-user"></i>
+        <span class="inline-flex flex-column">
+          <span class="font-bold">{{ authService.tokenDecode.name }}</span>
+          <span class="text-sm">{{ userRoles }}</span>
+        </span>
+      </button>
+      <button class="p-link layout-topbar-button" (click)="signOut()">
+        <i class="pi fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+      </button>
     </div>
+  </div>
 </div>

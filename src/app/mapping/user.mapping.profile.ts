@@ -29,7 +29,11 @@ export class UserMappingProfile extends Profile {
         opt.mapFrom((src) => src.email);
       },
       roles: (opt) => {
-        opt.mapFrom((src) => src.roles.map(role => { return role.name } ));
+        opt.mapFrom((src) =>
+          src.roles.map((role) => {
+            return role.name;
+          }),
+        );
       },
     });
 
@@ -56,28 +60,26 @@ export class UserMappingProfile extends Profile {
         opt.mapFrom((src) => this.getUserPassword(src.username));
       },
       roles: (opt) => {
-        opt.mapFrom((src) => { 
-
+        opt.mapFrom((src) => {
           this.getUserRoles(src.id);
 
           return this.userRoles;
-
         });
       },
     });
   }
 
-  getUserPassword(username: string){
-
-    return "";
+  getUserPassword(username: string) {
+    return '';
   }
 
-  getUserRoles(id: string){
-
-    this.http.post<RoleModel[]>("users/getallrolesbyuserid", {id: id}, res => {
-
-      this.userRoles = res.data;
-
-    });
+  getUserRoles(id: string) {
+    this.http.post<RoleModel[]>(
+      'users/getallrolesbyuserid',
+      { id: id },
+      (res) => {
+        this.userRoles = res.data;
+      },
+    );
   }
 }

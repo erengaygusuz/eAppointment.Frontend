@@ -1,84 +1,179 @@
-<p-dialog [(visible)]="visibility" [style]="{ width: '450px' }" header="{{title}}" [modal]="true" styleClass="p-fluid"
-    (onHide)="this.changeVisibility.emit({ visibility: false })" >
-    <ng-template pTemplate="content">
-        <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="patientForm">
-            <div class="field">
-                <label for="patient.firstName">First Name</label>
-                <input type="text" pInputText [(ngModel)]="patient.firstName" required autofocus
-                    formControlName="firstname" />
-                <div *ngIf="
-                        patientForm.controls['firstname'].invalid && 
-                        (isFormSubmitted || 
-                        patientForm.controls['firstname'].touched || 
-                        patientForm.controls['firstname'].dirty)">
-                    <small class="p-error" *ngIf="patientForm.controls['firstname'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="patient.lastName">Last Name</label>
-                <input type="text" pInputText [(ngModel)]="patient.lastName" required autofocus
-                    formControlName="lastname" />
-                <div *ngIf="
-                        patientForm.controls['lastname'].invalid && 
-                        (isFormSubmitted || 
-                        patientForm.controls['lastname'].touched || 
-                        patientForm.controls['lastname'].dirty)">
-                    <small class="p-error" *ngIf="patientForm.controls['lastname'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="patient.identityNumber">Identity Number</label>
-                <input type="text" pInputText [(ngModel)]="patient.identityNumber" required autofocus
-                    formControlName="identityNumber" />
-                <div *ngIf="
-                        patientForm.controls['identityNumber'].invalid && 
-                        (isFormSubmitted || 
-                        patientForm.controls['identityNumber'].touched || 
-                        patientForm.controls['identityNumber'].dirty)">
-                    <small class="p-error" *ngIf="patientForm.controls['identityNumber'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="patient.city">City</label>
-                <input type="text" pInputText [(ngModel)]="patient.city" required autofocus
-                    formControlName="city" />
-                <div *ngIf="
-                        patientForm.controls['city'].invalid && 
-                        (isFormSubmitted || 
-                        patientForm.controls['city'].touched || 
-                        patientForm.controls['city'].dirty)">
-                    <small class="p-error" *ngIf="patientForm.controls['city'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="patient.town">Town</label>
-                <input type="text" pInputText [(ngModel)]="patient.town" required autofocus
-                    formControlName="town" />
-                <div *ngIf="
-                        patientForm.controls['town'].invalid && 
-                        (isFormSubmitted || 
-                        patientForm.controls['town'].touched || 
-                        patientForm.controls['town'].dirty)">
-                    <small class="p-error" *ngIf="patientForm.controls['town'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="field">
-                <label for="patient.fullAddress">Full Address</label>
-                <textarea rows="3" pInputTextarea  [(ngModel)]="patient.fullAddress" required autofocus
-                    formControlName="fullAddress"></textarea>
-                <div *ngIf="
-                        patientForm.controls['fullAddress'].invalid && 
-                        (isFormSubmitted || 
-                        patientForm.controls['fullAddress'].touched || 
-                        patientForm.controls['fullAddress'].dirty)">
-                    <small class="p-error" *ngIf="patientForm.controls['fullAddress'].errors?.['required']">This field is required</small>
-                </div>
-            </div>
-            <div class="flex align-items-end justify-content-end mt-5">
-                <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true"
-                    (click)="this.changeVisibility.emit({ visibility: false })" />
-                <p-button pRipple label="Save" icon="pi pi-check" [text]="true" type="submit" />
-            </div>
-        </form>
-    </ng-template>
+<p-dialog
+  [(visible)]="visibility"
+  [style]="{ width: '450px' }"
+  header="{{ title }}"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="this.changeVisibility.emit({ visibility: false })"
+>
+  <ng-template pTemplate="content">
+    <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="patientForm">
+      <div class="field">
+        <label for="patient.firstName">First Name</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="patient.firstName"
+          required
+          autofocus
+          formControlName="firstname"
+        />
+        <div
+          *ngIf="
+            patientForm.controls['firstname'].invalid &&
+            (isFormSubmitted ||
+              patientForm.controls['firstname'].touched ||
+              patientForm.controls['firstname'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="patientForm.controls['firstname'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="patient.lastName">Last Name</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="patient.lastName"
+          required
+          autofocus
+          formControlName="lastname"
+        />
+        <div
+          *ngIf="
+            patientForm.controls['lastname'].invalid &&
+            (isFormSubmitted ||
+              patientForm.controls['lastname'].touched ||
+              patientForm.controls['lastname'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="patientForm.controls['lastname'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="patient.identityNumber">Identity Number</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="patient.identityNumber"
+          required
+          autofocus
+          formControlName="identityNumber"
+        />
+        <div
+          *ngIf="
+            patientForm.controls['identityNumber'].invalid &&
+            (isFormSubmitted ||
+              patientForm.controls['identityNumber'].touched ||
+              patientForm.controls['identityNumber'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="patientForm.controls['identityNumber'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="patient.city">City</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="patient.city"
+          required
+          autofocus
+          formControlName="city"
+        />
+        <div
+          *ngIf="
+            patientForm.controls['city'].invalid &&
+            (isFormSubmitted ||
+              patientForm.controls['city'].touched ||
+              patientForm.controls['city'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="patientForm.controls['city'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="patient.town">Town</label>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="patient.town"
+          required
+          autofocus
+          formControlName="town"
+        />
+        <div
+          *ngIf="
+            patientForm.controls['town'].invalid &&
+            (isFormSubmitted ||
+              patientForm.controls['town'].touched ||
+              patientForm.controls['town'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="patientForm.controls['town'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="field">
+        <label for="patient.fullAddress">Full Address</label>
+        <textarea
+          rows="3"
+          pInputTextarea
+          [(ngModel)]="patient.fullAddress"
+          required
+          autofocus
+          formControlName="fullAddress"
+        ></textarea>
+        <div
+          *ngIf="
+            patientForm.controls['fullAddress'].invalid &&
+            (isFormSubmitted ||
+              patientForm.controls['fullAddress'].touched ||
+              patientForm.controls['fullAddress'].dirty)
+          "
+        >
+          <small
+            class="p-error"
+            *ngIf="patientForm.controls['fullAddress'].errors?.['required']"
+            >This field is required</small
+          >
+        </div>
+      </div>
+      <div class="flex align-items-end justify-content-end mt-5">
+        <p-button
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          [text]="true"
+          (click)="this.changeVisibility.emit({ visibility: false })"
+        />
+        <p-button
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          [text]="true"
+          type="submit"
+        />
+      </div>
+    </form>
+  </ng-template>
 </p-dialog>

@@ -1,25 +1,25 @@
 <div class="grid">
-    <div class="col-12">
-        <div class="card">
-            <app-page-header 
-                [breadcrumbItems]="items" 
-                [pageTitle]="'Users Page'" />
-            <app-advanced-table
-                [tableDatas]="users"
-                [globalFilterFields]="globalFilterFieldsData"
-                [tableColumnInfos] = "tableColumnInfos"
-                [tableSummaryInfo] = "tableSummaryInfo"
-                [tableSearchBoxPlaceHolder] = "tableSearchBoxPlaceHolder"
-                (addRecord)="addRecord()"
-                (editRecord)="editRecord($event.tableData)"
-                (deleteRecord)="deleteRecord($event.tableData)"
-                (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
-            <app-user-dialog 
-                [visibility]="userDialogVisibility"
-                [user]="userModel"
-                [userRoleDropdownItems]="userRoleDropdownItems"
-                (saveUser)="saveUser($event.form)"
-                (changeVisibility)="changeVisibility($event.visibility)" />
-        </div>
+  <div class="col-12">
+    <div class="card">
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="'Users Page'" />
+      <app-advanced-table
+        [tableDatas]="users"
+        [globalFilterFields]="globalFilterFieldsData"
+        [tableColumnInfos]="tableColumnInfos"
+        [tableSummaryInfo]="tableSummaryInfo"
+        [tableSearchBoxPlaceHolder]="tableSearchBoxPlaceHolder"
+        (addRecord)="addRecord()"
+        (editRecord)="editRecord($event.tableData)"
+        (deleteRecord)="deleteRecord($event.tableData)"
+        (onGlobalFilter)="onGlobalFilter($event.table, $event.event)"
+      />
+      <app-user-dialog
+        [visibility]="userDialogVisibility"
+        [user]="userModel"
+        [userRoleDropdownItems]="userRoleDropdownItems"
+        (saveUser)="saveUser($event.form)"
+        (changeVisibility)="changeVisibility($event.visibility)"
+      />
     </div>
+  </div>
 </div>

@@ -1,5 +1,5 @@
 export class AppointmentDto {
-    id: string = "";
-    startDate: string = "";
-    endDate: string = "";
+  id: string = '';
+  startDate: string = '';
+  endDate: string = '';
 }

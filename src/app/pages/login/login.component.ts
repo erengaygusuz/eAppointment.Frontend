@@ -20,17 +20,19 @@ import { InputTextModule } from 'primeng/inputtext';
     PasswordModule,
     CheckboxModule,
     ButtonModule,
-    InputTextModule
+    InputTextModule,
   ],
   templateUrl: './login.component.html',
-  styles: [`
-        :host ::ng-deep .pi-eye,
-        :host ::ng-deep .pi-eye-slash {
-            transform:scale(1.6);
-            margin-right: 1rem;
-            color: var(--primary-color) !important;
-        }
-    `]
+  styles: [
+    `
+      :host ::ng-deep .pi-eye,
+      :host ::ng-deep .pi-eye-slash {
+        transform: scale(1.6);
+        margin-right: 1rem;
+        color: var(--primary-color) !important;
+      }
+    `,
+  ],
 })
 export class LoginComponent {
   login: LoginModel = new LoginModel();
@@ -40,19 +42,17 @@ export class LoginComponent {
   password!: string;
 
   constructor(
-    private http: HttpService, 
-    private router: Router, 
-    public layoutService: LayoutService)
-  {
+    private http: HttpService,
+    private router: Router,
+    public layoutService: LayoutService,
+  ) {}
 
-  }
-
-  signIn(form:NgForm){
-    if(form.valid){
-      this.http.post<LoginResponseModel>("auth/login", this.login, (res) => {
-        localStorage.setItem("token", res.data!.token);
-        this.router.navigateByUrl("/");
-      })
+  signIn(form: NgForm) {
+    if (form.valid) {
+      this.http.post<LoginResponseModel>('auth/login', this.login, (res) => {
+        localStorage.setItem('token', res.data!.token);
+        this.router.navigateByUrl('/');
+      });
     }
   }
 }

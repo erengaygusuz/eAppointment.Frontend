@@ -4,7 +4,12 @@ import { DoctorModel } from '../../models/doctor.model';
 import { departments } from '../../constants';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { MessageService, ConfirmationService, MenuItem, SelectItem } from 'primeng/api';
+import {
+  MessageService,
+  ConfirmationService,
+  MenuItem,
+  SelectItem,
+} from 'primeng/api';
 import { Table } from 'primeng/table';
 import { TableColumnInfoModel } from '../../models/table.column.info.model';
 import { DoctorDto } from '../../dtos/doctor.dto';
@@ -17,11 +22,7 @@ import { DoctorDialogComponent } from './partials/doctor-dialog/doctor-dialog.co
 @Component({
   selector: 'app-doctors',
   standalone: true,
-  imports: [
-    PageHeaderComponent,
-    AdvancedTableComponent,
-    DoctorDialogComponent
-  ],
+  imports: [PageHeaderComponent, AdvancedTableComponent, DoctorDialogComponent],
   templateUrl: './doctors.component.html',
   styleUrl: './doctors.component.css',
   providers: [MessageService, ConfirmationService],
@@ -42,22 +43,19 @@ export class DoctorsComponent implements OnInit {
   home: MenuItem | undefined;
 
   tableColumnInfos: TableColumnInfoModel[] = [
-      { 
-          columnName: 'Full Name', 
-          columnFieldName: 'fullName'
-      },
-      { 
-          columnName: 'Department Name', 
-          columnFieldName: 'department.name'
-      }
+    {
+      columnName: 'Full Name',
+      columnFieldName: 'fullName',
+    },
+    {
+      columnName: 'Department Name',
+      columnFieldName: 'department.name',
+    },
   ];
 
-  globalFilterFieldsData: string[] = [
-    'fullName', 
-    'department.name'
-  ];
+  globalFilterFieldsData: string[] = ['fullName', 'department.name'];
 
-  tableName: string = "doctorsTable";
+  tableName: string = 'doctorsTable';
 
   tableSummaryInfo: string = '';
 
@@ -66,43 +64,40 @@ export class DoctorsComponent implements OnInit {
   constructor(
     private http: HttpService,
     public auth: AuthService,
-    private messageService: MessageService, 
+    private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
   ) {}
 
   ngOnInit(): void {
     this.getAll();
 
-    this.items = [
-        { label: 'Doctors' }
-    ];
+    this.items = [{ label: 'Doctors' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
 
-    for (let i = 0; i < departments.length; i++){
-      this.departmentDropdownItems.push(
-        { 
-          label: departments[i].name, 
-          value: departments[i].value
-        }
-      )
+    for (let i = 0; i < departments.length; i++) {
+      this.departmentDropdownItems.push({
+        label: departments[i].name,
+        value: departments[i].value,
+      });
     }
-    
   }
 
   getAll() {
     this.http.post<DoctorModel[]>('doctors/getall', {}, (res) => {
-
       this.doctors = [];
 
       res.data.forEach((doctor: DoctorModel) => {
-        let doctorDto = this.mapper.map(DoctorMappingProfile.DomainToDto, doctor);
+        const doctorDto = this.mapper.map(
+          DoctorMappingProfile.DomainToDto,
+          doctor,
+        );
 
         this.doctors.push(doctorDto);
-      });      
+      });
 
-      this.tableSummaryInfo = `In total there are ${this.doctors ? this.doctors.length : 0 } doctors.`;
+      this.tableSummaryInfo = `In total there are ${this.doctors ? this.doctors.length : 0} doctors.`;
     });
   }
 
@@ -112,8 +107,10 @@ export class DoctorsComponent implements OnInit {
   }
 
   editRecord(doctor: DoctorDto) {
-
-    let doctorFromDoctorDto = this.mapper.map(DoctorMappingProfile.DtoToDomain, doctor);    
+    const doctorFromDoctorDto = this.mapper.map(
+      DoctorMappingProfile.DtoToDomain,
+      doctor,
+    );
 
     this.doctorModel = { ...doctorFromDoctorDto };
 
@@ -124,12 +121,11 @@ export class DoctorsComponent implements OnInit {
 
   saveDoctor(form: FormGroup) {
     if (form.valid) {
+      let url = '';
 
-      let url = "";
-
-      if(this.doctorModel.id == '' ){
+      if (this.doctorModel.id == '') {
         url = 'doctors/create';
-      }else{
+      } else {
         url = 'doctors/update';
       }
 
@@ -152,29 +148,36 @@ export class DoctorsComponent implements OnInit {
   }
 
   deleteRecord(doctor: DoctorDto) {
-    let doctorFromDoctorDto = this.mapper.map(DoctorMappingProfile.DtoToDomain, doctor);  
+    const doctorFromDoctorDto = this.mapper.map(
+      DoctorMappingProfile.DtoToDomain,
+      doctor,
+    );
 
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + doctorFromDoctorDto.fullName + '?',
+      message:
+        'Are you sure you want to delete ' + doctorFromDoctorDto.fullName + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.http.post<string>('doctors/deletebyid', { id: doctorFromDoctorDto.id }, (res) => {
+        this.http.post<string>(
+          'doctors/deletebyid',
+          { id: doctorFromDoctorDto.id },
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: `Doctor ${doctorFromDoctorDto.fullName} Deleted`,
+              life: 3000,
+            });
 
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: `Doctor ${doctorFromDoctorDto.fullName} Deleted`,
-            life: 3000,
-          });
-
-          this.getAll();
-        });
+            this.getAll();
+          },
+        );
       },
     });
   }
 
-  changeVisibility(visibility: boolean){
+  changeVisibility(visibility: boolean) {
     this.doctorDialogVisibility = visibility;
   }
 
