@@ -10,8 +10,8 @@ export const DoctorAuthGuard: CanActivateFn = () => {
   const roles = auth.tokenDecode.roles;
 
   if (
-    roles.filter((x) => x.name == 'Doctor') ||
-    roles.filter((x) => x.name == 'Admin')
+    roles.filter((x: any) => x.name == 'Doctor') ||
+    roles.filter((x: any) => x.name == 'Admin')
   ) {
     return true;
   } else {

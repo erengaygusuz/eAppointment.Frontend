@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResultModel } from '../models/result.model';
+import { ResultModel } from '../models/others/result.model';
 import { api } from '../constants';
 import { ErrorService } from './error.service';
 

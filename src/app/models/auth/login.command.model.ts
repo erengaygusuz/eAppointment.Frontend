@@ -1,4 +1,4 @@
-export class LoginModel {
+export class LoginCommandModel {
   userNameOrEmail: string = '';
   password: string = '';
 }

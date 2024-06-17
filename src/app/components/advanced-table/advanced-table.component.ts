@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TableColumnInfoModel } from '../../models/table.column.info.model';
+import { TableColumnInfoModel } from '../../models/others/table.column.info.model';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';

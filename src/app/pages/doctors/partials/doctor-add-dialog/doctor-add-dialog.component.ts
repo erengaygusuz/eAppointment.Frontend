@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DoctorModel } from '../../../../models/doctor.model';
 import { SelectItem } from 'primeng/api';
 import {
   FormControl,
@@ -13,9 +12,10 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { CreateUserCommandModel } from '../../../../models/users/create.user.command.model';
 
 @Component({
-  selector: 'app-doctor-dialog',
+  selector: 'app-doctor-add-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -26,27 +26,27 @@ import { InputTextModule } from 'primeng/inputtext';
     ButtonModule,
     InputTextModule,
   ],
-  templateUrl: './doctor-dialog.component.html',
-  styleUrl: './doctor-dialog.component.css',
+  templateUrl: './doctor-add-dialog.component.html',
+  styleUrl: './doctor-add-dialog.component.css',
 })
-export class DoctorDialogComponent {
+export class DoctorAddDialogComponent {
   title: string = 'Doctors Dialog';
 
   doctorForm: FormGroup;
 
   @Input() visibility: boolean = false;
-  @Input() doctor: DoctorModel = new DoctorModel();
+  @Input() doctor: CreateUserCommandModel = new CreateUserCommandModel();
   @Input() departmentDropdownItems: SelectItem[] = [];
 
-  @Output() saveDoctor = new EventEmitter<{ form: FormGroup }>();
-  @Output() changeVisibility = new EventEmitter<{ visibility: boolean }>();
+  @Output() addDoctor = new EventEmitter<{ form: FormGroup }>();
+  @Output() changeAddDialogVisibility = new EventEmitter<{ visibility: boolean }>();
 
   isFormSubmitted: boolean = false;
 
   onSubmit() {
     this.isFormSubmitted = true;
 
-    this.saveDoctor.emit({ form: this.doctorForm });
+    this.addDoctor.emit({ form: this.doctorForm });
   }
 
   constructor() {

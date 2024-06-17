@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http.service';
-import { DoctorModel } from '../../models/doctor.model';
-import { departments } from '../../constants';
 import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import {
@@ -11,32 +9,37 @@ import {
   SelectItem,
 } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { TableColumnInfoModel } from '../../models/table.column.info.model';
-import { DoctorDto } from '../../dtos/doctor.dto';
-import { Mapper } from '@dynamic-mapper/angular';
-import { DoctorMappingProfile } from '../../mapping/doctor.mapping.profile';
+import { TableColumnInfoModel } from '../../models/others/table.column.info.model';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { AdvancedTableComponent } from '../../components/advanced-table/advanced-table.component';
-import { DoctorDialogComponent } from './partials/doctor-dialog/doctor-dialog.component';
+import { DoctorAddDialogComponent } from './partials/doctor-add-dialog/doctor-add-dialog.component';
+import { GetAllDoctorsQueryResponseModel } from '../../models/doctors/get.all.doctors.query.response.model';
+import { CreateUserCommandModel } from '../../models/users/create.user.command.model';
+import { GetDoctorByIdQueryResponseModel } from '../../models/doctors/get.doctor.by.id.query.response.model';
+import { DoctorEditDialogComponent } from './partials/doctor-edit-dialog/doctor-edit-dialog.component';
+import { DeleteDoctorByIdCommandModel } from '../../models/doctors/delete.doctor.by.id.command.model';
+import { UpdateDoctorCommandModel } from '../../models/doctors/update.doctor.command.model';
 
 @Component({
   selector: 'app-doctors',
   standalone: true,
-  imports: [PageHeaderComponent, AdvancedTableComponent, DoctorDialogComponent],
+  imports: [PageHeaderComponent, AdvancedTableComponent, DoctorAddDialogComponent, DoctorEditDialogComponent],
   templateUrl: './doctors.component.html',
   styleUrl: './doctors.component.css',
   providers: [MessageService, ConfirmationService],
 })
 export class DoctorsComponent implements OnInit {
-  doctors: DoctorDto[] = [];
+  doctors: GetAllDoctorsQueryResponseModel[] = [];
+  doctor: GetDoctorByIdQueryResponseModel = new GetDoctorByIdQueryResponseModel();
 
-  departments = departments;
+  createUserCommandModel = new CreateUserCommandModel();
+  updateDoctorCommandModel = new UpdateDoctorCommandModel();
+  deleteDoctorByIdCommandModel = new DeleteDoctorByIdCommandModel();
+
+  doctorAddDialogVisibility: boolean = false;
+  doctorEditDialogVisibility: boolean = false;
 
   departmentDropdownItems: SelectItem[] = [];
-
-  doctorModel = new DoctorModel();
-
-  doctorDialogVisibility: boolean = false;
 
   items: MenuItem[] | undefined;
 
@@ -65,8 +68,7 @@ export class DoctorsComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
-    private readonly mapper: Mapper,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -75,61 +77,42 @@ export class DoctorsComponent implements OnInit {
     this.items = [{ label: 'Doctors' }];
 
     this.home = { icon: 'pi pi-home', routerLink: '/' };
-
-    for (let i = 0; i < departments.length; i++) {
-      this.departmentDropdownItems.push({
-        label: departments[i].name,
-        value: departments[i].value,
-      });
-    }
   }
 
   getAll() {
-    this.http.post<DoctorModel[]>('doctors/getall', {}, (res) => {
+    this.http.post<GetAllDoctorsQueryResponseModel[]>('doctors/getall', {}, (res) => {
       this.doctors = [];
 
-      res.data.forEach((doctor: DoctorModel) => {
-        const doctorDto = this.mapper.map(
-          DoctorMappingProfile.DomainToDto,
-          doctor,
-        );
-
-        this.doctors.push(doctorDto);
-      });
+      this.doctors = res.data;
 
       this.tableSummaryInfo = `In total there are ${this.doctors ? this.doctors.length : 0} doctors.`;
     });
   }
 
+  getById(id: string) {
+    this.http.post<GetDoctorByIdQueryResponseModel>('doctors/getbyid', { id: id }, (res) => {
+      this.doctor = new GetDoctorByIdQueryResponseModel();
+
+      this.doctor = res.data;
+    });
+  }
+
   addRecord() {
-    this.doctorModel = new DoctorModel();
-    this.doctorDialogVisibility = true;
+    this.createUserCommandModel = new CreateUserCommandModel();
+    this.doctorAddDialogVisibility = true;
   }
 
-  editRecord(doctor: DoctorDto) {
-    const doctorFromDoctorDto = this.mapper.map(
-      DoctorMappingProfile.DtoToDomain,
-      doctor,
-    );
+  editRecord(getAllDoctorsQueryResponseModel: GetAllDoctorsQueryResponseModel) {
 
-    this.doctorModel = { ...doctorFromDoctorDto };
+    this.getById(getAllDoctorsQueryResponseModel.id);
 
-    this.doctorModel.departmentValue = doctorFromDoctorDto.department.value;
-
-    this.doctorDialogVisibility = true;
+    this.doctorEditDialogVisibility = true;
   }
 
-  saveDoctor(form: FormGroup) {
+  addDoctor(form: FormGroup) {
     if (form.valid) {
-      let url = '';
 
-      if (this.doctorModel.id == '') {
-        url = 'doctors/create';
-      } else {
-        url = 'doctors/update';
-      }
-
-      this.http.post(url, this.doctorModel, (res) => {
+      this.http.post('doctors/create', this.createUserCommandModel, (res) => {
         console.log(res);
 
         this.messageService.add({
@@ -141,32 +124,51 @@ export class DoctorsComponent implements OnInit {
 
         this.getAll();
 
-        this.doctorDialogVisibility = false;
-        this.doctorModel = new DoctorModel();
+        this.doctorAddDialogVisibility = false;
+        this.createUserCommandModel = new CreateUserCommandModel();
       });
     }
   }
 
-  deleteRecord(doctor: DoctorDto) {
-    const doctorFromDoctorDto = this.mapper.map(
-      DoctorMappingProfile.DtoToDomain,
-      doctor,
-    );
+  updateDoctor(form: FormGroup) {
+    if (form.valid) {
+
+      this.http.post('doctors/update', this.updateDoctorCommandModel, (res) => {
+        console.log(res);
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: res.data,
+          life: 3000,
+        });
+
+        this.getAll();
+
+        this.doctorEditDialogVisibility = false;
+        this.updateDoctorCommandModel = new UpdateDoctorCommandModel();
+      });
+    }
+  }
+
+  deleteRecord(getAllDoctorsQueryResponseModel: GetAllDoctorsQueryResponseModel) {
+
+    const fullName = getAllDoctorsQueryResponseModel.firstName + " " + getAllDoctorsQueryResponseModel.lastName;
 
     this.confirmationService.confirm({
       message:
-        'Are you sure you want to delete ' + doctorFromDoctorDto.fullName + '?',
+        'Are you sure you want to delete ' + fullName + '?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.http.post<string>(
           'doctors/deletebyid',
-          { id: doctorFromDoctorDto.id },
+          { id: this.deleteDoctorByIdCommandModel.id },
           () => {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
-              detail: `Doctor ${doctorFromDoctorDto.fullName} Deleted`,
+              detail: `Doctor ${fullName} Deleted`,
               life: 3000,
             });
 
@@ -177,8 +179,12 @@ export class DoctorsComponent implements OnInit {
     });
   }
 
-  changeVisibility(visibility: boolean) {
-    this.doctorDialogVisibility = visibility;
+  changeAddDialogVisibility(visibility: boolean) {
+    this.doctorAddDialogVisibility = visibility;
+  }
+
+  changeEditDialogVisibility(visibility: boolean) {
+    this.doctorEditDialogVisibility = visibility;
   }
 
   onGlobalFilter(table: Table, event: Event) {

@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { TableColumnInfoModel } from '../../models/table.column.info.model';
+import { TableColumnInfoModel } from '../../models/others/table.column.info.model';
 import { PatientDto } from '../../dtos/patient.dto';
 import { Mapper } from '@dynamic-mapper/angular';
 import { PatientMappingProfile } from '../../mapping/patient.mapping.profile';

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { LoginModel } from '../../models/login.model';
+import { LoginCommandModel } from '../../models/auth/login.command.model';
 import { HttpService } from '../../services/http.service';
-import { LoginResponseModel } from '../../models/login.response.model';
+import { LoginCommandResponseModel } from '../../models/auth/login.command.response.model';
 import { Router } from '@angular/router';
 import { LayoutService } from '../../services/app.layout.service';
 import { CommonModule } from '@angular/common';
@@ -35,7 +35,7 @@ import { InputTextModule } from 'primeng/inputtext';
   ],
 })
 export class LoginComponent {
-  login: LoginModel = new LoginModel();
+  login: LoginCommandModel = new LoginCommandModel();
 
   valCheck: string[] = ['remember'];
 
@@ -49,7 +49,7 @@ export class LoginComponent {
 
   signIn(form: NgForm) {
     if (form.valid) {
-      this.http.post<LoginResponseModel>('auth/login', this.login, (res) => {
+      this.http.post<LoginCommandResponseModel>('auth/login', this.login, (res) => {
         localStorage.setItem('token', res.data!.token);
         this.router.navigateByUrl('/');
       });

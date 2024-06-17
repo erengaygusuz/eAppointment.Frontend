@@ -9,7 +9,7 @@ export const AdminAuthGuard: CanActivateFn = () => {
 
   const roles = auth.tokenDecode.roles;
 
-  if (roles.filter((x) => x.name == 'Admin')) {
+  if (roles.filter((x: any) => x.name == 'Admin')) {
     return true;
   } else {
     router.navigateByUrl('/unauthorized');

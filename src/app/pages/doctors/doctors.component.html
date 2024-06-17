@@ -13,12 +13,19 @@
         (deleteRecord)="deleteRecord($event.tableData)"
         (onGlobalFilter)="onGlobalFilter($event.table, $event.event)"
       />
-      <app-doctor-dialog
-        [visibility]="doctorDialogVisibility"
-        [doctor]="doctorModel"
+      <app-doctor-add-dialog
+        [visibility]="doctorAddDialogVisibility"
+        [doctor]="createUserCommandModel"
         [departmentDropdownItems]="departmentDropdownItems"
-        (saveDoctor)="saveDoctor($event.form)"
-        (changeVisibility)="changeVisibility($event.visibility)"
+        (addDoctor)="addDoctor($event.form)"
+        (changeAddDialogVisibility)="changeAddDialogVisibility($event.visibility)"
+      />
+      <app-doctor-edit-dialog
+        [visibility]="doctorEditDialogVisibility"
+        [doctor]="updateDoctorCommandModel"
+        [departmentDropdownItems]="departmentDropdownItems"
+        (updateDoctor)="updateDoctor($event.form)"
+        (changeEditDialogVisibility)="changeEditDialogVisibility($event.visibility)"
       />
     </div>
   </div>
