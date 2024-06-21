@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { TokenModel } from '../models/token.model';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
+import { TokenModel } from '../models/others/token.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
   tokenDecode: TokenModel = new TokenModel();
@@ -37,8 +37,8 @@ export class AuthService {
           'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
         ];
       this.tokenDecode.userName = decode['UserName'];
-      this.tokenDecode.roles = JSON.parse(
-        decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
+      this.tokenDecode.role = JSON.parse(
+        decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
       );
 
       return true;

@@ -1,9 +1,9 @@
-import { RoleModel } from './role.model';
+import { GetAllRolesQueryResponseModel } from '../roles/get.all.roles.query.response.model';
 
 export class TokenModel {
   id: string = '';
   name: string = '';
   email: string = '';
   userName: string = '';
-  roles: RoleModel[] = [];
+  role: GetAllRolesQueryResponseModel = new GetAllRolesQueryResponseModel();
 }

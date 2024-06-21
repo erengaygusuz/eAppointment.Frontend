@@ -8,7 +8,7 @@ import { AppMenuitemComponent } from '../menu-item/app.menuitem.component';
   selector: 'app-menu',
   standalone: true,
   imports: [CommonModule, AppMenuitemComponent],
-  templateUrl: './app.menu.component.html',
+  templateUrl: './app.menu.component.html'
 })
 export class AppMenuComponent implements OnInit {
   model: any[] = [];
@@ -22,25 +22,42 @@ export class AppMenuComponent implements OnInit {
           {
             label: 'Home',
             icon: 'pi pi-fw fa-solid fa-house',
-            routerLink: ['/'],
+            routerLink: ['/']
           },
           {
-            label: 'Doctors',
-            icon: 'pi pi-fw fa-solid fa-user-doctor',
-            routerLink: ['/doctors'],
-          },
-          {
-            label: 'Patients',
-            icon: 'pi pi-fw fa-solid fa-bed',
-            routerLink: ['/patients'],
-          },
-          {
-            label: 'Users',
+            label: 'User',
             icon: 'pi pi-fw fa-solid fa-user',
-            routerLink: ['/users'],
-          },
-        ],
-      },
+            items: [
+              {
+                label: 'All Users',
+                icon: 'pi pi-fw fa-solid fa-users',
+                routerLink: ['/users']
+              },
+              {
+                label: 'Create User',
+                icon: 'pi pi-fw fa-solid fa-user-plus',
+                items: [
+                  {
+                    label: 'Create Admin',
+                    icon: 'pi pi-fw fa-solid fa-user-tie',
+                    routerLink: ['/users/admin']
+                  },
+                  {
+                    label: 'Create Doctor',
+                    icon: 'pi pi-fw fa-solid fa-user-doctor',
+                    routerLink: ['/users/doctor']
+                  },
+                  {
+                    label: 'Create Patient',
+                    icon: 'pi pi-fw fa-solid fa-bed',
+                    routerLink: ['/users/patient']
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     ];
   }
 }

@@ -6,6 +6,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-advanced-table',
@@ -17,9 +18,10 @@ import { InputTextModule } from 'primeng/inputtext';
     ToolbarModule,
     ToastModule,
     InputTextModule,
+    RouterModule
   ],
   templateUrl: './advanced-table.component.html',
-  styleUrl: './advanced-table.component.css',
+  styleUrl: './advanced-table.component.css'
 })
 export class AdvancedTableComponent {
   @Input() tableDatas: any;
@@ -28,7 +30,6 @@ export class AdvancedTableComponent {
   @Input() columnFieldName: string = '';
   @Input() tableColumnInfos: TableColumnInfoModel[] = [];
 
-  @Output() addRecord = new EventEmitter<any>();
   @Output() onGlobalFilter = new EventEmitter<{ table: Table; event: Event }>();
 
   @Input() tableData: any;
@@ -38,6 +39,8 @@ export class AdvancedTableComponent {
 
   @Input() tableSummaryInfo: string = '';
   @Input() tableSearchBoxPlaceHolder: string = '';
+
+  @Input() routePath: string = '';
 
   getTableColumnData<T>(model: T): object[] {
     const tempDataList: any[] = [];

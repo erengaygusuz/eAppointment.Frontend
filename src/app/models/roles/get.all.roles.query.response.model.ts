@@ -1,4 +1,4 @@
 export class GetAllRolesQueryResponseModel {
-    id: string = "";
-    name: string = "";
+  id: string = '';
+  name: string = '';
 }

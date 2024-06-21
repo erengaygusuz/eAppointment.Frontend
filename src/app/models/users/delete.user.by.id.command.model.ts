@@ -1,3 +1,3 @@
 export class DeleteUserByIdCommandModel {
-    id: string = "";
+  id: string = '';
 }

@@ -4,22 +4,19 @@
   header="{{ title }}"
   [modal]="true"
   styleClass="p-fluid"
-  (onHide)="this.changeVisibility.emit({ visibility: false })"
->
+  (onHide)="this.changeVisibility.emit({ visibility: false })">
   <ng-template pTemplate="content">
-    <form
+    <!-- <form
       (ngSubmit)="onSubmit()"
       autocomplete="off"
-      [formGroup]="appointmentForm"
-    >
+      [formGroup]="appointmentForm">
       <div class="field">
         <label for="appointment.startDate">Start Date</label>
         <input
           type="text"
           pInputText
           value="{{ appointment.startDate }}"
-          disabled
-        />
+          disabled />
       </div>
       <div class="field">
         <label for="appointment.endDate">End Date</label>
@@ -27,8 +24,7 @@
           type="text"
           pInputText
           value="{{ appointment.endDate }}"
-          disabled
-        />
+          disabled />
       </div>
       <div class="field">
         <label for="appointment.identityNumber">Identity Number</label>
@@ -37,16 +33,14 @@
           pInputText
           [(ngModel)]="appointment.identityNumber"
           required
-          formControlName="identityNumber"
-        />
+          formControlName="identityNumber" />
         <div
           *ngIf="
             appointmentForm.controls['identityNumber'].invalid &&
             (isFormSubmitted ||
               appointmentForm.controls['identityNumber'].touched ||
               appointmentForm.controls['identityNumber'].dirty)
-          "
-        >
+          ">
           <small
             class="p-error"
             *ngIf="
@@ -63,16 +57,14 @@
           pInputText
           [(ngModel)]="appointment.firstName"
           required
-          formControlName="firstname"
-        />
+          formControlName="firstname" />
         <div
           *ngIf="
             appointmentForm.controls['firstname'].invalid &&
             (isFormSubmitted ||
               appointmentForm.controls['firstname'].touched ||
               appointmentForm.controls['firstname'].dirty)
-          "
-        >
+          ">
           <small
             class="p-error"
             *ngIf="appointmentForm.controls['firstname'].errors?.['required']"
@@ -87,16 +79,14 @@
           pInputText
           [(ngModel)]="appointment.lastName"
           required
-          formControlName="lastname"
-        />
+          formControlName="lastname" />
         <div
           *ngIf="
             appointmentForm.controls['lastname'].invalid &&
             (isFormSubmitted ||
               appointmentForm.controls['lastname'].touched ||
               appointmentForm.controls['lastname'].dirty)
-          "
-        >
+          ">
           <small
             class="p-error"
             *ngIf="appointmentForm.controls['lastname'].errors?.['required']"
@@ -111,16 +101,14 @@
           pInputText
           [(ngModel)]="appointment.city"
           required
-          formControlName="city"
-        />
+          formControlName="city" />
         <div
           *ngIf="
             appointmentForm.controls['city'].invalid &&
             (isFormSubmitted ||
               appointmentForm.controls['city'].touched ||
               appointmentForm.controls['city'].dirty)
-          "
-        >
+          ">
           <small
             class="p-error"
             *ngIf="appointmentForm.controls['city'].errors?.['required']"
@@ -135,16 +123,14 @@
           pInputText
           [(ngModel)]="appointment.town"
           required
-          formControlName="town"
-        />
+          formControlName="town" />
         <div
           *ngIf="
             appointmentForm.controls['town'].invalid &&
             (isFormSubmitted ||
               appointmentForm.controls['town'].touched ||
               appointmentForm.controls['town'].dirty)
-          "
-        >
+          ">
           <small
             class="p-error"
             *ngIf="appointmentForm.controls['town'].errors?.['required']"
@@ -159,16 +145,14 @@
           pInputTextarea
           [(ngModel)]="appointment.fullAddress"
           required
-          formControlName="fullAddress"
-        ></textarea>
+          formControlName="fullAddress"></textarea>
         <div
           *ngIf="
             appointmentForm.controls['fullAddress'].invalid &&
             (isFormSubmitted ||
               appointmentForm.controls['fullAddress'].touched ||
               appointmentForm.controls['fullAddress'].dirty)
-          "
-        >
+          ">
           <small
             class="p-error"
             *ngIf="appointmentForm.controls['fullAddress'].errors?.['required']"
@@ -182,16 +166,14 @@
           label="Cancel"
           icon="pi pi-times"
           [text]="true"
-          (click)="this.changeVisibility.emit({ visibility: false })"
-        />
+          (click)="this.changeVisibility.emit({ visibility: false })" />
         <p-button
           pRipple
           label="Save"
           icon="pi pi-check"
           [text]="true"
-          type="submit"
-        />
+          type="submit" />
       </div>
-    </form>
+    </form> -->
   </ng-template>
 </p-dialog>

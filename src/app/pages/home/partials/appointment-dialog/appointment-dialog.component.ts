@@ -4,15 +4,15 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { CreateAppointmentModel } from '../../../../models/create.appointment.model';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
+import { CreateAppointmentCommandModel } from '../../../../models/appointments/create.appointment.command.model';
 
 @Component({
   selector: 'app-appointment-dialog',
@@ -25,10 +25,10 @@ import { CalendarModule } from 'primeng/calendar';
     ButtonModule,
     InputTextModule,
     InputTextareaModule,
-    CalendarModule,
+    CalendarModule
   ],
   templateUrl: './appointment-dialog.component.html',
-  styleUrl: './appointment-dialog.component.css',
+  styleUrl: './appointment-dialog.component.css'
 })
 export class AppointmentDialogComponent {
   title: string = 'Appointment Dialog';
@@ -36,7 +36,7 @@ export class AppointmentDialogComponent {
   appointmentForm: FormGroup;
 
   @Input() visibility: boolean = false;
-  @Input() appointment = new CreateAppointmentModel();
+  @Input() appointment = new CreateAppointmentCommandModel();
 
   @Output() saveAppointment = new EventEmitter<{ form: FormGroup }>();
   @Output() changeVisibility = new EventEmitter<{ visibility: boolean }>();
@@ -56,7 +56,7 @@ export class AppointmentDialogComponent {
       lastname: new FormControl('', [Validators.required]),
       city: new FormControl('', [Validators.required]),
       town: new FormControl('', [Validators.required]),
-      fullAddress: new FormControl('', [Validators.required]),
+      fullAddress: new FormControl('', [Validators.required])
     });
   }
 }

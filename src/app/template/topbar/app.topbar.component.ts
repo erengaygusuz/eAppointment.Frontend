@@ -8,14 +8,14 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { RoleModel } from '../../models/role.model';
 import { HttpService } from '../../services/http.service';
+import { GetAllRolesQueryResponseModel } from '../../models/roles/get.all.roles.query.response.model';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
   imports: [CommonModule, DropdownModule, FormsModule],
-  templateUrl: './app.topbar.component.html',
+  templateUrl: './app.topbar.component.html'
 })
 export class AppTopBarComponent implements OnInit {
   items!: MenuItem[];
@@ -42,7 +42,7 @@ export class AppTopBarComponent implements OnInit {
     private themeService: ThemeService,
     public authService: AuthService,
     private router: Router,
-    private http: HttpService,
+    private http: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -51,7 +51,7 @@ export class AppTopBarComponent implements OnInit {
     this.countries = [
       { name: 'Turkey', code: 'TR' },
       { name: 'United Kingdoms', code: 'GB' },
-      { name: 'United States', code: 'US' },
+      { name: 'United States', code: 'US' }
     ];
 
     this.selectedCountry = this.countries[0];
@@ -78,16 +78,16 @@ export class AppTopBarComponent implements OnInit {
   }
 
   getUserRoles(id: string) {
-    this.http.post<RoleModel[]>(
+    this.http.post<GetAllRolesQueryResponseModel[]>(
       'users/getallrolesbyuserid',
       { id: id },
-      (res) => {
+      res => {
         this.userRoles = res.data
-          .map((role: RoleModel) => {
+          .map((role: GetAllRolesQueryResponseModel) => {
             return role.name;
           })
           .join(',');
-      },
+      }
     );
   }
 }

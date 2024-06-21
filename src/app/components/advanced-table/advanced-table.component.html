@@ -1,14 +1,5 @@
 <p-toolbar styleClass="mb-4 gap-2">
-  <ng-template pTemplate="left">
-    <p-button
-      pRipple
-      severity="success"
-      label="New"
-      icon="pi pi-plus"
-      class="mr-2"
-      (click)="this.addRecord.emit()"
-    />
-  </ng-template>
+  <ng-template pTemplate="left"> </ng-template>
   <ng-template pTemplate="right">
     <span class="p-input-icon-left mb-2">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -18,8 +9,7 @@
         #filter
         (input)="this.onGlobalFilter.emit({ table: tableName, event: $event })"
         placeholder="{{ tableSearchBoxPlaceHolder }}"
-        class="w-full"
-      />
+        class="w-full" />
     </span>
   </ng-template>
 </p-toolbar>
@@ -34,15 +24,13 @@
   [rowHover]="false"
   dataKey="id"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [showCurrentPageReport]="true"
->
+  [showCurrentPageReport]="true">
   <ng-template pTemplate="header">
     <tr>
       @for (tableColumnInfo of tableColumnInfos; track tableColumnInfo) {
         <th pSortableColumn="{{ tableColumnInfo.columnFieldName }}">
           <div
-            class="flex justify-content-between align-items-center flex-wrap"
-          >
+            class="flex justify-content-between align-items-center flex-wrap">
             <div class="flex align-items-center justify-content-center">
               <span>{{ tableColumnInfo.columnName }}</span>
             </div>
@@ -51,8 +39,9 @@
                 type="text"
                 field="{{ tableColumnInfo.columnFieldName }}"
                 display="menu"
-                placeholder="Search by {{ tableColumnInfo.columnName }}"
-              ></p-columnFilter>
+                placeholder="Search by {{
+                  tableColumnInfo.columnName
+                }}"></p-columnFilter>
               <p-sortIcon field="{{ tableColumnInfo.columnFieldName }}" />
             </div>
           </div>
@@ -80,16 +69,14 @@
             [rounded]="true"
             [outlined]="true"
             severity="success"
-            (click)="this.editRecord.emit({ tableData: tableData })"
-          />
+            [routerLink]="[routePath, tableData.id]" />
           <p-button
             pRipple
             icon="fa-solid fa-trash"
             severity="danger"
             [rounded]="true"
             [outlined]="true"
-            (click)="this.deleteRecord.emit({ tableData: tableData })"
-          />
+            (click)="this.deleteRecord.emit({ tableData: tableData })" />
         </div>
       </td>
     </tr>

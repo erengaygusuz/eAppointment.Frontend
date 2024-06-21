@@ -1,0 +1,203 @@
+<!-- <div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="'Users Page'" />
+      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="userForm">
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.firstName">Firstname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.firstName"
+              required
+              formControlName="firstname" />
+            <div
+              *ngIf="
+                userForm.controls['firstname'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['firstname'].touched ||
+                  userForm.controls['firstname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['firstname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.lastName">Lastname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.lastName"
+              required
+              formControlName="lastname" />
+            <div
+              *ngIf="
+                userForm.controls['lastname'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['lastname'].touched ||
+                  userForm.controls['lastname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['lastname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.userName">Username</label>
+            <input
+              pInputText
+              type="text"
+              value="{{ user.userName }}"
+              [disabled]="true" />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.email">E-mail</label>
+            <input
+              pInputText
+              type="text"
+              value="{{ user.email }}"
+              [disabled]="true" />
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="user.phoneNumber"
+              required
+              formControlName="phoneNumber" />
+            <div
+              *ngIf="
+                userForm.controls['phoneNumber'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['phoneNumber'].touched ||
+                  userForm.controls['phoneNumber'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['phoneNumber'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.roles">Role</label>
+            <p-dropdown
+              [options]="userRoles"
+              [(ngModel)]="selectedUserRole"
+              optionLabel="name"
+              placeholder="Select a Role"
+              required
+              formControlName="role"
+              appendTo="body" />
+            <div *ngIf="userForm.controls['role'].invalid && isFormSubmitted">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['role'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12">
+            <label htmlFor="department">Department</label>
+            <p-dropdown
+              [options]="departments"
+              [(ngModel)]="selectedDepartment"
+              optionLabel="name"
+              placeholder="Select a Department"
+              required
+              formControlName="department"
+              appendTo="body" />
+            <div
+              *ngIf="
+                userForm.controls['department'].invalid && isFormSubmitted
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['department'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label htmlFor="city">City</label>
+            <p-dropdown
+              [options]="cities"
+              [(ngModel)]="selectedCity"
+              optionLabel="name"
+              placeholder="Select a City"
+              required
+              formControlName="city"
+              appendTo="body" />
+            <div *ngIf="userForm.controls['city'].invalid && isFormSubmitted">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['city'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="county">County</label>
+            <p-dropdown
+              [options]="counties"
+              optionLabel="name"
+              placeholder="Select a County"
+              required
+              formControlName="county"
+              appendTo="body" />
+            <div *ngIf="userForm.controls['county'].invalid && isFormSubmitted">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['county'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="fullAddress">Full Address</label>
+            <textarea
+              rows="5"
+              cols="30"
+              pInputTextarea
+              [(ngModel)]="user.fullAddress"
+              required
+              formControlName="fullAddress">
+            </textarea>
+            <div
+              *ngIf="
+                userForm.controls['fullAddress'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['fullAddress'].touched ||
+                  userForm.controls['fullAddress'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['fullAddress'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="flex align-items-end justify-content-end mt-5">
+          <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" />
+          <p-button
+            pRipple
+            label="Save"
+            icon="pi pi-check"
+            [text]="true"
+            type="submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->

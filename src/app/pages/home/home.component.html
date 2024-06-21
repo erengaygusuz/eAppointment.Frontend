@@ -3,17 +3,15 @@
     <div class="card">
       <app-page-header
         [breadcrumbItems]="items"
-        [pageTitle]="'Appointment Page'"
-      />
-      <p-dropdown
+        [pageTitle]="'Appointment Page'" />
+      <!-- <p-dropdown
         appendTo="body"
         [options]="departmentDropdownItems"
         [(ngModel)]="selectedDepartment"
         optionLabel="name"
         (onChange)="getAllDoctorByDepartment()"
         placeholder="Select a Department"
-        required
-      >
+        required>
       </p-dropdown>
 
       @if (selectedDepartment.value > 0) {
@@ -28,8 +26,7 @@
             optionLabel="fullName"
             (onChange)="getAllAppointmentsByDoctorId()"
             placeholder="Select a Doctor"
-            required
-          >
+            required>
           </p-dropdown>
         }
       }
@@ -38,16 +35,14 @@
         <full-calendar
           #appointmentCalendar
           [options]="calendarOptions"
-          class="mt-5"
-        ></full-calendar>
-      }
+          class="mt-5"></full-calendar>
+      } -->
 
       <app-appointment-dialog
         [visibility]="appointmentDialogVisibility"
         [appointment]="createAppointmentModel"
         (saveAppointment)="saveAppointment($event.form)"
-        (changeVisibility)="changeVisibility($event.visibility)"
-      />
+        (changeVisibility)="changeVisibility($event.visibility)" />
     </div>
   </div>
 </div>

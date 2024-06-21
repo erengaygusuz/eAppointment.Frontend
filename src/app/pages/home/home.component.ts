@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { departments } from '../../constants';
-import { DepartmentModel, DoctorModel } from '../../models/doctor.model';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpService } from '../../services/http.service';
-import { AppointmentModel } from '../../models/appointment.model';
-import { CreateAppointmentModel } from '../../models/create.appointment.model';
 import { SwalService } from '../../services/swal.service';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -13,13 +9,19 @@ import { CalendarOptions } from '@fullcalendar/core';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import {
   FullCalendarComponent,
-  FullCalendarModule,
+  FullCalendarModule
 } from '@fullcalendar/angular';
 import { TopBarService } from '../../services/topbar.service';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { AppointmentDialogComponent } from './partials/appointment-dialog/appointment-dialog.component';
 import { ToastModule } from 'primeng/toast';
+import { GetAllDepartmentsQueryResponseModel } from '../../models/departments/get.all.departments.query.response.model';
+import { GetAllDoctorsByDepartmentIdQueryResponseModel } from '../../models/doctors/get.all.doctors.by.department.id.query.response.model';
+import { GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel } from '../../models/appointments/get.all.appointments.by.doctor.id.and.by.status.query.response.model';
+import { GetDoctorByIdQueryResponseModel } from '../../models/doctors/get.doctor.by.id.query.response.model';
+import { CreateAppointmentCommandModel } from '../../models/appointments/create.appointment.command.model';
+import { isGuid } from 'check-guid';
 
 @Component({
   selector: 'app-home',
@@ -32,11 +34,11 @@ import { ToastModule } from 'primeng/toast';
     DropdownModule,
     FullCalendarModule,
     AppointmentDialogComponent,
-    ToastModule,
+    ToastModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  providers: [DatePipe, MessageService, ConfirmationService],
+  providers: [DatePipe, MessageService, ConfirmationService]
 })
 export class HomeComponent implements OnInit {
   calendarOptions: CalendarOptions = {
@@ -46,29 +48,34 @@ export class HomeComponent implements OnInit {
     slotMaxTime: '18:00:00',
     hiddenDays: [0, 6],
     plugins: [timeGridPlugin, interactionPlugin],
-    dateClick: (arg) => this.handleDateClick(arg),
-    eventDrop: (arg) => this.handleEventDrop(arg),
-    eventClick: (arg) => this.handleEventClick(arg),
+    dateClick: arg => this.handleDateClick(arg),
+    eventDrop: arg => this.handleEventDrop(arg),
+    eventClick: arg => this.handleEventClick(arg),
     editable: true,
     expandRows: true,
     headerToolbar: {
       left: 'prev,next',
       center: 'title',
-      right: 'timeGridWeek,timeGridDay',
+      right: 'timeGridWeek,timeGridDay'
     },
-    events: [],
+    events: []
   };
 
-  departments = departments;
-  doctors: DoctorModel[] = [];
+  departments: GetAllDepartmentsQueryResponseModel[] = [];
+  doctors: GetAllDoctorsByDepartmentIdQueryResponseModel[] = [];
 
-  selectedDepartment: DepartmentModel = new DepartmentModel();
-  selectedDoctor: DoctorModel = new DoctorModel();
+  selectedDepartment: GetAllDepartmentsQueryResponseModel =
+    new GetAllDepartmentsQueryResponseModel();
 
-  appointments: AppointmentModel[] = [];
+  selectedDoctor: GetDoctorByIdQueryResponseModel =
+    new GetDoctorByIdQueryResponseModel();
 
-  createAppointmentModel = new CreateAppointmentModel();
-  selectedAppointment = new AppointmentModel();
+  appointments: GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel[] =
+    [];
+
+  createAppointmentModel = new CreateAppointmentCommandModel();
+  selectedAppointment =
+    new GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel();
 
   appointmentDialogVisibility: boolean = false;
 
@@ -81,14 +88,12 @@ export class HomeComponent implements OnInit {
 
   selectedEndDateStr: string = '';
 
-  departmentDropdownItems: DepartmentModel[] = [];
-
   constructor(
     private http: HttpService,
     private date: DatePipe,
     private swal: SwalService,
     private topbarService: TopBarService,
-    private messageService: MessageService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -99,13 +104,6 @@ export class HomeComponent implements OnInit {
     this.topbarService.subject.subscribe(() => {
       this.updateCalendarSize();
     });
-
-    for (let i = 0; i < departments.length; i++) {
-      this.departmentDropdownItems.push({
-        name: departments[i].name,
-        value: departments[i].value,
-      });
-    }
   }
 
   handleDateClick(arg: any) {
@@ -117,27 +115,27 @@ export class HomeComponent implements OnInit {
       id: arg.event.id,
       startDate:
         this.date.transform(arg.event.startStr, 'dd.MM.yyyy HH:mm') ?? '',
-      endDate: this.date.transform(arg.event.endStr, 'dd.MM.yyyy HH:mm') ?? '',
+      endDate: this.date.transform(arg.event.endStr, 'dd.MM.yyyy HH:mm') ?? ''
     };
 
     this.http.post(
       'appointments/update',
       data,
-      (res) => {
+      res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
           detail: res.data,
-          life: 3000,
+          life: 3000
         });
 
-        this.createAppointmentModel = new CreateAppointmentModel();
+        //this.createAppointmentModel = new CreateAppointmentModel();
 
         this.getAllAppointmentsByDoctorId();
       },
       () => {
         this.getAllAppointmentsByDoctorId();
-      },
+      }
     );
   }
 
@@ -152,33 +150,33 @@ export class HomeComponent implements OnInit {
   }
 
   addRecord(arg: any) {
-    this.createAppointmentModel = new CreateAppointmentModel();
-    this.createAppointmentModel.startDate =
-      this.date.transform(arg.dateStr, 'dd.MM.yyyy HH:mm') ?? '';
+    // this.createAppointmentModel = new CreateAppointmentCommandModel();
+    // this.createAppointmentModel.startDate =
+    //   this.date.transform(arg.dateStr, 'dd.MM.yyyy HH:mm') ?? '';
 
-    const endDate: Date = new Date(arg.date);
-    endDate.setMinutes(endDate.getMinutes() + 30);
+    // const endDate: Date = new Date(arg.date);
+    // endDate.setMinutes(endDate.getMinutes() + 30);
 
-    this.createAppointmentModel.endDate =
-      this.date.transform(endDate, 'dd.MM.yyyy HH:mm') ?? '';
-    this.createAppointmentModel.doctorId = this.selectedDoctor.id;
+    // this.createAppointmentModel.endDate =
+    //   this.date.transform(endDate, 'dd.MM.yyyy HH:mm') ?? '';
+    // this.createAppointmentModel.doctorId = this.selectedDoctor.id;
 
-    this.appointmentDialogVisibility = true;
+    // this.appointmentDialogVisibility = true;
   }
 
   editRecord(arg: any) {
-    this.createAppointmentModel = new CreateAppointmentModel();
-    this.createAppointmentModel.id = arg.event.id;
-    this.createAppointmentModel.identityNumber =
-      arg.event.extendedProps.patient.identityNumber;
-    this.createAppointmentModel.firstName =
-      arg.event.extendedProps.patient.firstName;
-    this.createAppointmentModel.lastName =
-      arg.event.extendedProps.patient.lastName;
-    this.createAppointmentModel.city = arg.event.extendedProps.patient.city;
-    this.createAppointmentModel.town = arg.event.extendedProps.patient.town;
-    this.createAppointmentModel.fullAddress =
-      arg.event.extendedProps.patient.fullAddress;
+    this.createAppointmentModel = new CreateAppointmentCommandModel();
+    // this.createAppointmentModel.id = arg.event.id;
+    // this.createAppointmentModel.identityNumber =
+    //   arg.event.extendedProps.patient.identityNumber;
+    // this.createAppointmentModel.firstName =
+    //   arg.event.extendedProps.patient.firstName;
+    // this.createAppointmentModel.lastName =
+    //   arg.event.extendedProps.patient.lastName;
+    // this.createAppointmentModel.city = arg.event.extendedProps.patient.city;
+    // this.createAppointmentModel.town = arg.event.extendedProps.patient.town;
+    // this.createAppointmentModel.fullAddress =
+    //   arg.event.extendedProps.patient.fullAddress;
     this.createAppointmentModel.startDate =
       this.date.transform(arg.event.startStr, 'dd.MM.yyyy HH:mm') ?? '';
     this.createAppointmentModel.endDate =
@@ -197,16 +195,16 @@ export class HomeComponent implements OnInit {
       ) {
         url = 'appointments/create';
 
-        this.http.post(url, this.createAppointmentModel, (res) => {
+        this.http.post(url, this.createAppointmentModel, res => {
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
             detail: res.data,
-            life: 3000,
+            life: 3000
           });
 
           this.appointmentDialogVisibility = false;
-          this.createAppointmentModel = new CreateAppointmentModel();
+          this.createAppointmentModel = new CreateAppointmentCommandModel();
 
           this.getAllAppointmentsByDoctorId();
         });
@@ -217,24 +215,24 @@ export class HomeComponent implements OnInit {
           id: this.selectedAppointment.id,
           startDate: this.date.transform(
             this.selectedAppointment.startDate,
-            'dd.MM.yyyy HH:mm',
+            'dd.MM.yyyy HH:mm'
           ),
           endDate: this.date.transform(
             this.selectedAppointment.endDate,
-            'dd.MM.yyyy HH:mm',
-          ),
+            'dd.MM.yyyy HH:mm'
+          )
         };
 
-        this.http.post(url, data, (res) => {
+        this.http.post(url, data, res => {
           this.messageService.add({
             severity: 'success',
             summary: 'Successful',
             detail: res.data,
-            life: 3000,
+            life: 3000
           });
 
           this.appointmentDialogVisibility = false;
-          this.createAppointmentModel = new CreateAppointmentModel();
+          this.createAppointmentModel = new CreateAppointmentCommandModel();
 
           this.getAllAppointmentsByDoctorId();
         });
@@ -250,14 +248,14 @@ export class HomeComponent implements OnInit {
         this.http.post(
           'appointments/deletebyid',
           {
-            id: arg.event.id,
+            id: arg.event.id
           },
-          (res) => {
+          res => {
             this.swal.callToastr(res.data, 'info');
             this.getAllAppointmentsByDoctorId();
-          },
+          }
         );
-      },
+      }
     );
   }
 
@@ -266,46 +264,45 @@ export class HomeComponent implements OnInit {
   }
 
   getAllDoctorByDepartment() {
-    this.selectedDoctor = new DoctorModel();
+    this.selectedDoctor = new GetDoctorByIdQueryResponseModel();
 
-    if (this.selectedDepartment?.value > 0) {
+    if (isGuid(this.selectedDepartment?.id)) {
       this.http.post(
         'appointments/getalldoctorsbydepartment',
         {
-          departmentValue: this.selectedDepartment?.value,
+          departmentValue: this.selectedDepartment?.id
         },
-        (res) => {
+        res => {
           this.doctors = res.data;
-        },
+        }
       );
     }
   }
 
   getAllAppointmentsByDoctorId() {
-    if (this.selectedDoctor.id) {
-      this.http.post<AppointmentModel[]>(
-        'appointments/getallbydoctorid',
-        {
-          doctorId: this.selectedDoctor.id,
-        },
-        (res) => {
-          this.appointments = res.data;
+    // if (this.selectedDoctor.id) {
+    //   this.http.post<GetAllAppointmentsByDoctorIdQueryResponseModel[]>(
+    //     'appointments/getallbydoctorid',
+    //     {
+    //       doctorId: this.selectedDoctor.id
+    //     },
+    //     res => {
+    //       this.appointments = res.data;
 
-          const calendar = this.calendarComponent.getApi();
+    //       const calendar = this.calendarComponent.getApi();
 
-          calendar.removeAllEvents();
+    //       calendar.removeAllEvents();
 
-          for (let i = 0; i < this.appointments.length; i++) {
-            calendar.addEvent({
-              id: this.appointments[i].id,
-              start: this.appointments[i].startDate,
-              end: this.appointments[i].endDate,
-              title: this.appointments[i].title,
-              patient: this.appointments[i].patient,
-            });
-          }
-        },
-      );
-    }
+    //       for (let i = 0; i < this.appointments.length; i++) {
+    //         calendar.addEvent({
+    //           id: this.appointments[i].id,
+    //           start: this.appointments[i].startDate,
+    //           end: this.appointments[i].endDate,
+    //           title: this.appointments[i].title
+    //         });
+    //       }
+    //     }
+    //   );
+    // }
   }
 }

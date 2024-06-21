@@ -5,14 +5,16 @@ import { inject } from '@angular/core';
 export const AdminAuthGuard: CanActivateFn = () => {
   const auth = inject(AuthService);
 
-  const router = inject(Router);
+  // const router = inject(Router);
 
-  const roles = auth.tokenDecode.roles;
+  // const roles = auth.tokenDecode.role;
 
-  if (roles.filter((x: any) => x.name == 'Admin')) {
-    return true;
-  } else {
-    router.navigateByUrl('/unauthorized');
-    return false;
-  }
+  return false;
+
+  // if (roles.filter((x: any) => x.name == 'Admin')) {
+  //   return true;
+  // } else {
+  //   router.navigateByUrl('/unauthorized');
+  //   return false;
+  // }
 };

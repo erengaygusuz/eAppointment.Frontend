@@ -1,0 +1,183 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="'Create Admin'" />
+      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="userForm">
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.firstName">Firstname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.firstName"
+              required
+              formControlName="firstname" />
+            <div
+              *ngIf="
+                userForm.controls['firstname'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['firstname'].touched ||
+                  userForm.controls['firstname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['firstname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.lastName">Lastname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.lastName"
+              required
+              formControlName="lastname" />
+            <div
+              *ngIf="
+                userForm.controls['lastname'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['lastname'].touched ||
+                  userForm.controls['lastname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['lastname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.email">E-mail</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.email"
+              required
+              formControlName="email" />
+            <div
+              *ngIf="
+                userForm.controls['email'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['email'].touched ||
+                  userForm.controls['email'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['email'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.userName">Username</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.userName"
+              required
+              formControlName="username" />
+            <div
+              *ngIf="
+                userForm.controls['username'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['username'].touched ||
+                  userForm.controls['username'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['username'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.password">Password</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="user.password"
+              required
+              formControlName="password" />
+            <div
+              *ngIf="
+                userForm.controls['password'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['password'].touched ||
+                  userForm.controls['password'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['password'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="passwordAgain">Password (Again)</label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="passwordAgain" />
+            <div
+              *ngIf="
+                userForm.controls['passwordAgain'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['passwordAgain'].touched ||
+                  userForm.controls['passwordAgain'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['passwordAgain'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="user.phoneNumber"
+              required
+              formControlName="phoneNumber" />
+            <div
+              *ngIf="
+                userForm.controls['phoneNumber'].invalid &&
+                (isFormSubmitted ||
+                  userForm.controls['phoneNumber'].touched ||
+                  userForm.controls['phoneNumber'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="userForm.controls['phoneNumber'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="user.roles">Role</label>
+            <p-dropdown
+              [options]="userRoles"
+              [(ngModel)]="selectedUserRole"
+              [ngModelOptions]="{ standalone: true }"
+              optionLabel="name"
+              placeholder="Select a Role"
+              appendTo="body"
+              [disabled]="true" />
+          </div>
+        </div>
+        <div class="flex align-items-end justify-content-end mt-5">
+          <p-button pRipple label="Cancel" icon="pi pi-times" [text]="true" />
+          <p-button
+            pRipple
+            label="Create"
+            icon="pi pi-check"
+            [text]="true"
+            type="submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
