@@ -8,5 +8,4 @@ export class CreatePatientCommandModel {
   countyId: string = '';
   fullAddress: string = '';
   password: string = '';
-  roleId: string = '';
 }

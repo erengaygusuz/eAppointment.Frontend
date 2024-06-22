@@ -1,3 +1,3 @@
 export class GetAdminByIdQueryModel {
-  id: string = '';
+  id: number = 0;
 }

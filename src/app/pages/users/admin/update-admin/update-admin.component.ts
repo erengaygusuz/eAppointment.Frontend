@@ -80,6 +80,8 @@ export class UpdateAdminComponent implements OnInit {
 
         this.admin = res.data;
 
+        console.log(res.data);
+
         //this.getAllUserRoles(this.user);
       }
     );

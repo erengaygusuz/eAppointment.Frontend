@@ -1,7 +1,7 @@
 export class GetAllUsersQueryResponseModel {
-  id: string = '';
+  id: number = 0;
   fullName: string = '';
   email: string = '';
   username: string = '';
-  roleName: string = '';
+  roleNames: string[] = [];
 }

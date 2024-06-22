@@ -77,6 +77,8 @@ export class UserListComponent implements OnInit {
 
       this.users = res.data;
 
+      console.log(res.data);
+
       this.tableSummaryInfo = `In total there are ${this.users ? this.users.length : 0} users.`;
     });
   }
@@ -88,7 +90,7 @@ export class UserListComponent implements OnInit {
 
   editRecord(user: GetAllUsersQueryResponseModel) {
     this.router.navigate([
-      '/users/' + user.roleName.toLowerCase() + '/',
+      '/users/' + user.roleNames[0].toLowerCase() + '/',
       user.id
     ]);
   }

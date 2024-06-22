@@ -5,6 +5,5 @@ export class CreateDoctorCommandModel {
   phoneNumber: string = '';
   userName: string = '';
   password: string = '';
-  roleId: string = '';
   departmentId: string = '';
 }

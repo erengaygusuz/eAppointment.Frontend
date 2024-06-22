@@ -5,5 +5,5 @@ export class TokenModel {
   name: string = '';
   email: string = '';
   userName: string = '';
-  role: GetAllRolesQueryResponseModel = new GetAllRolesQueryResponseModel();
+  roles: GetAllRolesQueryResponseModel[] = [];
 }

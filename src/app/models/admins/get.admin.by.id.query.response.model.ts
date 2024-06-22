@@ -4,5 +4,4 @@ export class GetAdminByIdQueryResponse {
   phoneNumber: string = '';
   email: string = '';
   userName: string = '';
-  roleId: string = '';
 }
