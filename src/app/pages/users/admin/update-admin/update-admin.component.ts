@@ -13,10 +13,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { InputMaskModule } from 'primeng/inputmask';
 import { MenuItem } from 'primeng/api';
-import { GetAllRolesQueryResponseModel } from '../../../../models/roles/get.all.roles.query.response.model';
 import { HttpService } from '../../../../services/http.service';
 import { AuthService } from '../../../../services/auth.service';
-import { CreateAdminCommandModel } from '../../../../models/admins/create.admin.command.model';
+import { ActivatedRoute } from '@angular/router';
+import { GetAdminByIdQueryResponse } from '../../../../models/admins/get.admin.by.id.query.response.model';
 
 @Component({
   selector: 'app-update-admin',
@@ -35,46 +35,54 @@ import { CreateAdminCommandModel } from '../../../../models/admins/create.admin.
   styleUrl: './update-admin.component.css'
 })
 export class UpdateAdminComponent implements OnInit {
-  user: CreateAdminCommandModel = new CreateAdminCommandModel();
-
-  userRoles: GetAllRolesQueryResponseModel[] = [];
-  selectedUserRole: GetAllRolesQueryResponseModel =
-    new GetAllRolesQueryResponseModel();
+  admin: GetAdminByIdQueryResponse = new GetAdminByIdQueryResponse();
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  userForm: FormGroup;
+  adminForm: FormGroup;
 
   isFormSubmitted: boolean = false;
 
   constructor(
     private http: HttpService,
-    public auth: AuthService
+    public auth: AuthService,
+    private route: ActivatedRoute
   ) {
-    this.userForm = new FormGroup({
+    this.adminForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
       lastname: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
       username: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
-      role: new FormControl(1, [])
+      phoneNumber: new FormControl('', [Validators.required])
     });
   }
 
   ngOnInit(): void {
-    this.items = [{ label: 'Users' }];
+    this.items = [
+      { label: 'User' },
+      { label: 'Admin' },
+      { label: 'Update Admin' }
+    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    this.getAllUserRoles();
+    const id = this.route.snapshot.paramMap.get('id');
+
+    this.getUserById(id!);
   }
 
-  getAllUserRoles() {
-    this.http.post<GetAllRolesQueryResponseModel[]>('roles/getall', {}, res => {
-      this.userRoles = res.data;
+  getUserById(id: string) {
+    this.http.post<GetAdminByIdQueryResponse>(
+      'admins/getbyid',
+      { id: id },
+      res => {
+        this.admin = new GetAdminByIdQueryResponse();
 
-      this.selectedUserRole = res.data[1];
-    });
+        this.admin = res.data;
+
+        //this.getAllUserRoles(this.user);
+      }
+    );
   }
 
   updateUser() {

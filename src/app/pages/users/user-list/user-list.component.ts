@@ -8,6 +8,7 @@ import { GetAllUsersQueryResponseModel } from '../../../models/users/get.all.use
 import { TableColumnInfoModel } from '../../../models/others/table.column.info.model';
 import { Table } from 'primeng/table';
 import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -58,6 +59,7 @@ export class UserListComponent implements OnInit {
   constructor(
     private http: HttpService,
     public auth: AuthService,
+    private router: Router,
     private messageService: MessageService,
     private confirmationService: ConfirmationService
   ) {}
@@ -84,7 +86,12 @@ export class UserListComponent implements OnInit {
     // this.userDialogVisibility = true;
   }
 
-  editRecord(user: GetAllUsersQueryResponseModel) {}
+  editRecord(user: GetAllUsersQueryResponseModel) {
+    this.router.navigate([
+      '/users/' + user.roleName.toLowerCase() + '/',
+      user.id
+    ]);
+  }
 
   deleteRecord(user: GetAllUsersQueryResponseModel) {
     // this.confirmationService.confirm({

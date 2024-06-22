@@ -69,7 +69,7 @@
             [rounded]="true"
             [outlined]="true"
             severity="success"
-            [routerLink]="[routePath, tableData.id]" />
+            (click)="this.editRecord.emit({ tableData: tableData })" />
           <p-button
             pRipple
             icon="fa-solid fa-trash"

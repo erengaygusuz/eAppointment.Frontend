@@ -2,114 +2,135 @@
   <div class="col-12">
     <div class="card">
       <app-page-header [breadcrumbItems]="items" [pageTitle]="'Create Admin'" />
-      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="userForm">
+      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="adminForm">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            <label htmlFor="user.firstName">Firstname</label>
+            <label htmlFor="admin.firstName">Firstname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="user.firstName"
+              [(ngModel)]="admin.firstName"
               required
               formControlName="firstname" />
             <div
               *ngIf="
-                userForm.controls['firstname'].invalid &&
+                adminForm.controls['firstname'].invalid &&
                 (isFormSubmitted ||
-                  userForm.controls['firstname'].touched ||
-                  userForm.controls['firstname'].dirty)
+                  adminForm.controls['firstname'].touched ||
+                  adminForm.controls['firstname'].dirty)
               ">
               <small
                 class="p-error"
-                *ngIf="userForm.controls['firstname'].errors?.['required']"
+                *ngIf="adminForm.controls['firstname'].errors?.['required']"
                 >This field is required</small
               >
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="user.lastName">Lastname</label>
+            <label htmlFor="admin.lastName">Lastname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="user.lastName"
+              [(ngModel)]="admin.lastName"
               required
               formControlName="lastname" />
             <div
               *ngIf="
-                userForm.controls['lastname'].invalid &&
+                adminForm.controls['lastname'].invalid &&
                 (isFormSubmitted ||
-                  userForm.controls['lastname'].touched ||
-                  userForm.controls['lastname'].dirty)
+                  adminForm.controls['lastname'].touched ||
+                  adminForm.controls['lastname'].dirty)
               ">
               <small
                 class="p-error"
-                *ngIf="userForm.controls['lastname'].errors?.['required']"
+                *ngIf="adminForm.controls['lastname'].errors?.['required']"
                 >This field is required</small
               >
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="user.email">E-mail</label>
+            <label htmlFor="admin.userName">Username</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="user.email"
-              required
-              formControlName="email" />
-            <div
-              *ngIf="
-                userForm.controls['email'].invalid &&
-                (isFormSubmitted ||
-                  userForm.controls['email'].touched ||
-                  userForm.controls['email'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="userForm.controls['email'].errors?.['required']"
-                >This field is required</small
-              >
-            </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="user.userName">Username</label>
-            <input
-              pInputText
-              type="text"
-              [(ngModel)]="user.userName"
+              [(ngModel)]="admin.userName"
               required
               formControlName="username" />
             <div
               *ngIf="
-                userForm.controls['username'].invalid &&
+                adminForm.controls['username'].invalid &&
                 (isFormSubmitted ||
-                  userForm.controls['username'].touched ||
-                  userForm.controls['username'].dirty)
+                  adminForm.controls['username'].touched ||
+                  adminForm.controls['username'].dirty)
               ">
               <small
                 class="p-error"
-                *ngIf="userForm.controls['username'].errors?.['required']"
+                *ngIf="adminForm.controls['username'].errors?.['required']"
                 >This field is required</small
               >
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="user.password">Password</label>
+            <label htmlFor="admin.phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="admin.phoneNumber"
+              required
+              formControlName="phoneNumber" />
+            <div
+              *ngIf="
+                adminForm.controls['phoneNumber'].invalid &&
+                (isFormSubmitted ||
+                  adminForm.controls['phoneNumber'].touched ||
+                  adminForm.controls['phoneNumber'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="adminForm.controls['phoneNumber'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="admin.email">E-mail</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="user.password"
+              [(ngModel)]="admin.email"
+              required
+              formControlName="email" />
+            <div
+              *ngIf="
+                adminForm.controls['email'].invalid &&
+                (isFormSubmitted ||
+                  adminForm.controls['email'].touched ||
+                  adminForm.controls['email'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="adminForm.controls['email'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="admin.password">Password</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="admin.password"
               required
               formControlName="password" />
             <div
               *ngIf="
-                userForm.controls['password'].invalid &&
+                adminForm.controls['password'].invalid &&
                 (isFormSubmitted ||
-                  userForm.controls['password'].touched ||
-                  userForm.controls['password'].dirty)
+                  adminForm.controls['password'].touched ||
+                  adminForm.controls['password'].dirty)
               ">
               <small
                 class="p-error"
-                *ngIf="userForm.controls['password'].errors?.['required']"
+                *ngIf="adminForm.controls['password'].errors?.['required']"
                 >This field is required</small
               >
             </div>
@@ -123,49 +144,17 @@
               formControlName="passwordAgain" />
             <div
               *ngIf="
-                userForm.controls['passwordAgain'].invalid &&
+                adminForm.controls['passwordAgain'].invalid &&
                 (isFormSubmitted ||
-                  userForm.controls['passwordAgain'].touched ||
-                  userForm.controls['passwordAgain'].dirty)
+                  adminForm.controls['passwordAgain'].touched ||
+                  adminForm.controls['passwordAgain'].dirty)
               ">
               <small
                 class="p-error"
-                *ngIf="userForm.controls['passwordAgain'].errors?.['required']"
+                *ngIf="adminForm.controls['passwordAgain'].errors?.['required']"
                 >This field is required</small
               >
             </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="user.phoneNumber">Phone Number</label>
-            <p-inputMask
-              mask="(999) 999-9999"
-              [(ngModel)]="user.phoneNumber"
-              required
-              formControlName="phoneNumber" />
-            <div
-              *ngIf="
-                userForm.controls['phoneNumber'].invalid &&
-                (isFormSubmitted ||
-                  userForm.controls['phoneNumber'].touched ||
-                  userForm.controls['phoneNumber'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="userForm.controls['phoneNumber'].errors?.['required']"
-                >This field is required</small
-              >
-            </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="user.roles">Role</label>
-            <p-dropdown
-              [options]="userRoles"
-              [(ngModel)]="selectedUserRole"
-              [ngModelOptions]="{ standalone: true }"
-              optionLabel="name"
-              placeholder="Select a Role"
-              appendTo="body"
-              [disabled]="true" />
           </div>
         </div>
         <div class="flex align-items-end justify-content-end mt-5">
@@ -181,3 +170,5 @@
     </div>
   </div>
 </div>
+
+<p-toast />

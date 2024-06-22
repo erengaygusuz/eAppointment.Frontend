@@ -5,5 +5,4 @@ export class CreateAdminCommandModel {
   phoneNumber: string = '';
   userName: string = '';
   password: string = '';
-  roleId: string = '';
 }

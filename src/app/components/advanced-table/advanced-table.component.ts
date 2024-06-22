@@ -40,8 +40,6 @@ export class AdvancedTableComponent {
   @Input() tableSummaryInfo: string = '';
   @Input() tableSearchBoxPlaceHolder: string = '';
 
-  @Input() routePath: string = '';
-
   getTableColumnData<T>(model: T): object[] {
     const tempDataList: any[] = [];
 
