@@ -129,6 +129,7 @@ export class UpdateDoctorComponent implements OnInit {
       this.updateDoctor.email = this.doctor.email;
       this.updateDoctor.userName = this.doctor.userName;
       this.updateDoctor.phoneNumber = this.doctor.phoneNumber;
+      this.updateDoctor.departmentId = this.selectedDepartment.id;
 
       this.http.post('doctors/updatebyid', this.updateDoctor, res => {
         this.messageService.add({

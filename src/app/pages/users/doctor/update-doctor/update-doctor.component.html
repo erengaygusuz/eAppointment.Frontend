@@ -3,7 +3,7 @@
     <div class="card">
       <app-page-header
         [breadcrumbItems]="items"
-        [pageTitle]="'Create Doctor'" />
+        [pageTitle]="'Update Doctor'" />
       <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="doctorForm">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
@@ -140,7 +140,7 @@
         <div class="flex align-items-end justify-content-end mt-5">
           <p-button
             pRipple
-            label="Create"
+            label="Update"
             icon="pi fa-solid fa-check"
             [text]="true"
             type="submit" />
