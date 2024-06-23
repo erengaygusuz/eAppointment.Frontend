@@ -55,8 +55,6 @@ export class AppTopBarComponent implements OnInit {
     ];
 
     this.selectedCountry = this.countries[0];
-
-    this.getUserRoles(this.authService.tokenDecode.id);
   }
 
   onThemeChange(theme: string, themeCondition: boolean) {
@@ -75,19 +73,5 @@ export class AppTopBarComponent implements OnInit {
   signOut() {
     localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
-  }
-
-  getUserRoles(id: string) {
-    this.http.post<GetAllRolesQueryResponseModel[]>(
-      'users/getallrolesbyuserid',
-      { id: id },
-      res => {
-        this.userRoles = res.data
-          .map((role: GetAllRolesQueryResponseModel) => {
-            return role.name;
-          })
-          .join(',');
-      }
-    );
   }
 }

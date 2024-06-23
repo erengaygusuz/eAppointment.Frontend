@@ -18,6 +18,7 @@ import { HttpService } from '../../../../services/http.service';
 import { AuthService } from '../../../../services/auth.service';
 import { CreateAdminCommandModel } from '../../../../models/admins/create.admin.command.model';
 import { ToastModule } from 'primeng/toast';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-create-admin',
@@ -32,7 +33,8 @@ import { ToastModule } from 'primeng/toast';
     InputTextareaModule,
     InputMaskModule,
     FormsModule,
-    ToastModule
+    ToastModule,
+    RouterModule
   ],
   templateUrl: './create-admin.component.html',
   styleUrl: './create-admin.component.css',
@@ -76,7 +78,6 @@ export class CreateAdminComponent implements OnInit {
   createUser() {
     if (this.adminForm.valid) {
       this.http.post('admins/create', this.admin, res => {
-        console.log(res);
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',

@@ -1,1 +1,159 @@
-<p>update-doctor works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header
+        [breadcrumbItems]="items"
+        [pageTitle]="'Create Doctor'" />
+      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="doctorForm">
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctor.firstName">Firstname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctor.firstName"
+              required
+              formControlName="firstname" />
+            <div
+              *ngIf="
+                doctorForm.controls['firstname'].invalid &&
+                (isFormSubmitted ||
+                  doctorForm.controls['firstname'].touched ||
+                  doctorForm.controls['firstname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="doctorForm.controls['firstname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctor.lastName">Lastname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctor.lastName"
+              required
+              formControlName="lastname" />
+            <div
+              *ngIf="
+                doctorForm.controls['lastname'].invalid &&
+                (isFormSubmitted ||
+                  doctorForm.controls['lastname'].touched ||
+                  doctorForm.controls['lastname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="doctorForm.controls['lastname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctor.userName">Username</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctor.userName"
+              required
+              formControlName="username" />
+            <div
+              *ngIf="
+                doctorForm.controls['username'].invalid &&
+                (isFormSubmitted ||
+                  doctorForm.controls['username'].touched ||
+                  doctorForm.controls['username'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="doctorForm.controls['username'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctor.phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="doctor.phoneNumber"
+              required
+              formControlName="phoneNumber" />
+            <div
+              *ngIf="
+                doctorForm.controls['phoneNumber'].invalid &&
+                (isFormSubmitted ||
+                  doctorForm.controls['phoneNumber'].touched ||
+                  doctorForm.controls['phoneNumber'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="doctorForm.controls['phoneNumber'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="doctor.email">E-mail</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctor.email"
+              required
+              formControlName="email" />
+            <div
+              *ngIf="
+                doctorForm.controls['email'].invalid &&
+                (isFormSubmitted ||
+                  doctorForm.controls['email'].touched ||
+                  doctorForm.controls['email'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="doctorForm.controls['email'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="department">Department</label>
+            <p-dropdown
+              [options]="departments"
+              [(ngModel)]="selectedDepartment"
+              optionLabel="name"
+              placeholder="Select a Department"
+              required
+              formControlName="department"
+              appendTo="body" />
+            <div
+              *ngIf="
+                doctorForm.controls['department'].invalid && isFormSubmitted
+              ">
+              <small
+                class="p-error"
+                *ngIf="doctorForm.controls['department'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="flex align-items-end justify-content-end mt-5">
+          <p-button
+            pRipple
+            label="Create"
+            icon="pi fa-solid fa-check"
+            [text]="true"
+            type="submit" />
+          <p-button
+            pRipple
+            label="Back"
+            icon="pi fa-solid fa-arrow-left"
+            [text]="true"
+            [routerLink]="['/users']" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast />

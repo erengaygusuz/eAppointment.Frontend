@@ -1,3 +1,3 @@
 export class GetDoctorByIdQueryModel {
-  id: string = '';
+  id: number = 0;
 }

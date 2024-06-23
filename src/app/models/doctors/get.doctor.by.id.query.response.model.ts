@@ -4,5 +4,5 @@ export class GetDoctorByIdQueryResponseModel {
   email: string = '';
   phoneNumber: string = '';
   userName: string = '';
-  departmentId: string = '';
+  departmentId: number = 0;
 }

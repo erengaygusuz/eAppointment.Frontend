@@ -1,4 +1,4 @@
 export class GetAllDepartmentsQueryResponseModel {
-  id: string = '';
+  id: number = 0;
   name: string = '';
 }

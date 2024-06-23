@@ -9,6 +9,7 @@ import { TableColumnInfoModel } from '../../../models/others/table.column.info.m
 import { Table } from 'primeng/table';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DeleteUserByIdCommandModel } from '../../../models/users/delete.user.by.id.command.model';
 
 @Component({
   selector: 'app-user-list',
@@ -83,11 +84,6 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  addRecord() {
-    // this.userModel = new UserModel();
-    // this.userDialogVisibility = true;
-  }
-
   editRecord(user: GetAllUsersQueryResponseModel) {
     this.router.navigate([
       '/users/' + user.roleNames[0].toLowerCase() + '/',
@@ -96,49 +92,30 @@ export class UserListComponent implements OnInit {
   }
 
   deleteRecord(user: GetAllUsersQueryResponseModel) {
-    // this.confirmationService.confirm({
-    //   message:
-    //     'Are you sure you want to delete ' + userFromUserDto.fullName + '?',
-    //   header: 'Confirm',
-    //   icon: 'pi pi-exclamation-triangle',
-    //   accept: () => {
-    //     this.http.post<string>(
-    //       'users/deletebyid',
-    //       { id: userFromUserDto.id },
-    //       () => {
-    //         this.messageService.add({
-    //           severity: 'success',
-    //           summary: 'Successful',
-    //           detail: `User ${userFromUserDto.fullName} Deleted`,
-    //           life: 3000
-    //         });
-    //         this.getAll();
-    //       }
-    //     );
-    //   }
-    // });
-  }
+    const deleteUserRequestBody = new DeleteUserByIdCommandModel();
 
-  saveUser(form: FormGroup) {
-    // if (form.valid) {
-    //   let url = '';
-    //   if (this.userModel.id == '') {
-    //     url = 'users/create';
-    //   } else {
-    //     url = 'users/update';
-    //   }
-    //   this.http.post(url, this.userModel, res => {
-    //     console.log(res);
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Successful',
-    //       detail: res.data,
-    //       life: 3000
-    //     });
-    //     this.getAll();
-    //     this.userModel = new UserModel();
-    //   });
-    // }
+    deleteUserRequestBody.id = user.id;
+
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete ' + user.fullName + '?',
+      header: 'Confirm',
+      accept: () => {
+        this.http.post<string>(
+          'users/deletebyid',
+          deleteUserRequestBody,
+          () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: `User ${user.fullName} Deleted`,
+              life: 3000
+            });
+
+            this.getAllUsers();
+          }
+        );
+      }
+    });
   }
 
   onGlobalFilter(table: Table, event: Event) {

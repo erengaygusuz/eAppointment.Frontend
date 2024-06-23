@@ -1,5 +1,5 @@
 export class GetAllDoctorsByDepartmentIdQueryResponseModel {
-  id: string = '';
+  id: number = 0;
   firstName: string = '';
   lastName: string = '';
   departmentName: string = '';

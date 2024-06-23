@@ -1,3 +1,3 @@
 export class GetAllDoctorsByDepartmentIdQueryModel {
-  departmentId: string = '';
+  departmentId: number = 0;
 }

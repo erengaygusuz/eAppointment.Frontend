@@ -65,7 +65,7 @@
         <i class="pi fa-solid fa-user"></i>
         <span class="inline-flex flex-column">
           <span class="font-bold">{{ authService.tokenDecode.name }}</span>
-          <span class="text-sm">{{ userRoles }}</span>
+          <span class="text-sm">{{ authService.tokenDecode.roles }}</span>
         </span>
       </button>
       <button class="p-link layout-topbar-button" (click)="signOut()">

@@ -1,4 +1,4 @@
-export class GetAdminByIdQueryResponse {
+export class GetAdminByIdQueryResponseModel {
   firstName: string = '';
   lastName: string = '';
   phoneNumber: string = '';

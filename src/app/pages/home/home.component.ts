@@ -264,19 +264,19 @@ export class HomeComponent implements OnInit {
   }
 
   getAllDoctorByDepartment() {
-    this.selectedDoctor = new GetDoctorByIdQueryResponseModel();
+    // this.selectedDoctor = new GetDoctorByIdQueryResponseModel();
 
-    if (isGuid(this.selectedDepartment?.id)) {
-      this.http.post(
-        'appointments/getalldoctorsbydepartment',
-        {
-          departmentValue: this.selectedDepartment?.id
-        },
-        res => {
-          this.doctors = res.data;
-        }
-      );
-    }
+    // if (isGuid(this.selectedDepartment?.id)) {
+    //   this.http.post(
+    //     'appointments/getalldoctorsbydepartment',
+    //     {
+    //       departmentValue: this.selectedDepartment?.id
+    //     },
+    //     res => {
+    //       this.doctors = res.data;
+    //     }
+    //   );
+    // }
   }
 
   getAllAppointmentsByDoctorId() {
