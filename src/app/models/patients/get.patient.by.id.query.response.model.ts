@@ -5,7 +5,7 @@ export class GetPatientByIdQueryResponseModel {
   phoneNumber: string = '';
   email: string = '';
   userName: string = '';
-  countyId: string = '';
-  cityId: string = '';
+  countyId: number = 0;
+  cityId: number = 0;
   fullAddress: string = '';
 }

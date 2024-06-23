@@ -1,3 +1,3 @@
 export class GetAllCountiesByCityIdQuerymodel {
-  id: string = '';
+  cityId: number = 0;
 }

@@ -5,7 +5,7 @@ export class CreatePatientCommandModel {
   phoneNumber: string = '';
   userName: string = '';
   identityNumber: string = '';
-  countyId: string = '';
+  countyId: number = 0;
   fullAddress: string = '';
   password: string = '';
 }

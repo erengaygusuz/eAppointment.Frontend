@@ -19,6 +19,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GetAdminByIdQueryResponseModel } from '../../../../models/admins/get.admin.by.id.query.response.model';
 import { UpdateAdminByIdCommandModel } from '../../../../models/admins/update.admin.by.id.command.model';
 import { ToastModule } from 'primeng/toast';
+import { GetAdminByIdQueryModel } from '../../../../models/admins/get.admin.by.id.query.model';
 
 @Component({
   selector: 'app-update-admin',
@@ -76,13 +77,17 @@ export class UpdateAdminComponent implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.getUserById(id!);
+    this.getAdminById(Number(id!));
   }
 
-  getUserById(id: string) {
+  getAdminById(id: number) {
+    const getAdminByIdQueryModel = new GetAdminByIdQueryModel();
+
+    getAdminByIdQueryModel.id = id;
+
     this.http.post<GetAdminByIdQueryResponseModel>(
       'admins/getbyid',
-      { id: id },
+      getAdminByIdQueryModel,
       res => {
         this.admin = new GetAdminByIdQueryResponseModel();
 

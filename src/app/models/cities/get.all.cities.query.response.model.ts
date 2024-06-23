@@ -1,4 +1,4 @@
 export class GetAllCitiesQueryResponseModel {
-  id: string = '';
+  id: number = 0;
   name: string = '';
 }

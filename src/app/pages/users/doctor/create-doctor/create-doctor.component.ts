@@ -20,6 +20,7 @@ import { ToastModule } from 'primeng/toast';
 import { RouterModule } from '@angular/router';
 import { CreateDoctorCommandModel } from '../../../../models/doctors/create.doctor.command.model';
 import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departments/get.all.departments.query.response.model';
+
 @Component({
   selector: 'app-create-doctor',
   standalone: true,

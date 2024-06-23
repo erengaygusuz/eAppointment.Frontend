@@ -1,1 +1,273 @@
-<p>create-patient works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header
+        [breadcrumbItems]="items"
+        [pageTitle]="'Create Patient'" />
+      <form
+        (ngSubmit)="onSubmit()"
+        autocomplete="off"
+        [formGroup]="patientForm">
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.firstName">Firstname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patient.firstName"
+              required
+              formControlName="firstname" />
+            <div
+              *ngIf="
+                patientForm.controls['firstname'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['firstname'].touched ||
+                  patientForm.controls['firstname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['firstname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.lastName">Lastname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patient.lastName"
+              required
+              formControlName="lastname" />
+            <div
+              *ngIf="
+                patientForm.controls['lastname'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['lastname'].touched ||
+                  patientForm.controls['lastname'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['lastname'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.userName">Username</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patient.userName"
+              required
+              formControlName="username" />
+            <div
+              *ngIf="
+                patientForm.controls['username'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['username'].touched ||
+                  patientForm.controls['username'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['username'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="patient.phoneNumber"
+              required
+              formControlName="phoneNumber" />
+            <div
+              *ngIf="
+                patientForm.controls['phoneNumber'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['phoneNumber'].touched ||
+                  patientForm.controls['phoneNumber'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['phoneNumber'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.email">E-mail</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patient.email"
+              required
+              formControlName="email" />
+            <div
+              *ngIf="
+                patientForm.controls['email'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['email'].touched ||
+                  patientForm.controls['email'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['email'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.identityNumber">Identity Number</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patient.identityNumber"
+              required
+              formControlName="identityNumber" />
+            <div
+              *ngIf="
+                patientForm.controls['identityNumber'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['identityNumber'].touched ||
+                  patientForm.controls['identityNumber'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="
+                  patientForm.controls['identityNumber'].errors?.['required']
+                "
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patient.password">Password</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patient.password"
+              required
+              formControlName="password" />
+            <div
+              *ngIf="
+                patientForm.controls['password'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['password'].touched ||
+                  patientForm.controls['password'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['password'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="passwordAgain">Password (Again)</label>
+            <input
+              pInputText
+              type="text"
+              required
+              formControlName="passwordAgain" />
+            <div
+              *ngIf="
+                patientForm.controls['passwordAgain'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['passwordAgain'].touched ||
+                  patientForm.controls['passwordAgain'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="
+                  patientForm.controls['passwordAgain'].errors?.['required']
+                "
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="city">City</label>
+            <p-dropdown
+              [options]="cities"
+              [(ngModel)]="selectedCity"
+              optionLabel="name"
+              placeholder="Select a City"
+              required
+              formControlName="city"
+              appendTo="body"
+              (onChange)="getAllCountiesByCityId(selectedCity.id)" />
+            <div
+              *ngIf="patientForm.controls['city'].invalid && isFormSubmitted">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['city'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="county">County</label>
+            <p-dropdown
+              [options]="counties"
+              [(ngModel)]="selectedCounty"
+              optionLabel="name"
+              placeholder="Select a County"
+              required
+              formControlName="county"
+              appendTo="body" />
+            <div
+              *ngIf="patientForm.controls['county'].invalid && isFormSubmitted">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['county'].errors?.['pattern']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="fullAddress">Full Address</label>
+            <textarea
+              rows="5"
+              cols="30"
+              pInputTextarea
+              [(ngModel)]="patient.fullAddress"
+              required
+              formControlName="fullAddress">
+            </textarea>
+            <div
+              *ngIf="
+                patientForm.controls['fullAddress'].invalid &&
+                (isFormSubmitted ||
+                  patientForm.controls['fullAddress'].touched ||
+                  patientForm.controls['fullAddress'].dirty)
+              ">
+              <small
+                class="p-error"
+                *ngIf="patientForm.controls['fullAddress'].errors?.['required']"
+                >This field is required</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="flex align-items-end justify-content-end mt-5">
+          <p-button
+            pRipple
+            label="Create"
+            icon="pi fa-solid fa-check"
+            [text]="true"
+            type="submit" />
+          <p-button
+            pRipple
+            label="Back"
+            icon="pi fa-solid fa-arrow-left"
+            [text]="true"
+            [routerLink]="['/users']" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast />

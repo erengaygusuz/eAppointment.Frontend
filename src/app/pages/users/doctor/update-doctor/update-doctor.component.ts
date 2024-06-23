@@ -20,6 +20,7 @@ import { GetDoctorByIdQueryResponseModel } from '../../../../models/doctors/get.
 import { UpdateDoctorByIdCommandModel } from '../../../../models/doctors/update.doctor.by.id.command.model';
 import { ToastModule } from 'primeng/toast';
 import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departments/get.all.departments.query.response.model';
+import { GetDoctorByIdQueryModel } from '../../../../models/doctors/get.doctor.by.id.query.model';
 
 @Component({
   selector: 'app-update-doctor',
@@ -41,7 +42,8 @@ import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departme
   providers: [MessageService]
 })
 export class UpdateDoctorComponent implements OnInit {
-  doctor: GetDoctorByIdQueryResponseModel = new GetDoctorByIdQueryResponseModel();
+  doctor: GetDoctorByIdQueryResponseModel =
+    new GetDoctorByIdQueryResponseModel();
 
   updateDoctor: UpdateDoctorByIdCommandModel =
     new UpdateDoctorByIdCommandModel();
@@ -83,7 +85,7 @@ export class UpdateDoctorComponent implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.getDoctorById(id!);
+    this.getDoctorById(Number(id!));
   }
 
   getAllDepartments(doctor: GetDoctorByIdQueryResponseModel) {
@@ -101,14 +103,17 @@ export class UpdateDoctorComponent implements OnInit {
     );
   }
 
-  getDoctorById(id: string) {
+  getDoctorById(id: number) {
+
+    const getDoctorByIdQueryModel = new GetDoctorByIdQueryModel();
+
+    getDoctorByIdQueryModel.id = id;
+
     this.http.post<GetDoctorByIdQueryResponseModel>(
       'doctors/getbyid',
-      { id: id },
+      getDoctorByIdQueryModel,
       res => {
         this.doctor = new GetDoctorByIdQueryResponseModel();
-
-        console.log(res.data);
 
         this.doctor = res.data;
 
