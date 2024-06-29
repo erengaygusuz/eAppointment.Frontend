@@ -1,1 +1,17 @@
-<p>appointment-list works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header
+        [breadcrumbItems]="items"
+        [pageTitle]="'My Appointments'" />
+      <app-simple-table
+        [tableDatas]="appointments"
+        [globalFilterFields]="globalFilterFieldsData"
+        [columns]="columns"
+        [severityList]="severityList"
+        [tableSummaryInfo]="tableSummaryInfo"
+        [tableSearchBoxPlaceHolder]="tableSearchBoxPlaceHolder"
+        (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
+    </div>
+  </div>
+</div>

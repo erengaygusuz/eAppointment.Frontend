@@ -23,10 +23,10 @@ import { TopBarService } from '../../../services/topbar.service';
 import { GetAllDoctorsByDepartmentIdQueryModel } from '../../../models/doctors/get.all.doctors.by.department.id.query.model';
 import { AuthService } from '../../../services/auth.service';
 import { GetAllAppointmentsByPatientIdAndByStatusQueryModel } from '../../../models/appointments/get.all.appointments.by.patient.id.and.by.status.query.model';
-import { GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.patient.id.and.by.status.query.response.model';
 import { CancelAppointmentByIdCommandModel } from '../../../models/appointments/cancel.appointment.by.id.command.model';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.patient.id.and.by.status.query.response.model';
 
 @Component({
   selector: 'app-create-appointment',
