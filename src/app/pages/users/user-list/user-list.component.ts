@@ -7,7 +7,6 @@ import { AuthService } from '../../../services/auth.service';
 import { GetAllUsersQueryResponseModel } from '../../../models/users/get.all.users.query.response.model';
 import { TableColumnInfoModel } from '../../../models/others/table.column.info.model';
 import { Table } from 'primeng/table';
-import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DeleteUserByIdCommandModel } from '../../../models/users/delete.user.by.id.command.model';
 

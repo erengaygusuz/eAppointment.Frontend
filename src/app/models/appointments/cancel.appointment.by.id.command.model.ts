@@ -1,3 +1,3 @@
 export class CancelAppointmentByIdCommandModel {
-  id: string = '';
+  id: number = 0;
 }

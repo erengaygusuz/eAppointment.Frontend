@@ -1,6 +1,6 @@
 export class CreateAppointmentCommandModel {
   startDate: string = '';
   endDate: string = '';
-  patientId: string = '';
-  doctorId: string = '';
+  patientId: number = 0;
+  doctorId: number = 0;
 }

@@ -55,6 +55,22 @@ export class AppMenuComponent implements OnInit {
                 ]
               }
             ]
+          },
+          {
+            label: 'Appointment',
+            icon: 'pi pi-fw fa-solid fa-calendar',
+            items: [
+              {
+                label: 'My Appointments',
+                icon: 'pi pi-fw fa-solid fa-calendar-days',
+                routerLink: ['/appointments']
+              },
+              {
+                label: 'Create Appointment',
+                icon: 'pi pi-fw fa-solid fa-calendar-plus',
+                routerLink: ['/appointment']
+              }
+            ]
           }
         ]
       }

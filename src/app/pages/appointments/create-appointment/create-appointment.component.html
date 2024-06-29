@@ -1,0 +1,79 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header
+        [breadcrumbItems]="items"
+        [pageTitle]="'Create Appointment'" />
+      <p-dropdown
+        appendTo="body"
+        [options]="departments"
+        [(ngModel)]="selectedDepartment"
+        optionLabel="name"
+        (onChange)="getAllDoctorsByDepartmentId(selectedDepartment.id)"
+        placeholder="Select a Department"
+        required>
+      </p-dropdown>
+
+      @if (selectedDepartment.id > 0) {
+        @if (doctors.length === 0) {
+          <span class="ml-5">There is no doctor in this department</span>
+        } @else {
+          <p-dropdown
+            class="ml-5"
+            appendTo="body"
+            [options]="doctors"
+            [(ngModel)]="selectedDoctor"
+            optionLabel="fullName"
+            (onChange)="getAllAppointmentsByPatientId()"
+            placeholder="Select a Doctor"
+            required>
+          </p-dropdown>
+        }
+      }
+
+      @if (selectedDoctor.id) {
+        <full-calendar
+          #appointmentCalendar
+          [options]="calendarOptions"
+          class="mt-5"></full-calendar>
+      }
+
+      <app-appointment-dialog
+        [visibility]="appointmentDialogVisibility"
+        [appointment]="createAppointmentModel"
+        (saveAppointment)="saveAppointment($event.form)"
+        (changeVisibility)="changeVisibility($event.visibility)" />
+    </div>
+  </div>
+</div>
+
+<p-toast />
+
+<p-confirmDialog
+  #cd
+  [style]="{ width: '450px' }"
+  class="justify-content-center">
+  <ng-template pTemplate="headless" let-message>
+    <div
+      class="flex flex-column align-items-center p-5 surface-overlay border-round">
+      <div
+        class="border-circle bg-yellow-300 inline-flex justify-content-center align-items-center h-6rem w-6rem">
+        <i class="pi fa-solid fa-triangle-exclamation text-5xl"></i>
+      </div>
+      <span class="font-bold text-2xl block mb-2 mt-4">
+        {{ message.header }}
+      </span>
+      <p class="mb-0">{{ message.message }}</p>
+      <div class="flex justify-content-center flex-wrap gap-5 mt-4">
+        <div
+          class="flex align-items-center justify-content-center w-4rem h-4rem border-round m-2">
+          <p-button label="Save" (click)="cd.accept()" class="w-8rem" />
+        </div>
+        <div
+          class="flex align-items-center justify-content-center w-4rem h-4rem border-round m-2">
+          <p-button label="Cancel" (click)="cd.reject()" class="w-8rem" />
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-confirmDialog>

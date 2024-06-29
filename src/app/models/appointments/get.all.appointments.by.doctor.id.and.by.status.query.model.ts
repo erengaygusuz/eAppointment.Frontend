@@ -1,4 +1,4 @@
 export class GetAllAppointmentsByDoctorIdAndByStatusQueryModel {
-  doctorId: string = '';
+  doctorId: number = 0;
   status: number = 0;
 }

@@ -14,6 +14,8 @@ import { CreateDoctorComponent } from './pages/users/doctor/create-doctor/create
 import { UpdateDoctorComponent } from './pages/users/doctor/update-doctor/update-doctor.component';
 import { CreatePatientComponent } from './pages/users/patient/create-patient/create-patient.component';
 import { UpdatePatientComponent } from './pages/users/patient/update-patient/update-patient.component';
+import { CreateAppointmentComponent } from './pages/appointments/create-appointment/create-appointment.component';
+import { AppointmentListComponent } from './pages/appointments/appointment-list/appointment-list.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +58,14 @@ export const routes: Routes = [
       {
         path: 'users/patient/:id',
         component: UpdatePatientComponent
+      },
+      {
+        path: 'appointment',
+        component: CreateAppointmentComponent
+      },
+      {
+        path: 'appointments',
+        component: AppointmentListComponent
       },
       {
         path: 'unauthorized',

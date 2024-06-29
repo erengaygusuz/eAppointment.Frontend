@@ -14,14 +14,13 @@ import {
 import { TopBarService } from '../../services/topbar.service';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { DropdownModule } from 'primeng/dropdown';
-import { AppointmentDialogComponent } from './partials/appointment-dialog/appointment-dialog.component';
+import { AppointmentDialogComponent } from '../appointments/appointment-dialog/appointment-dialog.component';
 import { ToastModule } from 'primeng/toast';
 import { GetAllDepartmentsQueryResponseModel } from '../../models/departments/get.all.departments.query.response.model';
 import { GetAllDoctorsByDepartmentIdQueryResponseModel } from '../../models/doctors/get.all.doctors.by.department.id.query.response.model';
 import { GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel } from '../../models/appointments/get.all.appointments.by.doctor.id.and.by.status.query.response.model';
 import { GetDoctorByIdQueryResponseModel } from '../../models/doctors/get.doctor.by.id.query.response.model';
 import { CreateAppointmentCommandModel } from '../../models/appointments/create.appointment.command.model';
-import { isGuid } from 'check-guid';
 
 @Component({
   selector: 'app-home',
@@ -190,7 +189,7 @@ export class HomeComponent implements OnInit {
       let url = '';
 
       if (
-        this.createAppointmentModel.patientId == '' ||
+        this.createAppointmentModel.patientId == 0 ||
         this.createAppointmentModel.patientId == null
       ) {
         url = 'appointments/create';

@@ -12,7 +12,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
-import { CreateAppointmentCommandModel } from '../../../../models/appointments/create.appointment.command.model';
+import { CreateAppointmentCommandModel } from '../../../models/appointments/create.appointment.command.model';
 
 @Component({
   selector: 'app-appointment-dialog',
@@ -50,13 +50,6 @@ export class AppointmentDialogComponent {
   }
 
   constructor() {
-    this.appointmentForm = new FormGroup({
-      identityNumber: new FormControl('', [Validators.required]),
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
-      town: new FormControl('', [Validators.required]),
-      fullAddress: new FormControl('', [Validators.required])
-    });
+    this.appointmentForm = new FormGroup({});
   }
 }

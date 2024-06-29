@@ -1,0 +1,45 @@
+<p-dialog
+  [(visible)]="visibility"
+  [style]="{ width: '450px' }"
+  header="{{ title }}"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="this.changeVisibility.emit({ visibility: false })">
+  <ng-template pTemplate="content">
+    <form
+      (ngSubmit)="onSubmit()"
+      autocomplete="off"
+      [formGroup]="appointmentForm">
+      <div class="field">
+        <label for="appointment.startDate">Start Date</label>
+        <input
+          type="text"
+          pInputText
+          value="{{ appointment.startDate }}"
+          disabled />
+      </div>
+      <div class="field">
+        <label for="appointment.endDate">End Date</label>
+        <input
+          type="text"
+          pInputText
+          value="{{ appointment.endDate }}"
+          disabled />
+      </div>
+      <div class="flex align-items-end justify-content-end mt-5">
+        <p-button
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          [text]="true"
+          (click)="this.changeVisibility.emit({ visibility: false })" />
+        <p-button
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          [text]="true"
+          type="submit" />
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>

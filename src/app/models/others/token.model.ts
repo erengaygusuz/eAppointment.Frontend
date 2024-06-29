@@ -5,5 +5,6 @@ export class TokenModel {
   name: string = '';
   email: string = '';
   userName: string = '';
+  patientId: string = '';
   roles: GetAllRolesQueryResponseModel[] = [];
 }
