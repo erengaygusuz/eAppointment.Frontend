@@ -18,7 +18,6 @@ import { GetAllDoctorsByDepartmentIdQueryResponseModel } from '../../../models/d
 import { GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.doctor.id.and.by.status.query.response.model';
 import { CreateAppointmentCommandModel } from '../../../models/appointments/create.appointment.command.model';
 import { HttpService } from '../../../services/http.service';
-import { SwalService } from '../../../services/swal.service';
 import { TopBarService } from '../../../services/topbar.service';
 import { GetAllDoctorsByDepartmentIdQueryModel } from '../../../models/doctors/get.all.doctors.by.department.id.query.model';
 import { AuthService } from '../../../services/auth.service';
@@ -98,7 +97,6 @@ export class CreateAppointmentComponent implements OnInit {
   constructor(
     private http: HttpService,
     private date: DatePipe,
-    private swal: SwalService,
     private topbarService: TopBarService,
     private messageService: MessageService,
     private authService: AuthService,

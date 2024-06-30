@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -22,6 +16,7 @@ import { CreatePatientCommandModel } from '../../../../models/patients/create.pa
 import { GetAllCitiesQueryResponseModel } from '../../../../models/cities/get.all.cities.query.response.model';
 import { GetAllCountiesByCityIdQueryResponseModel } from '../../../../models/counties/get.all.counties.by.city.id.query.response.model';
 import { GetAllCountiesByCityIdQuerymodel } from '../../../../models/counties/get.all.counties.by.city.id.query.model';
+import { CreatePatientFormValidator } from '../../../../validators/create.patient.form.validator';
 
 @Component({
   selector: 'app-create-patient',
@@ -45,6 +40,7 @@ import { GetAllCountiesByCityIdQuerymodel } from '../../../../models/counties/ge
 })
 export class CreatePatientComponent implements OnInit {
   patient: CreatePatientCommandModel = new CreatePatientCommandModel();
+  patientValidation: any;
 
   cities: GetAllCitiesQueryResponseModel[] = [];
   selectedCity: GetAllCitiesQueryResponseModel =
@@ -57,29 +53,15 @@ export class CreatePatientComponent implements OnInit {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  patientForm: FormGroup;
-
   isFormSubmitted: boolean = false;
+
+  formValidator: CreatePatientFormValidator = new CreatePatientFormValidator();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService
-  ) {
-    this.patientForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
-      identityNumber: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      passwordAgain: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
-      city: new FormControl(0, [Validators.pattern('[^0]+')]),
-      county: new FormControl(0, [Validators.pattern('[^0]+')]),
-      fullAddress: new FormControl('', [Validators.required])
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -120,7 +102,7 @@ export class CreatePatientComponent implements OnInit {
   createUser() {
     this.patient.countyId = this.selectedCounty.id;
 
-    if (this.patientForm.valid) {
+    if (!Object.keys(this.patientValidation)) {
       this.http.post('patients/create', this.patient, res => {
         this.messageService.add({
           severity: 'success',
@@ -129,6 +111,7 @@ export class CreatePatientComponent implements OnInit {
           life: 3000
         });
         this.patient = new CreatePatientCommandModel();
+        this.patientValidation = {};
       });
     }
   }
@@ -136,6 +119,12 @@ export class CreatePatientComponent implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
 
+    this.patientValidation = this.formValidator.validate(this.patient);
+
     this.createUser();
+  }
+
+  checkForValidation() {
+    this.patientValidation = this.formValidator.validate(this.patient);
   }
 }

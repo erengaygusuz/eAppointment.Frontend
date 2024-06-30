@@ -18,6 +18,7 @@ import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { AppFooterComponent } from '../footer/app.footer.component';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-layout',
@@ -42,6 +43,7 @@ import { CommonModule } from '@angular/common';
     MenuModule,
     ButtonModule,
     DropdownModule,
+    ToastModule
   ],
   templateUrl: './app.layout.component.html',
 })

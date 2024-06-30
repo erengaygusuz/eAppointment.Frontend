@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SwalService } from './swal.service';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ErrorService {
-  constructor(private swal: SwalService) {}
+  constructor(private messageService: MessageService) {}
 
   errorHandler(err: HttpErrorResponse) {
     console.log(err);
@@ -27,6 +27,11 @@ export class ErrorService {
       }
     }
 
-    this.swal.callToastr(message, 'error');
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: message,
+      life: 3000
+    });
   }
 }
