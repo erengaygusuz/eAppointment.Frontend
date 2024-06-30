@@ -77,8 +77,6 @@ export class UserListComponent implements OnInit {
 
       this.users = res.data;
 
-      console.log(res.data);
-
       this.tableSummaryInfo = `In total there are ${this.users ? this.users.length : 0} users.`;
     });
   }

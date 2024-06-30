@@ -17,6 +17,7 @@ import { GetAllCitiesQueryResponseModel } from '../../../../models/cities/get.al
 import { GetAllCountiesByCityIdQueryResponseModel } from '../../../../models/counties/get.all.counties.by.city.id.query.response.model';
 import { GetAllCountiesByCityIdQuerymodel } from '../../../../models/counties/get.all.counties.by.city.id.query.model';
 import { CreatePatientFormValidator } from '../../../../validators/create.patient.form.validator';
+import { CreatePatientValidationModel } from '../../../../models/patients/create.patient.validation.model';
 
 @Component({
   selector: 'app-create-patient',
@@ -39,8 +40,13 @@ import { CreatePatientFormValidator } from '../../../../validators/create.patien
   providers: [MessageService]
 })
 export class CreatePatientComponent implements OnInit {
-  patient: CreatePatientCommandModel = new CreatePatientCommandModel();
-  patientValidation: any;
+  patientRequestModel: CreatePatientCommandModel =
+    new CreatePatientCommandModel();
+
+  patientValidationControl: any;
+
+  patientFormModel: CreatePatientValidationModel =
+    new CreatePatientValidationModel();
 
   cities: GetAllCitiesQueryResponseModel[] = [];
   selectedCity: GetAllCitiesQueryResponseModel =
@@ -52,8 +58,6 @@ export class CreatePatientComponent implements OnInit {
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
-
-  isFormSubmitted: boolean = false;
 
   formValidator: CreatePatientFormValidator = new CreatePatientFormValidator();
 
@@ -100,31 +104,45 @@ export class CreatePatientComponent implements OnInit {
   }
 
   createUser() {
-    this.patient.countyId = this.selectedCounty.id;
+    this.patientRequestModel.countyId = this.selectedCounty.id;
 
-    if (!Object.keys(this.patientValidation)) {
-      this.http.post('patients/create', this.patient, res => {
+    this.patientRequestModel.firstName = this.patientFormModel.firstName;
+    this.patientRequestModel.lastName = this.patientFormModel.lastName;
+    this.patientRequestModel.userName = this.patientFormModel.userName;
+    this.patientRequestModel.phoneNumber = this.patientFormModel.phoneNumber;
+    this.patientRequestModel.email = this.patientFormModel.email;
+    this.patientRequestModel.identityNumber =
+      this.patientFormModel.identityNumber;
+    this.patientRequestModel.password = this.patientFormModel.password;
+    this.patientRequestModel.countyId = this.patientFormModel.county.id;
+    this.patientRequestModel.fullAddress = this.patientFormModel.fullAddress;
+
+    if (!(Object.keys(this.patientValidationControl).length > 0)) {
+      this.http.post('patients/create', this.patientRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
           detail: res.data,
           life: 3000
         });
-        this.patient = new CreatePatientCommandModel();
-        this.patientValidation = {};
+        this.patientRequestModel = new CreatePatientCommandModel();
+        this.patientFormModel = new CreatePatientValidationModel();
+        this.patientValidationControl = {};
       });
     }
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-
-    this.patientValidation = this.formValidator.validate(this.patient);
+    this.patientValidationControl = this.formValidator.validate(
+      this.patientFormModel
+    );
 
     this.createUser();
   }
 
   checkForValidation() {
-    this.patientValidation = this.formValidator.validate(this.patient);
+    this.patientValidationControl = this.formValidator.validate(
+      this.patientFormModel
+    );
   }
 }

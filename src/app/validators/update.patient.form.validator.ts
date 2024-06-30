@@ -1,7 +1,7 @@
 import { Validator } from 'fluentvalidation-ts';
-import { CreatePatientValidationModel } from '../models/patients/create.patient.validation.model';
+import { UpdatePatientByIdValidationModel } from '../models/patients/update.patient.by.id.validation.model';
 
-export class CreatePatientFormValidator extends Validator<CreatePatientValidationModel> {
+export class UpdatePatientFormValidator extends Validator<UpdatePatientByIdValidationModel> {
   constructor() {
     super();
 
@@ -64,20 +64,6 @@ export class CreatePatientFormValidator extends Validator<CreatePatientValidatio
       .withMessage('Please enter 11 number for identity number')
       .matches(new RegExp('^((?![a-zA-Z]).)*$'))
       .withMessage('Please do not use letters in your identity number');
-
-    this.ruleFor('password')
-      .notEmpty()
-      .withMessage('Please fill password')
-      .minLength(1)
-      .withMessage('Please enter minimum 1 characters for password')
-      .maxLength(5)
-      .withMessage('Please enter maximum 5 characters for password');
-
-    this.ruleFor('passwordAgain')
-      .notEmpty()
-      .withMessage('Please fill password again')
-      .must((passwordAgain, model) => passwordAgain === model.password)
-      .withMessage('Password does not match');
 
     this.ruleFor('city')
       .must(city => city.id > 0)

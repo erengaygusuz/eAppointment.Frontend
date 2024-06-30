@@ -7,134 +7,166 @@
       <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            <label htmlFor="patient.firstName">Firstname</label>
+            <label htmlFor="patientFormModel.firstName">Firstname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="patient.firstName"
+              [(ngModel)]="patientFormModel.firstName"
               (ngModelChange)="checkForValidation()"
               [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.firstName">
-              <small class="p-error">{{ patientValidation?.firstName }}</small>
-            </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="patient.lastName">Lastname</label>
-            <input
-              pInputText
-              type="text"
-              [(ngModel)]="patient.lastName"
-              (ngModelChange)="checkForValidation()"
-              [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.lastName">
-              <small class="p-error">{{ patientValidation?.lastName }}</small>
-            </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="patient.userName">Username</label>
-            <input
-              pInputText
-              type="text"
-              [(ngModel)]="patient.userName"
-              (ngModelChange)="checkForValidation()"
-              [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.userName">
-              <small class="p-error">{{ patientValidation?.userName }}</small>
-            </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="patient.phoneNumber">Phone Number</label>
-            <p-inputMask
-              mask="(999) 999-9999"
-              [(ngModel)]="patient.phoneNumber"
-              (ngModelChange)="checkForValidation()"
-              [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.phoneNumber">
+            <div *ngIf="patientValidationControl?.firstName">
               <small class="p-error">{{
-                patientValidation?.phoneNumber
+                patientValidationControl?.firstName
               }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="patient.email">E-mail</label>
+            <label htmlFor="patientFormModel.lastName">Lastname</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patientFormModel.lastName"
+              (ngModelChange)="checkForValidation()"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="patientValidationControl?.lastName">
+              <small class="p-error">{{
+                patientValidationControl?.lastName
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patientFormModel.userName">Username</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="patientFormModel.userName"
+              (ngModelChange)="checkForValidation()"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="patientValidationControl?.userName">
+              <small class="p-error">{{
+                patientValidationControl?.userName
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patientFormModel.phoneNumber">Phone Number</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="patientFormModel.phoneNumber"
+              (ngModelChange)="checkForValidation()"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="patientValidationControl?.phoneNumber">
+              <small class="p-error">{{
+                patientValidationControl?.phoneNumber
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patientFormModel.email">E-mail</label>
             <input
               pInputText
               type="email"
-              [(ngModel)]="patient.email"
+              [(ngModel)]="patientFormModel.email"
               (ngModelChange)="checkForValidation()"
               [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.email">
-              <small class="p-error">{{ patientValidation?.email }}</small>
-            </div>
-          </div>
-          <div class="field col-12 md:col-6">
-            <label htmlFor="patient.identityNumber">Identity Number</label>
-            <input
-              pInputText
-              type="text"
-              [(ngModel)]="patient.identityNumber"
-              (ngModelChange)="checkForValidation()"
-              [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.identityNumber">
+            <div *ngIf="patientValidationControl?.email">
               <small class="p-error">{{
-                patientValidation?.identityNumber
+                patientValidationControl?.email
               }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="patient.password">Password</label>
+            <label htmlFor="patientFormModel.identityNumber"
+              >Identity Number</label
+            >
             <input
               pInputText
               type="text"
-              [(ngModel)]="patient.password"
+              [(ngModel)]="patientFormModel.identityNumber"
               (ngModelChange)="checkForValidation()"
               [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.password">
-              <small class="p-error">{{ patientValidation?.password }}</small>
+            <div *ngIf="patientValidationControl?.identityNumber">
+              <small class="p-error">{{
+                patientValidationControl?.identityNumber
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="passwordAgain">Password (Again)</label>
-            <input pInputText type="text" />
+            <label htmlFor="patientFormModel.password">Password</label>
+            <input
+              pInputText
+              type="password"
+              [(ngModel)]="patientFormModel.password"
+              (ngModelChange)="checkForValidation()"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="patientValidationControl?.password">
+              <small class="p-error">{{
+                patientValidationControl?.password
+              }}</small>
+            </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="city">City</label>
+            <label htmlFor="patientFormModel.passwordAgain"
+              >Password (Again)</label
+            >
+            <input
+              pInputText
+              type="password"
+              [(ngModel)]="patientFormModel.passwordAgain"
+              (ngModelChange)="checkForValidation()"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="patientValidationControl?.passwordAgain">
+              <small class="p-error">{{
+                patientValidationControl?.passwordAgain
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="patientFormModel.city">City</label>
             <p-dropdown
               [options]="cities"
-              [(ngModel)]="selectedCity"
+              [(ngModel)]="patientFormModel.city"
               optionLabel="name"
               placeholder="Select a City"
               appendTo="body"
-              (onChange)="getAllCountiesByCityId(selectedCity.id)"
-              [ngModelOptions]="{ standalone: true }" />
+              (onChange)="getAllCountiesByCityId(patientFormModel.city.id)"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="checkForValidation()" />
+            <div *ngIf="patientValidationControl?.city">
+              <small class="p-error">{{
+                patientValidationControl?.city
+              }}</small>
+            </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="county">County</label>
+            <label htmlFor="patientFormModel.county">County</label>
             <p-dropdown
               [options]="counties"
-              [(ngModel)]="selectedCounty"
+              [(ngModel)]="patientFormModel.county"
               optionLabel="name"
               placeholder="Select a County"
               appendTo="body"
               (ngModelChange)="checkForValidation()"
               [ngModelOptions]="{ standalone: true }" />
-            <div *ngIf="patientValidation?.countyId">
-              <small class="p-error">{{ patientValidation?.countyId }}</small>
+            <div *ngIf="patientValidationControl?.county">
+              <small class="p-error">{{
+                patientValidationControl?.county
+              }}</small>
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="fullAddress">Full Address</label>
+            <label htmlFor="patientFormModel.fullAddress">Full Address</label>
             <textarea
               rows="5"
               cols="30"
               pInputTextarea
-              [(ngModel)]="patient.fullAddress"
+              [(ngModel)]="patientFormModel.fullAddress"
               (ngModelChange)="checkForValidation()"
               [ngModelOptions]="{ standalone: true }">
             </textarea>
-            <div *ngIf="patientValidation?.fullAddress">
+            <div *ngIf="patientValidationControl?.fullAddress">
               <small class="p-error">{{
-                patientValidation?.fullAddress
+                patientValidationControl?.fullAddress
               }}</small>
             </div>
           </div>

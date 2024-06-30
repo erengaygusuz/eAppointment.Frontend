@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -24,6 +18,8 @@ import { GetAllCountiesByCityIdQueryResponseModel } from '../../../../models/cou
 import { GetAllCountiesByCityIdQuerymodel } from '../../../../models/counties/get.all.counties.by.city.id.query.model';
 import { GetPatientByIdQueryResponseModel } from '../../../../models/patients/get.patient.by.id.query.response.model';
 import { GetPatientByIdQueryModel } from '../../../../models/patients/get.patient.by.id.query.model';
+import { UpdatePatientByIdValidationModel } from '../../../../models/patients/update.patient.by.id.validation.model';
+import { UpdatePatientFormValidator } from '../../../../validators/update.patient.form.validator';
 
 @Component({
   selector: 'app-update-patient',
@@ -49,8 +45,13 @@ export class UpdatePatientComponent implements OnInit {
   patient: GetPatientByIdQueryResponseModel =
     new GetPatientByIdQueryResponseModel();
 
-  updatePatient: UpdatePatientByIdCommandModel =
+  patientRequestModel: UpdatePatientByIdCommandModel =
     new UpdatePatientByIdCommandModel();
+
+  patientValidationControl: any;
+
+  patientFormModel: UpdatePatientByIdValidationModel =
+    new UpdatePatientByIdValidationModel();
 
   cities: GetAllCitiesQueryResponseModel[] = [];
   selectedCity: GetAllCitiesQueryResponseModel =
@@ -63,28 +64,14 @@ export class UpdatePatientComponent implements OnInit {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  patientForm: FormGroup;
-
-  isFormSubmitted: boolean = false;
+  formValidator: UpdatePatientFormValidator = new UpdatePatientFormValidator();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
     private messageService: MessageService
-  ) {
-    this.patientForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
-      identityNumber: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
-      city: new FormControl(0, [Validators.pattern('[^0]+')]),
-      county: new FormControl(0, [Validators.pattern('[^0]+')]),
-      fullAddress: new FormControl('', [Validators.required])
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -112,7 +99,13 @@ export class UpdatePatientComponent implements OnInit {
 
         this.patient = res.data;
 
-        console.log(res.data);
+        this.patientFormModel.firstName = this.patient.firstName;
+        this.patientFormModel.lastName = this.patient.lastName;
+        this.patientFormModel.email = this.patient.email;
+        this.patientFormModel.identityNumber = this.patient.identityNumber;
+        this.patientFormModel.userName = this.patient.userName;
+        this.patientFormModel.phoneNumber = this.patient.phoneNumber;
+        this.patientFormModel.fullAddress = this.patient.fullAddress;
 
         this.getAllCities();
       }
@@ -126,11 +119,11 @@ export class UpdatePatientComponent implements OnInit {
       res => {
         this.cities = res.data;
 
-        this.selectedCity = this.cities.filter(
+        this.patientFormModel.city = this.cities.filter(
           x => x.id == this.patient.cityId
         )[0];
 
-        this.getAllCountiesByCityId(this.selectedCity.id);
+        this.getAllCountiesByCityId(this.patientFormModel.city.id);
       }
     );
   }
@@ -147,7 +140,7 @@ export class UpdatePatientComponent implements OnInit {
       res => {
         this.counties = res.data;
 
-        this.selectedCounty = this.counties.filter(
+        this.patientFormModel.county = this.counties.filter(
           x => x.id == this.patient.countyId
         )[0];
       }
@@ -155,22 +148,23 @@ export class UpdatePatientComponent implements OnInit {
   }
 
   updateUser() {
-    if (this.patientForm.valid) {
-      this.updatePatient = new UpdatePatientByIdCommandModel();
+    this.patientRequestModel = new UpdatePatientByIdCommandModel();
 
-      const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-      this.updatePatient.id = Number(id);
-      this.updatePatient.firstName = this.patient.firstName;
-      this.updatePatient.lastName = this.patient.lastName;
-      this.updatePatient.email = this.patient.email;
-      this.updatePatient.identityNumber = this.patient.identityNumber;
-      this.updatePatient.userName = this.patient.userName;
-      this.updatePatient.phoneNumber = this.patient.phoneNumber;
-      this.updatePatient.countyId = this.selectedCounty.id;
-      this.updatePatient.fullAddress = this.patient.fullAddress;
+    this.patientRequestModel.id = Number(id);
+    this.patientRequestModel.firstName = this.patientFormModel.firstName;
+    this.patientRequestModel.lastName = this.patientFormModel.lastName;
+    this.patientRequestModel.email = this.patientFormModel.email;
+    this.patientRequestModel.identityNumber =
+      this.patientFormModel.identityNumber;
+    this.patientRequestModel.userName = this.patientFormModel.userName;
+    this.patientRequestModel.phoneNumber = this.patientFormModel.phoneNumber;
+    this.patientRequestModel.countyId = this.patientFormModel.county.id;
+    this.patientRequestModel.fullAddress = this.patientFormModel.fullAddress;
 
-      this.http.post('patients/updatebyid', this.updatePatient, res => {
+    if (!(Object.keys(this.patientValidationControl).length > 0)) {
+      this.http.post('patients/updatebyid', this.patientRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -178,14 +172,23 @@ export class UpdatePatientComponent implements OnInit {
           life: 3000
         });
 
-        this.updatePatient = new UpdatePatientByIdCommandModel();
+        this.patientRequestModel = new UpdatePatientByIdCommandModel();
+        this.patientValidationControl = {};
       });
     }
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
+    this.patientValidationControl = this.formValidator.validate(
+      this.patientFormModel
+    );
 
     this.updateUser();
+  }
+
+  checkForValidation() {
+    this.patientValidationControl = this.formValidator.validate(
+      this.patientFormModel
+    );
   }
 }
