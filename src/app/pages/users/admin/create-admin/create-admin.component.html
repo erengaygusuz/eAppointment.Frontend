@@ -2,158 +2,103 @@
   <div class="col-12">
     <div class="card">
       <app-page-header [breadcrumbItems]="items" [pageTitle]="'Create Admin'" />
-      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="adminForm">
+      <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            <label htmlFor="admin.firstName">Firstname</label>
+            <label htmlFor="adminFormModel.firstName">Firstname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="admin.firstName"
-              required
-              formControlName="firstname" />
-            <div
-              *ngIf="
-                adminForm.controls['firstname'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['firstname'].touched ||
-                  adminForm.controls['firstname'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['firstname'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="adminFormModel.firstName"
+              (ngModelChange)="checkForValidation('firstName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.firstName">
+              <small class="p-error">{{
+                adminValidationControl?.firstName
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="admin.lastName">Lastname</label>
+            <label htmlFor="adminFormModel.lastName">Lastname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="admin.lastName"
-              required
-              formControlName="lastname" />
-            <div
-              *ngIf="
-                adminForm.controls['lastname'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['lastname'].touched ||
-                  adminForm.controls['lastname'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['lastname'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="adminFormModel.lastName"
+              (ngModelChange)="checkForValidation('lastName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.lastName">
+              <small class="p-error">{{
+                adminValidationControl?.lastName
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="admin.userName">Username</label>
+            <label htmlFor="adminFormModel.userName">Username</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="admin.userName"
-              required
-              formControlName="username" />
-            <div
-              *ngIf="
-                adminForm.controls['username'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['username'].touched ||
-                  adminForm.controls['username'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['username'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="adminFormModel.userName"
+              (ngModelChange)="checkForValidation('userName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.userName">
+              <small class="p-error">{{
+                adminValidationControl?.userName
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="admin.phoneNumber">Phone Number</label>
+            <label htmlFor="adminFormModel.phoneNumber">Phone Number</label>
             <p-inputMask
               mask="(999) 999-9999"
-              [(ngModel)]="admin.phoneNumber"
-              required
-              formControlName="phoneNumber" />
-            <div
-              *ngIf="
-                adminForm.controls['phoneNumber'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['phoneNumber'].touched ||
-                  adminForm.controls['phoneNumber'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['phoneNumber'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="adminFormModel.phoneNumber"
+              (ngModelChange)="checkForValidation('phoneNumber')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.phoneNumber">
+              <small class="p-error">{{
+                adminValidationControl?.phoneNumber
+              }}</small>
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="admin.email">E-mail</label>
+            <label htmlFor="adminFormModel.email">E-mail</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="admin.email"
-              required
-              formControlName="email" />
-            <div
-              *ngIf="
-                adminForm.controls['email'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['email'].touched ||
-                  adminForm.controls['email'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['email'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="adminFormModel.email"
+              (ngModelChange)="checkForValidation('email')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.email">
+              <small class="p-error">{{ adminValidationControl?.email }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="admin.password">Password</label>
+            <label htmlFor="adminFormModel.password">Password</label>
             <input
               pInputText
-              type="text"
-              [(ngModel)]="admin.password"
-              required
-              formControlName="password" />
-            <div
-              *ngIf="
-                adminForm.controls['password'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['password'].touched ||
-                  adminForm.controls['password'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['password'].errors?.['required']"
-                >This field is required</small
-              >
+              type="password"
+              [(ngModel)]="adminFormModel.password"
+              (ngModelChange)="checkForValidation('password')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.password">
+              <small class="p-error">{{
+                adminValidationControl?.password
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="passwordAgain">Password (Again)</label>
+            <label htmlFor="adminFormModel.passwordAgain"
+              >Password (Again)</label
+            >
             <input
               pInputText
-              type="text"
-              required
-              formControlName="passwordAgain" />
-            <div
-              *ngIf="
-                adminForm.controls['passwordAgain'].invalid &&
-                (isFormSubmitted ||
-                  adminForm.controls['passwordAgain'].touched ||
-                  adminForm.controls['passwordAgain'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="adminForm.controls['passwordAgain'].errors?.['required']"
-                >This field is required</small
-              >
+              type="password"
+              [(ngModel)]="adminFormModel.passwordAgain"
+              (ngModelChange)="checkForValidation('passwordAgain')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="adminValidationControl?.passwordAgain">
+              <small class="p-error">{{
+                adminValidationControl?.passwordAgain
+              }}</small>
             </div>
           </div>
         </div>

@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -20,6 +15,8 @@ import { GetAdminByIdQueryResponseModel } from '../../../../models/admins/get.ad
 import { UpdateAdminByIdCommandModel } from '../../../../models/admins/update.admin.by.id.command.model';
 import { ToastModule } from 'primeng/toast';
 import { GetAdminByIdQueryModel } from '../../../../models/admins/get.admin.by.id.query.model';
+import { UpdateAdminByIdValidationModel } from '../../../../models/admins/update.admin.by.id.validation.model';
+import { UpdateAdminFormValidator } from '../../../../validators/update.admin.form.validator';
 
 @Component({
   selector: 'app-update-admin',
@@ -33,8 +30,9 @@ import { GetAdminByIdQueryModel } from '../../../../models/admins/get.admin.by.i
     DropdownModule,
     InputTextareaModule,
     InputMaskModule,
-    RouterModule,
-    ToastModule
+    FormsModule,
+    ToastModule,
+    RouterModule
   ],
   templateUrl: './update-admin.component.html',
   styleUrl: './update-admin.component.css',
@@ -43,29 +41,25 @@ import { GetAdminByIdQueryModel } from '../../../../models/admins/get.admin.by.i
 export class UpdateAdminComponent implements OnInit {
   admin: GetAdminByIdQueryResponseModel = new GetAdminByIdQueryResponseModel();
 
-  updateAdmin: UpdateAdminByIdCommandModel = new UpdateAdminByIdCommandModel();
+  adminRequestModel: UpdateAdminByIdCommandModel =
+    new UpdateAdminByIdCommandModel();
+
+  adminValidationControl: any;
+
+  adminFormModel: UpdateAdminByIdValidationModel =
+    new UpdateAdminByIdValidationModel();
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  adminForm: FormGroup;
-
-  isFormSubmitted: boolean = false;
+  formValidator: UpdateAdminFormValidator = new UpdateAdminFormValidator();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
     private messageService: MessageService
-  ) {
-    this.adminForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required])
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -92,24 +86,30 @@ export class UpdateAdminComponent implements OnInit {
         this.admin = new GetAdminByIdQueryResponseModel();
 
         this.admin = res.data;
+
+        this.adminFormModel.firstName = this.admin.firstName;
+        this.adminFormModel.lastName = this.admin.lastName;
+        this.adminFormModel.email = this.admin.email;
+        this.adminFormModel.userName = this.admin.userName;
+        this.adminFormModel.phoneNumber = this.admin.phoneNumber;
       }
     );
   }
 
   updateUser() {
-    if (this.adminForm.valid) {
-      this.updateAdmin = new UpdateAdminByIdCommandModel();
+    this.adminRequestModel = new UpdateAdminByIdCommandModel();
 
-      const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-      this.updateAdmin.id = Number(id);
-      this.updateAdmin.firstName = this.admin.firstName;
-      this.updateAdmin.lastName = this.admin.lastName;
-      this.updateAdmin.email = this.admin.email;
-      this.updateAdmin.userName = this.admin.userName;
-      this.updateAdmin.phoneNumber = this.admin.phoneNumber;
+    this.adminRequestModel.id = Number(id);
+    this.adminRequestModel.firstName = this.adminFormModel.firstName;
+    this.adminRequestModel.lastName = this.adminFormModel.lastName;
+    this.adminRequestModel.email = this.adminFormModel.email;
+    this.adminRequestModel.userName = this.adminFormModel.userName;
+    this.adminRequestModel.phoneNumber = this.adminFormModel.phoneNumber;
 
-      this.http.post('admins/updatebyid', this.updateAdmin, res => {
+    if (!(Object.keys(this.adminValidationControl).length > 0)) {
+      this.http.post('admins/updatebyid', this.adminRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -117,14 +117,28 @@ export class UpdateAdminComponent implements OnInit {
           life: 3000
         });
 
-        this.updateAdmin = new UpdateAdminByIdCommandModel();
+        this.adminRequestModel = new UpdateAdminByIdCommandModel();
       });
     }
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
+    this.adminValidationControl = this.formValidator.validate(
+      this.adminFormModel
+    );
 
     this.updateUser();
+  }
+
+  checkForValidation(propName: string) {
+    const validationResult = this.formValidator.validate(this.adminFormModel);
+
+    const convertedValidationResult = Object.fromEntries(
+      Object.entries(validationResult)
+        .filter(([key]) => key == propName)
+        .map(obj => obj)
+    );
+
+    this.adminValidationControl = convertedValidationResult;
   }
 }

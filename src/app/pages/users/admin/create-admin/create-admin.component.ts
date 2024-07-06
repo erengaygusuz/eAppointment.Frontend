@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -19,6 +13,8 @@ import { AuthService } from '../../../../services/auth.service';
 import { CreateAdminCommandModel } from '../../../../models/admins/create.admin.command.model';
 import { ToastModule } from 'primeng/toast';
 import { RouterModule } from '@angular/router';
+import { CreateAdminValidationModel } from '../../../../models/admins/create.admin.validation.model';
+import { CreateAdminFormValidator } from '../../../../validators/create.admin.form.validator';
 
 @Component({
   selector: 'app-create-admin',
@@ -41,30 +37,22 @@ import { RouterModule } from '@angular/router';
   providers: [MessageService]
 })
 export class CreateAdminComponent implements OnInit {
-  admin: CreateAdminCommandModel = new CreateAdminCommandModel();
+  adminRequestModel: CreateAdminCommandModel = new CreateAdminCommandModel();
+
+  adminValidationControl: any;
+
+  adminFormModel: CreateAdminValidationModel = new CreateAdminValidationModel();
 
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  adminForm: FormGroup;
-
-  isFormSubmitted: boolean = false;
+  formValidator: CreateAdminFormValidator = new CreateAdminFormValidator();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService
-  ) {
-    this.adminForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      passwordAgain: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required])
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -76,22 +64,46 @@ export class CreateAdminComponent implements OnInit {
   }
 
   createUser() {
-    if (this.adminForm.valid) {
-      this.http.post('admins/create', this.admin, res => {
+
+    this.adminRequestModel.firstName = this.adminFormModel.firstName;
+    this.adminRequestModel.lastName = this.adminFormModel.lastName;
+    this.adminRequestModel.userName = this.adminFormModel.userName;
+    this.adminRequestModel.phoneNumber = this.adminFormModel.phoneNumber;
+    this.adminRequestModel.email = this.adminFormModel.email;
+    this.adminRequestModel.password = this.adminFormModel.password;
+
+    if (!(Object.keys(this.adminValidationControl).length > 0)) {
+      this.http.post('admins/create', this.adminRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
           detail: res.data,
           life: 3000
         });
-        this.admin = new CreateAdminCommandModel();
+        this.adminRequestModel = new CreateAdminCommandModel();
+        this.adminFormModel = new CreateAdminValidationModel();
+        this.adminValidationControl = {};
       });
     }
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
+    const validationResult = this.formValidator.validate(this.adminFormModel);
+
+    this.adminValidationControl = validationResult;
 
     this.createUser();
+  }
+
+  checkForValidation(propName: string) {
+    const validationResult = this.formValidator.validate(this.adminFormModel);
+
+    const convertedValidationResult = Object.fromEntries(
+      Object.entries(validationResult)
+        .filter(([key]) => key == propName)
+        .map(obj => obj)
+    );
+
+    this.adminValidationControl = convertedValidationResult;
   }
 }
