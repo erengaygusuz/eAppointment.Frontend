@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
@@ -21,6 +16,8 @@ import { UpdateDoctorByIdCommandModel } from '../../../../models/doctors/update.
 import { ToastModule } from 'primeng/toast';
 import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departments/get.all.departments.query.response.model';
 import { GetDoctorByIdQueryModel } from '../../../../models/doctors/get.doctor.by.id.query.model';
+import { UpdateDoctorFormValidator } from '../../../../validators/update.doctor.form.validator';
+import { UpdateDoctorByIdValidationModel } from '../../../../models/doctors/update.doctor.by.id.validation.model';
 
 @Component({
   selector: 'app-update-doctor',
@@ -34,8 +31,9 @@ import { GetDoctorByIdQueryModel } from '../../../../models/doctors/get.doctor.b
     DropdownModule,
     InputTextareaModule,
     InputMaskModule,
-    RouterModule,
-    ToastModule
+    FormsModule,
+    ToastModule,
+    RouterModule
   ],
   templateUrl: './update-doctor.component.html',
   styleUrl: './update-doctor.component.css',
@@ -45,8 +43,13 @@ export class UpdateDoctorComponent implements OnInit {
   doctor: GetDoctorByIdQueryResponseModel =
     new GetDoctorByIdQueryResponseModel();
 
-  updateDoctor: UpdateDoctorByIdCommandModel =
+  doctorRequestModel: UpdateDoctorByIdCommandModel =
     new UpdateDoctorByIdCommandModel();
+
+  doctorValidationControl: any;
+
+  doctorFormModel: UpdateDoctorByIdValidationModel =
+    new UpdateDoctorByIdValidationModel();
 
   departments: GetAllDepartmentsQueryResponseModel[] = [];
   selectedDepartment: GetAllDepartmentsQueryResponseModel =
@@ -55,25 +58,14 @@ export class UpdateDoctorComponent implements OnInit {
   items: MenuItem[] | undefined;
   home: MenuItem | undefined;
 
-  doctorForm: FormGroup;
-
-  isFormSubmitted: boolean = false;
+  formValidator: UpdateDoctorFormValidator = new UpdateDoctorFormValidator();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
     private messageService: MessageService
-  ) {
-    this.doctorForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      username: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
-      department: new FormControl(0, [Validators.pattern('[^0]+')])
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.items = [
@@ -88,23 +80,21 @@ export class UpdateDoctorComponent implements OnInit {
     this.getDoctorById(Number(id!));
   }
 
-  getAllDepartments(doctor: GetDoctorByIdQueryResponseModel) {
+  getAllDepartments() {
     this.http.post<GetAllDepartmentsQueryResponseModel[]>(
       'departments/getall',
       {},
       res => {
         this.departments = res.data;
 
-        this.selectedDepartment = res.data.filter(
-          (x: GetAllDepartmentsQueryResponseModel) =>
-            x.id == doctor.departmentId
+        this.doctorFormModel.department = this.departments.filter(
+          x => x.id == this.doctor.departmentId
         )[0];
       }
     );
   }
 
   getDoctorById(id: number) {
-
     const getDoctorByIdQueryModel = new GetDoctorByIdQueryModel();
 
     getDoctorByIdQueryModel.id = id;
@@ -117,26 +107,32 @@ export class UpdateDoctorComponent implements OnInit {
 
         this.doctor = res.data;
 
-        this.getAllDepartments(this.doctor);
+        this.doctorFormModel.firstName = this.doctor.firstName;
+        this.doctorFormModel.lastName = this.doctor.lastName;
+        this.doctorFormModel.email = this.doctor.email;
+        this.doctorFormModel.userName = this.doctor.userName;
+        this.doctorFormModel.phoneNumber = this.doctor.phoneNumber;
+
+        this.getAllDepartments();
       }
     );
   }
 
   updateUser() {
-    if (this.doctorForm.valid) {
-      this.updateDoctor = new UpdateDoctorByIdCommandModel();
+    this.doctorRequestModel = new UpdateDoctorByIdCommandModel();
 
-      const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-      this.updateDoctor.id = Number(id);
-      this.updateDoctor.firstName = this.doctor.firstName;
-      this.updateDoctor.lastName = this.doctor.lastName;
-      this.updateDoctor.email = this.doctor.email;
-      this.updateDoctor.userName = this.doctor.userName;
-      this.updateDoctor.phoneNumber = this.doctor.phoneNumber;
-      this.updateDoctor.departmentId = this.selectedDepartment.id;
+    this.doctorRequestModel.id = Number(id);
+    this.doctorRequestModel.firstName = this.doctorFormModel.firstName;
+    this.doctorRequestModel.lastName = this.doctorFormModel.lastName;
+    this.doctorRequestModel.email = this.doctorFormModel.email;
+    this.doctorRequestModel.userName = this.doctorFormModel.userName;
+    this.doctorRequestModel.phoneNumber = this.doctorFormModel.phoneNumber;
+    this.doctorRequestModel.departmentId = this.doctorFormModel.department.id;
 
-      this.http.post('doctors/updatebyid', this.updateDoctor, res => {
+    if (!(Object.keys(this.doctorValidationControl).length > 0)) {
+      this.http.post('doctors/updatebyid', this.doctorRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -144,14 +140,28 @@ export class UpdateDoctorComponent implements OnInit {
           life: 3000
         });
 
-        this.updateDoctor = new UpdateDoctorByIdCommandModel();
+        this.doctorRequestModel = new UpdateDoctorByIdCommandModel();
       });
     }
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
+    this.doctorValidationControl = this.formValidator.validate(
+      this.doctorFormModel
+    );
 
     this.updateUser();
+  }
+
+  checkForValidation(propName: string) {
+    const validationResult = this.formValidator.validate(this.doctorFormModel);
+
+    const convertedValidationResult = Object.fromEntries(
+      Object.entries(validationResult)
+        .filter(([key]) => key == propName)
+        .map(obj => obj)
+    );
+
+    this.doctorValidationControl = convertedValidationResult;
   }
 }

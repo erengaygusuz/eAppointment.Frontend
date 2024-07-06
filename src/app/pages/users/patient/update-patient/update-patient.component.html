@@ -12,7 +12,7 @@
               pInputText
               type="text"
               [(ngModel)]="patientFormModel.firstName"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('firstName')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.firstName">
               <small class="p-error">{{
@@ -26,7 +26,7 @@
               pInputText
               type="text"
               [(ngModel)]="patientFormModel.lastName"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('lastName')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.lastName">
               <small class="p-error">{{
@@ -40,7 +40,7 @@
               pInputText
               type="text"
               [(ngModel)]="patientFormModel.userName"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('userName')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.userName">
               <small class="p-error">{{
@@ -53,7 +53,7 @@
             <p-inputMask
               mask="(999) 999-9999"
               [(ngModel)]="patientFormModel.phoneNumber"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('phoneNumber')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.phoneNumber">
               <small class="p-error">{{
@@ -67,7 +67,7 @@
               pInputText
               type="email"
               [(ngModel)]="patientFormModel.email"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('email')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.email">
               <small class="p-error">{{
@@ -83,7 +83,7 @@
               pInputText
               type="text"
               [(ngModel)]="patientFormModel.identityNumber"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('identityNumber')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.identityNumber">
               <small class="p-error">{{
@@ -101,7 +101,7 @@
               appendTo="body"
               (onChange)="getAllCountiesByCityId(patientFormModel.city.id)"
               [ngModelOptions]="{ standalone: true }"
-              (ngModelChange)="checkForValidation()" />
+              (ngModelChange)="checkForValidation('city')" />
             <div *ngIf="patientValidationControl?.city">
               <small class="p-error">{{
                 patientValidationControl?.city
@@ -116,7 +116,7 @@
               optionLabel="name"
               placeholder="Select a County"
               appendTo="body"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('county')"
               [ngModelOptions]="{ standalone: true }" />
             <div *ngIf="patientValidationControl?.county">
               <small class="p-error">{{
@@ -131,7 +131,7 @@
               cols="30"
               pInputTextarea
               [(ngModel)]="patientFormModel.fullAddress"
-              (ngModelChange)="checkForValidation()"
+              (ngModelChange)="checkForValidation('fullAddress')"
               [ngModelOptions]="{ standalone: true }">
             </textarea>
             <div *ngIf="patientValidationControl?.fullAddress">

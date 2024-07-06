@@ -4,136 +4,91 @@
       <app-page-header
         [breadcrumbItems]="items"
         [pageTitle]="'Update Doctor'" />
-      <form (ngSubmit)="onSubmit()" autocomplete="off" [formGroup]="doctorForm">
+      <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctor.firstName">Firstname</label>
+            <label htmlFor="doctorFormModel.firstName">Firstname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="doctor.firstName"
-              required
-              formControlName="firstname" />
-            <div
-              *ngIf="
-                doctorForm.controls['firstname'].invalid &&
-                (isFormSubmitted ||
-                  doctorForm.controls['firstname'].touched ||
-                  doctorForm.controls['firstname'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="doctorForm.controls['firstname'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="doctorFormModel.firstName"
+              (ngModelChange)="checkForValidation('firstName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.firstName">
+              <small class="p-error">{{
+                doctorValidationControl?.firstName
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctor.lastName">Lastname</label>
+            <label htmlFor="doctorFormModel.lastName">Lastname</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="doctor.lastName"
-              required
-              formControlName="lastname" />
-            <div
-              *ngIf="
-                doctorForm.controls['lastname'].invalid &&
-                (isFormSubmitted ||
-                  doctorForm.controls['lastname'].touched ||
-                  doctorForm.controls['lastname'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="doctorForm.controls['lastname'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="doctorFormModel.lastName"
+              (ngModelChange)="checkForValidation('lastName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.lastName">
+              <small class="p-error">{{
+                doctorValidationControl?.lastName
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctor.userName">Username</label>
+            <label htmlFor="doctorFormModel.userName">Username</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="doctor.userName"
-              required
-              formControlName="username" />
-            <div
-              *ngIf="
-                doctorForm.controls['username'].invalid &&
-                (isFormSubmitted ||
-                  doctorForm.controls['username'].touched ||
-                  doctorForm.controls['username'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="doctorForm.controls['username'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="doctorFormModel.userName"
+              (ngModelChange)="checkForValidation('userName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.userName">
+              <small class="p-error">{{
+                doctorValidationControl?.userName
+              }}</small>
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctor.phoneNumber">Phone Number</label>
+            <label htmlFor="doctorFormModel.phoneNumber">Phone Number</label>
             <p-inputMask
               mask="(999) 999-9999"
-              [(ngModel)]="doctor.phoneNumber"
-              required
-              formControlName="phoneNumber" />
-            <div
-              *ngIf="
-                doctorForm.controls['phoneNumber'].invalid &&
-                (isFormSubmitted ||
-                  doctorForm.controls['phoneNumber'].touched ||
-                  doctorForm.controls['phoneNumber'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="doctorForm.controls['phoneNumber'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="doctorFormModel.phoneNumber"
+              (ngModelChange)="checkForValidation('phoneNumber')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.phoneNumber">
+              <small class="p-error">{{
+                doctorValidationControl?.phoneNumber
+              }}</small>
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="doctor.email">E-mail</label>
+            <label htmlFor="doctorFormModel.email">E-mail</label>
             <input
               pInputText
               type="text"
-              [(ngModel)]="doctor.email"
-              required
-              formControlName="email" />
-            <div
-              *ngIf="
-                doctorForm.controls['email'].invalid &&
-                (isFormSubmitted ||
-                  doctorForm.controls['email'].touched ||
-                  doctorForm.controls['email'].dirty)
-              ">
-              <small
-                class="p-error"
-                *ngIf="doctorForm.controls['email'].errors?.['required']"
-                >This field is required</small
-              >
+              [(ngModel)]="doctorFormModel.email"
+              (ngModelChange)="checkForValidation('email')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.email">
+              <small class="p-error">{{
+                doctorValidationControl?.email
+              }}</small>
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="department">Department</label>
+            <label htmlFor="doctorFormModel.department">Department</label>
             <p-dropdown
               [options]="departments"
-              [(ngModel)]="selectedDepartment"
+              [(ngModel)]="doctorFormModel.department"
               optionLabel="name"
               placeholder="Select a Department"
-              required
-              formControlName="department"
-              appendTo="body" />
-            <div
-              *ngIf="
-                doctorForm.controls['department'].invalid && isFormSubmitted
-              ">
-              <small
-                class="p-error"
-                *ngIf="doctorForm.controls['department'].errors?.['pattern']"
-                >This field is required</small
-              >
+              appendTo="body"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="checkForValidation('department')" />
+            <div *ngIf="doctorValidationControl?.department">
+              <small class="p-error">{{
+                doctorValidationControl?.department
+              }}</small>
             </div>
           </div>
         </div>

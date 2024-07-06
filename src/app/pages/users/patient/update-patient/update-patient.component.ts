@@ -186,9 +186,15 @@ export class UpdatePatientComponent implements OnInit {
     this.updateUser();
   }
 
-  checkForValidation() {
-    this.patientValidationControl = this.formValidator.validate(
-      this.patientFormModel
+  checkForValidation(propName: string) {
+    const validationResult = this.formValidator.validate(this.patientFormModel);
+
+    const convertedValidationResult = Object.fromEntries(
+      Object.entries(validationResult)
+        .filter(([key]) => key == propName)
+        .map(obj => obj)
     );
+
+    this.patientValidationControl = convertedValidationResult;
   }
 }
