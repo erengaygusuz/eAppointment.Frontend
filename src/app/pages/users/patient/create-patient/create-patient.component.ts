@@ -18,6 +18,8 @@ import { GetAllCountiesByCityIdQueryResponseModel } from '../../../../models/cou
 import { GetAllCountiesByCityIdQuerymodel } from '../../../../models/counties/get.all.counties.by.city.id.query.model';
 import { CreatePatientFormValidator } from '../../../../validators/create.patient.form.validator';
 import { CreatePatientValidationModel } from '../../../../models/patients/create.patient.validation.model';
+import { Mapper } from '@dynamic-mapper/angular';
+import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
 
 @Component({
   selector: 'app-create-patient',
@@ -64,7 +66,8 @@ export class CreatePatientComponent implements OnInit {
   constructor(
     private http: HttpService,
     public auth: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -104,18 +107,10 @@ export class CreatePatientComponent implements OnInit {
   }
 
   createUser() {
-    this.patientRequestModel.countyId = this.selectedCounty.id;
-
-    this.patientRequestModel.firstName = this.patientFormModel.firstName;
-    this.patientRequestModel.lastName = this.patientFormModel.lastName;
-    this.patientRequestModel.userName = this.patientFormModel.userName;
-    this.patientRequestModel.phoneNumber = this.patientFormModel.phoneNumber;
-    this.patientRequestModel.email = this.patientFormModel.email;
-    this.patientRequestModel.identityNumber =
-      this.patientFormModel.identityNumber;
-    this.patientRequestModel.password = this.patientFormModel.password;
-    this.patientRequestModel.countyId = this.patientFormModel.county.id;
-    this.patientRequestModel.fullAddress = this.patientFormModel.fullAddress;
+    this.patientRequestModel = this.mapper.map(
+      PatientMappingProfile.CreatePatientValidationModelToCreatePatientCommandModel,
+      this.patientFormModel
+    );
 
     if (!(Object.keys(this.patientValidationControl).length > 0)) {
       this.http.post('patients/create', this.patientRequestModel, res => {

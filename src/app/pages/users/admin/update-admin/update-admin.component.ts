@@ -17,6 +17,8 @@ import { ToastModule } from 'primeng/toast';
 import { GetAdminByIdQueryModel } from '../../../../models/admins/get.admin.by.id.query.model';
 import { UpdateAdminByIdValidationModel } from '../../../../models/admins/update.admin.by.id.validation.model';
 import { UpdateAdminFormValidator } from '../../../../validators/update.admin.form.validator';
+import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
+import { Mapper } from '@dynamic-mapper/angular';
 
 @Component({
   selector: 'app-update-admin',
@@ -58,7 +60,8 @@ export class UpdateAdminComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -87,11 +90,10 @@ export class UpdateAdminComponent implements OnInit {
 
         this.admin = res.data;
 
-        this.adminFormModel.firstName = this.admin.firstName;
-        this.adminFormModel.lastName = this.admin.lastName;
-        this.adminFormModel.email = this.admin.email;
-        this.adminFormModel.userName = this.admin.userName;
-        this.adminFormModel.phoneNumber = this.admin.phoneNumber;
+        this.adminFormModel = this.mapper.map(
+          AdminMappingProfile.GetAdminByIdQueryResponseModelToUpdateAdminByIdValidationModel,
+          this.admin
+        );
       }
     );
   }
@@ -101,12 +103,12 @@ export class UpdateAdminComponent implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
 
+    this.adminRequestModel = this.mapper.map(
+      AdminMappingProfile.UpdateAdminByIdValidationModelToUpdateAdminByIdCommandModel,
+      this.adminFormModel
+    );
+
     this.adminRequestModel.id = Number(id);
-    this.adminRequestModel.firstName = this.adminFormModel.firstName;
-    this.adminRequestModel.lastName = this.adminFormModel.lastName;
-    this.adminRequestModel.email = this.adminFormModel.email;
-    this.adminRequestModel.userName = this.adminFormModel.userName;
-    this.adminRequestModel.phoneNumber = this.adminFormModel.phoneNumber;
 
     if (!(Object.keys(this.adminValidationControl).length > 0)) {
       this.http.post('admins/updatebyid', this.adminRequestModel, res => {

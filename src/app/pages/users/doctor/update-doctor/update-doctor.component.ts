@@ -18,6 +18,8 @@ import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departme
 import { GetDoctorByIdQueryModel } from '../../../../models/doctors/get.doctor.by.id.query.model';
 import { UpdateDoctorFormValidator } from '../../../../validators/update.doctor.form.validator';
 import { UpdateDoctorByIdValidationModel } from '../../../../models/doctors/update.doctor.by.id.validation.model';
+import { Mapper } from '@dynamic-mapper/angular';
+import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile';
 
 @Component({
   selector: 'app-update-doctor',
@@ -64,7 +66,8 @@ export class UpdateDoctorComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -107,11 +110,10 @@ export class UpdateDoctorComponent implements OnInit {
 
         this.doctor = res.data;
 
-        this.doctorFormModel.firstName = this.doctor.firstName;
-        this.doctorFormModel.lastName = this.doctor.lastName;
-        this.doctorFormModel.email = this.doctor.email;
-        this.doctorFormModel.userName = this.doctor.userName;
-        this.doctorFormModel.phoneNumber = this.doctor.phoneNumber;
+        this.doctorFormModel = this.mapper.map(
+          DoctorMappingProfile.GetDoctorByIdQueryResponseModelToUpdateDoctorByIdValidationModel,
+          this.doctor
+        );
 
         this.getAllDepartments();
       }
@@ -123,13 +125,12 @@ export class UpdateDoctorComponent implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
 
+    this.doctorRequestModel = this.mapper.map(
+      DoctorMappingProfile.UpdateDoctorByIdValidationModelToUpdateDoctorByIdCommandModel,
+      this.doctorFormModel
+    );
+
     this.doctorRequestModel.id = Number(id);
-    this.doctorRequestModel.firstName = this.doctorFormModel.firstName;
-    this.doctorRequestModel.lastName = this.doctorFormModel.lastName;
-    this.doctorRequestModel.email = this.doctorFormModel.email;
-    this.doctorRequestModel.userName = this.doctorFormModel.userName;
-    this.doctorRequestModel.phoneNumber = this.doctorFormModel.phoneNumber;
-    this.doctorRequestModel.departmentId = this.doctorFormModel.department.id;
 
     if (!(Object.keys(this.doctorValidationControl).length > 0)) {
       this.http.post('doctors/updatebyid', this.doctorRequestModel, res => {

@@ -15,6 +15,8 @@ import { ToastModule } from 'primeng/toast';
 import { RouterModule } from '@angular/router';
 import { CreateAdminValidationModel } from '../../../../models/admins/create.admin.validation.model';
 import { CreateAdminFormValidator } from '../../../../validators/create.admin.form.validator';
+import { Mapper } from '@dynamic-mapper/angular';
+import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
 
 @Component({
   selector: 'app-create-admin',
@@ -51,7 +53,8 @@ export class CreateAdminComponent implements OnInit {
   constructor(
     private http: HttpService,
     public auth: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -64,13 +67,10 @@ export class CreateAdminComponent implements OnInit {
   }
 
   createUser() {
-
-    this.adminRequestModel.firstName = this.adminFormModel.firstName;
-    this.adminRequestModel.lastName = this.adminFormModel.lastName;
-    this.adminRequestModel.userName = this.adminFormModel.userName;
-    this.adminRequestModel.phoneNumber = this.adminFormModel.phoneNumber;
-    this.adminRequestModel.email = this.adminFormModel.email;
-    this.adminRequestModel.password = this.adminFormModel.password;
+    this.adminRequestModel = this.mapper.map(
+      AdminMappingProfile.CreateAdminValidationModelToCreateAdminCommandModel,
+      this.adminFormModel
+    );
 
     if (!(Object.keys(this.adminValidationControl).length > 0)) {
       this.http.post('admins/create', this.adminRequestModel, res => {

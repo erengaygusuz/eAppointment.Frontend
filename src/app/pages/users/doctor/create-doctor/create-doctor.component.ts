@@ -16,6 +16,8 @@ import { CreateDoctorCommandModel } from '../../../../models/doctors/create.doct
 import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departments/get.all.departments.query.response.model';
 import { CreateDoctorValidationModel } from '../../../../models/doctors/create.doctor.validation.model';
 import { CreateDoctorFormValidator } from '../../../../validators/create.doctor.form.validator';
+import { Mapper } from '@dynamic-mapper/angular';
+import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile';
 
 @Component({
   selector: 'app-create-doctor',
@@ -57,7 +59,8 @@ export class CreateDoctorComponent implements OnInit {
   constructor(
     private http: HttpService,
     public auth: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -82,15 +85,10 @@ export class CreateDoctorComponent implements OnInit {
   }
 
   createUser() {
-    this.doctorRequestModel.departmentId = this.selectedDepartment.id;
-
-    this.doctorRequestModel.firstName = this.doctorFormModel.firstName;
-    this.doctorRequestModel.lastName = this.doctorFormModel.lastName;
-    this.doctorRequestModel.userName = this.doctorFormModel.userName;
-    this.doctorRequestModel.phoneNumber = this.doctorFormModel.phoneNumber;
-    this.doctorRequestModel.email = this.doctorFormModel.email;
-    this.doctorRequestModel.password = this.doctorFormModel.password;
-    this.doctorRequestModel.departmentId = this.doctorFormModel.department.id;
+    this.doctorRequestModel = this.mapper.map(
+      DoctorMappingProfile.CreateDoctorValidationModelToCreateDoctorCommandModel,
+      this.doctorFormModel
+    );
 
     if (!(Object.keys(this.doctorValidationControl).length > 0)) {
       this.http.post('doctors/create', this.doctorRequestModel, res => {

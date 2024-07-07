@@ -20,6 +20,8 @@ import { GetPatientByIdQueryResponseModel } from '../../../../models/patients/ge
 import { GetPatientByIdQueryModel } from '../../../../models/patients/get.patient.by.id.query.model';
 import { UpdatePatientByIdValidationModel } from '../../../../models/patients/update.patient.by.id.validation.model';
 import { UpdatePatientFormValidator } from '../../../../validators/update.patient.form.validator';
+import { Mapper } from '@dynamic-mapper/angular';
+import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
 
 @Component({
   selector: 'app-update-patient',
@@ -70,7 +72,8 @@ export class UpdatePatientComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private readonly mapper: Mapper
   ) {}
 
   ngOnInit(): void {
@@ -99,13 +102,10 @@ export class UpdatePatientComponent implements OnInit {
 
         this.patient = res.data;
 
-        this.patientFormModel.firstName = this.patient.firstName;
-        this.patientFormModel.lastName = this.patient.lastName;
-        this.patientFormModel.email = this.patient.email;
-        this.patientFormModel.identityNumber = this.patient.identityNumber;
-        this.patientFormModel.userName = this.patient.userName;
-        this.patientFormModel.phoneNumber = this.patient.phoneNumber;
-        this.patientFormModel.fullAddress = this.patient.fullAddress;
+        this.patientFormModel = this.mapper.map(
+          PatientMappingProfile.GetPatientByIdQueryResponseModelToUpdatePatientByIdValidationModel,
+          this.patient
+        );
 
         this.getAllCities();
       }
@@ -152,16 +152,12 @@ export class UpdatePatientComponent implements OnInit {
 
     const id = this.route.snapshot.paramMap.get('id');
 
+    this.patientRequestModel = this.mapper.map(
+      PatientMappingProfile.UpdatePatientByIdValidationModelToUpdatePatientByIdCommandModel,
+      this.patientFormModel
+    );
+
     this.patientRequestModel.id = Number(id);
-    this.patientRequestModel.firstName = this.patientFormModel.firstName;
-    this.patientRequestModel.lastName = this.patientFormModel.lastName;
-    this.patientRequestModel.email = this.patientFormModel.email;
-    this.patientRequestModel.identityNumber =
-      this.patientFormModel.identityNumber;
-    this.patientRequestModel.userName = this.patientFormModel.userName;
-    this.patientRequestModel.phoneNumber = this.patientFormModel.phoneNumber;
-    this.patientRequestModel.countyId = this.patientFormModel.county.id;
-    this.patientRequestModel.fullAddress = this.patientFormModel.fullAddress;
 
     if (!(Object.keys(this.patientValidationControl).length > 0)) {
       this.http.post('patients/updatebyid', this.patientRequestModel, res => {
