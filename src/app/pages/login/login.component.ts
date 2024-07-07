@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { LoginCommandModel } from '../../models/auth/login.command.model';
 import { HttpService } from '../../services/http.service';
 import { LoginCommandResponseModel } from '../../models/auth/login.command.response.model';
@@ -10,6 +10,12 @@ import { PasswordModule } from 'primeng/password';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { LoginFormValidator } from '../../validators/login.form.validator';
+import { LoginValidationModel } from '../../models/auth/login.validation.model';
+import { Mapper } from '@dynamic-mapper/angular';
+import { LoginMappingProfile } from '../../mapping/login.mapping.profile';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +27,8 @@ import { InputTextModule } from 'primeng/inputtext';
     CheckboxModule,
     ButtonModule,
     InputTextModule,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './login.component.html',
   styles: [
@@ -31,28 +39,64 @@ import { InputTextModule } from 'primeng/inputtext';
         margin-right: 1rem;
         color: var(--primary-color) !important;
       }
-    `,
-  ],
+    `
+  ]
 })
 export class LoginComponent {
-  login: LoginCommandModel = new LoginCommandModel();
+  loginRequestModel: LoginCommandModel = new LoginCommandModel();
 
-  valCheck: string[] = ['remember'];
+  loginValidationControl: any;
 
-  password!: string;
+  loginFormModel: LoginValidationModel = new LoginValidationModel();
+
+  formValidator: LoginFormValidator = new LoginFormValidator();
 
   constructor(
     private http: HttpService,
     private router: Router,
     public layoutService: LayoutService,
+    private readonly mapper: Mapper
   ) {}
 
-  signIn(form: NgForm) {
-    if (form.valid) {
-      this.http.post<LoginCommandResponseModel>('auth/login', this.login, (res) => {
-        localStorage.setItem('token', res.data!.token);
-        this.router.navigateByUrl('/');
-      });
+  onSubmit() {
+    const validationResult = this.formValidator.validate(this.loginFormModel);
+
+    this.loginValidationControl = validationResult;
+
+    this.logIn();
+  }
+
+  logIn() {
+    this.loginRequestModel = this.mapper.map(
+      LoginMappingProfile.LoginValidationModelToLoginCommandModel,
+      this.loginFormModel
+    );
+
+    if (!(Object.keys(this.loginValidationControl).length > 0)) {
+      this.http.post<LoginCommandResponseModel>(
+        'auth/login',
+        this.loginRequestModel,
+        res => {
+          localStorage.setItem('token', res.data!.token);
+          this.router.navigateByUrl('/');
+
+          this.loginRequestModel = new LoginCommandModel();
+          this.loginFormModel = new LoginValidationModel();
+          this.loginValidationControl = {};
+        }
+      );
     }
+  }
+
+  checkForValidation(propName: string) {
+    const validationResult = this.formValidator.validate(this.loginFormModel);
+
+    const convertedValidationResult = Object.fromEntries(
+      Object.entries(validationResult)
+        .filter(([key]) => key == propName)
+        .map(obj => obj)
+    );
+
+    this.loginValidationControl = convertedValidationResult;
   }
 }

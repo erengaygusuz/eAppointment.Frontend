@@ -9,6 +9,7 @@ import { MapperModule } from '@dynamic-mapper/angular';
 import { DoctorMappingProfile } from './mapping/doctor.mapping.profile';
 import { PatientMappingProfile } from './mapping/patient.mapping.profile';
 import { AdminMappingProfile } from './mapping/admin.mapping.profile';
+import { LoginMappingProfile } from './mapping/login.mapping.profile';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,7 +22,8 @@ export const appConfig: ApplicationConfig = {
       MapperModule.withProfiles([
         DoctorMappingProfile,
         PatientMappingProfile,
-        AdminMappingProfile
+        AdminMappingProfile,
+        LoginMappingProfile
       ])
     )
   ]
