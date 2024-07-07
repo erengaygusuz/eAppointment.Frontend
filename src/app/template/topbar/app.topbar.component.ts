@@ -8,13 +8,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { HttpService } from '../../services/http.service';
-import { GetAllRolesQueryResponseModel } from '../../models/roles/get.all.roles.query.response.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [CommonModule, DropdownModule, FormsModule],
+  imports: [CommonModule, DropdownModule, FormsModule, TranslateModule],
   templateUrl: './app.topbar.component.html'
 })
 export class AppTopBarComponent implements OnInit {
@@ -42,25 +41,46 @@ export class AppTopBarComponent implements OnInit {
     private themeService: ThemeService,
     public authService: AuthService,
     private router: Router,
-    private http: HttpService
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     this.themeService.setTheme(this.selectedTheme);
 
     this.countries = [
-      { name: 'Turkey', code: 'TR' },
-      { name: 'United Kingdoms', code: 'GB' },
-      { name: 'United States', code: 'US' }
+      { name: '', code: 'TR', languageCode: 'tr-TR' },
+      { name: '', code: 'GB', languageCode: 'en-GB' },
+      { name: '', code: 'US', languageCode: 'en-US' }
     ];
 
-    this.selectedCountry = this.countries[0];
+    if (localStorage.getItem('language')) {
+      this.selectedCountry = this.countries.filter(
+        x => x.languageCode == localStorage.getItem('language')
+      )[0];
+
+      this.translate.use(this.selectedCountry.languageCode);
+    } else {
+      this.selectedCountry = this.countries.filter(
+        x => x.languageCode == 'tr-TR'
+      )[0];
+
+      this.translate.use(this.selectedCountry.languageCode);
+    }
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Topbar.LanguageOptions');
+    });
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.countries = this.countries?.map((element, index) => {
+        return { ...element, name: data[index].Name };
+      });
+    });
   }
 
   onThemeChange(theme: string, themeCondition: boolean) {
-    console.log(theme);
-    console.log(themeCondition);
-
     this.selectedTheme = theme;
     this.themeService.setTheme(theme);
     this.isDarkThemeSelected = themeCondition;
@@ -68,6 +88,16 @@ export class AppTopBarComponent implements OnInit {
 
   onTopbarClick() {
     this.topbarService.onTopbarClick();
+  }
+
+  onLanguageChange(language: string) {
+    this.translate.use(language);
+
+    localStorage.setItem('language', language);
+
+    this.selectedCountry = this.countries!.filter(
+      x => x.languageCode == language
+    )[0];
   }
 
   signOut() {

@@ -29,6 +29,8 @@
     "@fullcalendar/interaction": "^6.1.14",
     "@fullcalendar/timegrid": "^6.1.14",
     "@ngrx/store": "^17.2.0",
+    "@ngx-translate/core": "^15.0.0",
+    "@ngx-translate/http-loader": "^8.0.0",
     "check-guid": "^1.0.2",
     "devextreme": "23.2.6",
     "devextreme-angular": "23.2.6",

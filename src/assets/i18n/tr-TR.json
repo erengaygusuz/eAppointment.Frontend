@@ -1,0 +1,60 @@
+{
+  "Topbar": {
+    "Title": "e-Randevu",
+    "ThemeOptions": {
+      "Option1": "Koyu",
+      "Option2": "Açık"
+    },
+    "LanguageOptions": [
+      {
+        "Name": "Türkçe"
+      },
+      {
+        "Name": "İngilizce (GB)"
+      },
+      {
+        "Name": "İngilizce (US)"
+      }
+    ]
+  },
+  "Sidebar": {
+    "MenuItems": [
+      {
+        "Name": "Ana Sayfa"
+      },
+      {
+        "Name": "Kullanıcı",
+        "SubItems": [
+          {
+            "Name": "Tüm Kullanıcılar"
+          },
+          {
+            "Name": "Kullanıcı Oluştur",
+            "SubItems": [
+              {
+                "Name": "Admin Oluştur"
+              },
+              {
+                "Name": "Doktor Oluştur"
+              },
+              {
+                "Name": "Hasta Oluştur"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Randevu",
+        "SubItems": [
+          {
+            "Name": "Randevularım"
+          },
+          {
+            "Name": "Randevu Oluştur"
+          }
+        ]
+      }
+    ]
+  }
+}

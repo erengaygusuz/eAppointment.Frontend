@@ -1,0 +1,60 @@
+{
+  "Topbar": {
+    "Title": "e-Appointment",
+    "ThemeOptions": {
+      "Option1": "Dark",
+      "Option2": "Light"
+    },
+    "LanguageOptions": [
+      {
+        "Name": "Turkish"
+      },
+      {
+        "Name": "English (GB)"
+      },
+      {
+        "Name": "English (US)"
+      }
+    ]
+  },
+  "Sidebar": {
+    "MenuItems": [
+      {
+        "Name": "Home"
+      },
+      {
+        "Name": "User",
+        "SubItems": [
+          {
+            "Name": "All Users"
+          },
+          {
+            "Name": "Create User",
+            "SubItems": [
+              {
+                "Name": "Create Admin"
+              },
+              {
+                "Name": "Create Doctor"
+              },
+              {
+                "Name": "Create Patient"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Name": "Appointment",
+        "SubItems": [
+          {
+            "Name": "My Appointments"
+          },
+          {
+            "Name": "Create Appointment"
+          }
+        ]
+      }
+    ]
+  }
+}

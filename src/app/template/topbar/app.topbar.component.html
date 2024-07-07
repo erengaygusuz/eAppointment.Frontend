@@ -1,5 +1,7 @@
 <div class="layout-topbar">
-  <span class="layout-topbar-logo justify-content-center">e-Appointment</span>
+  <span class="layout-topbar-logo justify-content-center">{{
+    'Topbar.Title' | translate
+  }}</span>
 
   <button
     #menubutton
@@ -28,7 +30,8 @@
         [options]="countries"
         [(ngModel)]="selectedCountry"
         optionLabel="name"
-        placeholder="Select a Country">
+        placeholder="Select a Country"
+        (onChange)="onLanguageChange(selectedCountry.languageCode)">
         <ng-template pTemplate="selectedItem">
           <div class="flex align-items-center gap-2">
             <span
@@ -55,10 +58,10 @@
         ">
         @if (isDarkThemeSelected) {
           <i class="pi fa-regular fa-moon"></i>
-          <span>Dark</span>
+          <span>{{ 'Topbar.ThemeOptions.Option1' | translate }}</span>
         } @else {
           <i class="pi fa-solid fa-sun"></i>
-          <span>Light</span>
+          <span>{{ 'Topbar.ThemeOptions.Option2' | translate }}</span>
         }
       </button>
       <button class="p-link layout-topbar-button">

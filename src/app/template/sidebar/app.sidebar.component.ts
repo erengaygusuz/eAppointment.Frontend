@@ -11,6 +11,6 @@ import { AppMenuComponent } from '../menu/app.menu.component';
 export class AppSidebarComponent {
   constructor(
     public layoutService: LayoutService,
-    public el: ElementRef,
+    public el: ElementRef
   ) {}
 }

@@ -4,7 +4,7 @@ import {
   HostBinding,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import {
@@ -12,7 +12,7 @@ import {
   state,
   style,
   transition,
-  trigger,
+  trigger
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -30,21 +30,21 @@ import { CommonModule } from '@angular/common';
       state(
         'collapsed',
         style({
-          height: '0',
-        }),
+          height: '0'
+        })
       ),
       state(
         'expanded',
         style({
-          height: '*',
-        }),
+          height: '*'
+        })
       ),
       transition(
         'collapsed <=> expanded',
-        animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'),
-      ),
-    ]),
-  ],
+        animate('400ms cubic-bezier(0.86, 0, 0.07, 1)')
+      )
+    ])
+  ]
 })
 export class AppMenuitemComponent implements OnInit, OnDestroy {
   @Input() item: any;
@@ -67,10 +67,10 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     public layoutService: LayoutService,
     private cd: ChangeDetectorRef,
     public router: Router,
-    private menuService: MenuService,
+    private menuService: MenuService
   ) {
     this.menuSourceSubscription = this.menuService.menuSource$.subscribe(
-      (value) => {
+      value => {
         Promise.resolve(null).then(() => {
           if (value.routeEvent) {
             this.active =
@@ -86,7 +86,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
             }
           }
         });
-      },
+      }
     );
 
     this.menuResetSubscription = this.menuService.resetSource$.subscribe(() => {
@@ -94,7 +94,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
     });
 
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
         if (this.item.routerLink) {
           this.updateActiveStateFromRoute();
@@ -117,7 +117,7 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
       paths: 'exact',
       queryParams: 'ignored',
       matrixParams: 'ignored',
-      fragment: 'ignored',
+      fragment: 'ignored'
     });
 
     if (activeRoute) {
