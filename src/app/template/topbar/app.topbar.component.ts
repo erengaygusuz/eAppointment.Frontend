@@ -45,27 +45,28 @@ export class AppTopBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.themeService.setTheme(this.selectedTheme);
+    if (localStorage.getItem('themeOption')) {
+      this.themeService.setTheme(localStorage.getItem('themeOption')!);
+
+      this.selectedTheme = localStorage.getItem('themeOption')!;
+    } else {
+      this.themeService.setTheme(this.selectedTheme);
+    }
+
+    if (
+      this.selectedTheme ===
+      'assets/layout/styles/theme/lara-light-indigo/theme'
+    ) {
+      this.isDarkThemeSelected = false;
+    } else {
+      this.isDarkThemeSelected = true;
+    }
 
     this.countries = [
       { name: '', code: 'TR', languageCode: 'tr-TR' },
       { name: '', code: 'GB', languageCode: 'en-GB' },
       { name: '', code: 'US', languageCode: 'en-US' }
     ];
-
-    if (localStorage.getItem('language')) {
-      this.selectedCountry = this.countries.filter(
-        x => x.languageCode == localStorage.getItem('language')
-      )[0];
-
-      this.translate.use(this.selectedCountry.languageCode);
-    } else {
-      this.selectedCountry = this.countries.filter(
-        x => x.languageCode == 'tr-TR'
-      )[0];
-
-      this.translate.use(this.selectedCountry.languageCode);
-    }
 
     this.translate.onLangChange.subscribe(() => {
       this.getTranslationData('Topbar.LanguageOptions');
@@ -77,6 +78,20 @@ export class AppTopBarComponent implements OnInit {
       this.countries = this.countries?.map((element, index) => {
         return { ...element, name: data[index].Name };
       });
+
+      if (localStorage.getItem('language')) {
+        this.selectedCountry = this.countries!.filter(
+          x => x.languageCode == localStorage.getItem('language')
+        )[0];
+
+        this.translate.use(this.selectedCountry.languageCode);
+      } else {
+        this.selectedCountry = this.countries!.filter(
+          x => x.languageCode == 'tr-TR'
+        )[0];
+
+        this.translate.use(this.selectedCountry.languageCode);
+      }
     });
   }
 
@@ -84,6 +99,8 @@ export class AppTopBarComponent implements OnInit {
     this.selectedTheme = theme;
     this.themeService.setTheme(theme);
     this.isDarkThemeSelected = themeCondition;
+
+    localStorage.setItem('themeOption', theme);
   }
 
   onTopbarClick() {

@@ -30,16 +30,16 @@ export class UserListComponent implements OnInit {
       columnFieldName: 'fullName'
     },
     {
-      columnName: 'User Name',
-      columnFieldName: 'username'
-    },
-    {
       columnName: 'Email',
       columnFieldName: 'email'
     },
     {
+      columnName: 'User Name',
+      columnFieldName: 'userName'
+    },
+    {
       columnName: 'Role Names',
-      columnFieldName: 'roles'
+      columnFieldName: 'roleNames'
     }
   ];
 
