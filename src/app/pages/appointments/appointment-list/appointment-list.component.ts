@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component';
 import { MenuItem } from 'primeng/api';
-import { TableColumnInfoModel } from '../../../models/others/table.column.info.model';
 import { Table } from 'primeng/table';
 import { GetAllAppointmentsByPatientIdQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.patient.id.query.response.model';
 import { HttpService } from '../../../services/http.service';

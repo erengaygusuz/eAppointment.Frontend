@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { MenuChangeEvent } from '../models/others/menu.change.event';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MenuService {
   private menuSource = new Subject<MenuChangeEvent>();

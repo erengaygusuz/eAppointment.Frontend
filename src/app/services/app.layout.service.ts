@@ -20,7 +20,7 @@ interface LayoutState {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class LayoutService {
   _config: AppConfig = {
@@ -29,7 +29,7 @@ export class LayoutService {
     menuMode: 'static',
     colorScheme: 'light',
     theme: 'lara-light-indigo',
-    scale: 14,
+    scale: 14
   };
 
   config = signal<AppConfig>(this._config);
@@ -40,7 +40,7 @@ export class LayoutService {
     profileSidebarVisible: false,
     configSidebarVisible: false,
     staticMenuMobileActive: false,
-    menuHoverActive: false,
+    menuHoverActive: false
   };
 
   private configUpdate = new Subject<AppConfig>();
@@ -123,12 +123,12 @@ export class LayoutService {
     const themeLinkHref = themeLink.getAttribute('href')!;
     const newHref = themeLinkHref
       .split('/')
-      .map((el) =>
+      .map(el =>
         el == this._config.theme
           ? (el = config.theme)
           : el == `theme-${this._config.colorScheme}`
             ? (el = `theme-${config.colorScheme}`)
-            : el,
+            : el
       )
       .join('/');
 

@@ -1,11 +1,11 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <app-page-header [breadcrumbItems]="items" [pageTitle]="'All Users'" />
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
       <app-advanced-table
         [tableDatas]="users"
         [globalFilterFields]="globalFilterFieldsData"
-        [tableColumnInfos]="tableColumnInfos"
+        [columns]="columns"
         [tableSummaryInfo]="tableSummaryInfo"
         [tableSearchBoxPlaceHolder]="tableSearchBoxPlaceHolder"
         (editRecord)="editRecord($event.tableData)"

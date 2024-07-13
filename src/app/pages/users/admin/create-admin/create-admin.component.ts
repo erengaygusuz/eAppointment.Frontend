@@ -17,6 +17,7 @@ import { CreateAdminValidationModel } from '../../../../models/admins/create.adm
 import { CreateAdminFormValidator } from '../../../../validators/create.admin.form.validator';
 import { Mapper } from '@dynamic-mapper/angular';
 import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-admin',
@@ -32,7 +33,8 @@ import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
     InputMaskModule,
     FormsModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './create-admin.component.html',
   styleUrl: './create-admin.component.css',
@@ -41,11 +43,13 @@ import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
 export class CreateAdminComponent implements OnInit {
   adminRequestModel: CreateAdminCommandModel = new CreateAdminCommandModel();
 
+  pageTitle: string = '';
+
   adminValidationControl: any;
 
   adminFormModel: CreateAdminValidationModel = new CreateAdminValidationModel();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   formValidator: CreateAdminFormValidator = new CreateAdminFormValidator();
@@ -54,15 +58,32 @@ export class CreateAdminComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
-    private readonly mapper: Mapper
-  ) {}
+    private readonly mapper: Mapper,
+    private translate: TranslateService
+  ) {
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    } else {
+      this.translate.use('tr-TR');
+    }
+
+    this.getTranslationData('Pages.CreateAdmin');
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Pages.CreateAdmin');
+    });
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
+  }
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'User' },
-      { label: 'Admin' },
-      { label: 'Create Admin' }
-    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
   }
 

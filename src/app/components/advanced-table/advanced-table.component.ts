@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TableColumnInfoModel } from '../../models/others/table.column.info.model';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -7,18 +6,23 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
+import { KeyValuePair } from '../../models/others/key.value.pair.model';
+import { CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-advanced-table',
   standalone: true,
   imports: [
+    CommonModule,
     ButtonModule,
     TableModule,
     ConfirmDialogModule,
     ToolbarModule,
     ToastModule,
     InputTextModule,
-    RouterModule
+    RouterModule,
+    TagModule
   ],
   templateUrl: './advanced-table.component.html',
   styleUrl: './advanced-table.component.css'
@@ -26,9 +30,8 @@ import { RouterModule } from '@angular/router';
 export class AdvancedTableComponent {
   @Input() tableDatas: any;
   @Input() globalFilterFields: any;
-  @Input() columnName: string = '';
-  @Input() columnFieldName: string = '';
-  @Input() tableColumnInfos: TableColumnInfoModel[] = [];
+
+  @Input() columns: any;
 
   @Output() onGlobalFilter = new EventEmitter<{ table: Table; event: Event }>();
 
@@ -40,19 +43,13 @@ export class AdvancedTableComponent {
   @Input() tableSummaryInfo: string = '';
   @Input() tableSearchBoxPlaceHolder: string = '';
 
-  getTableColumnData<T>(model: T): object[] {
-    const tempDataList: any[] = [];
+  @Input() severityList: KeyValuePair[] = [];
 
-    let index = 0;
-
-    for (const prop in model) {
-      if (index !== 0) {
-        tempDataList.push(model[prop]);
+  getSeverity(value: string): any {
+    for (let i = 0; i < this.severityList.length; i++) {
+      if (value == this.severityList[i].key) {
+        return this.severityList[i].value;
       }
-
-      index++;
     }
-
-    return tempDataList;
   }
 }

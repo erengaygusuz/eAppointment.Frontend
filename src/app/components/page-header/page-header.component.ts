@@ -6,9 +6,9 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
   standalone: true,
   imports: [BreadcrumbModule],
   templateUrl: './page-header.component.html',
-  styleUrl: './page-header.component.css',
+  styleUrl: './page-header.component.css'
 })
 export class PageHeaderComponent {
-  @Input() pageTitle: any;
+  @Input() pageTitle: string = '';
   @Input() breadcrumbItems: any;
 }

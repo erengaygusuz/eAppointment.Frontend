@@ -18,6 +18,7 @@ import { CreateDoctorValidationModel } from '../../../../models/doctors/create.d
 import { CreateDoctorFormValidator } from '../../../../validators/create.doctor.form.validator';
 import { Mapper } from '@dynamic-mapper/angular';
 import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-doctor',
@@ -33,7 +34,8 @@ import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile
     InputMaskModule,
     FormsModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './create-doctor.component.html',
   styleUrl: './create-doctor.component.css',
@@ -41,6 +43,8 @@ import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile
 })
 export class CreateDoctorComponent implements OnInit {
   doctorRequestModel: CreateDoctorCommandModel = new CreateDoctorCommandModel();
+
+  pageTitle: string = '';
 
   doctorValidationControl: any;
 
@@ -51,7 +55,7 @@ export class CreateDoctorComponent implements OnInit {
   selectedDepartment: GetAllDepartmentsQueryResponseModel =
     new GetAllDepartmentsQueryResponseModel();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   formValidator: CreateDoctorFormValidator = new CreateDoctorFormValidator();
@@ -60,15 +64,32 @@ export class CreateDoctorComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
-    private readonly mapper: Mapper
-  ) {}
+    private readonly mapper: Mapper,
+    private translate: TranslateService
+  ) {
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    } else {
+      this.translate.use('tr-TR');
+    }
+
+    this.getTranslationData('Pages.CreateDoctor');
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Pages.CreateDoctor');
+    });
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
+  }
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'User' },
-      { label: 'Doctor' },
-      { label: 'Create Doctor' }
-    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
     this.getAllDepartments();

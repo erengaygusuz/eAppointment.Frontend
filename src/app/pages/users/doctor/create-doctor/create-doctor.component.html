@@ -1,13 +1,13 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <app-page-header
-        [breadcrumbItems]="items"
-        [pageTitle]="'Create Doctor'" />
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
       <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctorFormModel.firstName">Firstname</label>
+            <label htmlFor="doctorFormModel.firstName">{{
+              'Pages.CreateDoctor.Form.Controls.Firstname' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -21,7 +21,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctorFormModel.lastName">Lastname</label>
+            <label htmlFor="doctorFormModel.lastName">{{
+              'Pages.CreateDoctor.Form.Controls.Lastname' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -35,7 +37,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctorFormModel.userName">Username</label>
+            <label htmlFor="doctorFormModel.userName">{{
+              'Pages.CreateDoctor.Form.Controls.Username' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -49,7 +53,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctorFormModel.phoneNumber">Phone Number</label>
+            <label htmlFor="doctorFormModel.phoneNumber">{{
+              'Pages.CreateDoctor.Form.Controls.PhoneNumber' | translate
+            }}</label>
             <p-inputMask
               mask="(999) 999-9999"
               [(ngModel)]="doctorFormModel.phoneNumber"
@@ -62,7 +68,9 @@
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="doctorFormModel.email">E-mail</label>
+            <label htmlFor="doctorFormModel.email">{{
+              'Pages.CreateDoctor.Form.Controls.Email' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -76,7 +84,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctorFormModel.password">Password</label>
+            <label htmlFor="doctorFormModel.password">{{
+              'Pages.CreateDoctor.Form.Controls.Password' | translate
+            }}</label>
             <input
               pInputText
               type="password"
@@ -90,9 +100,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="doctorFormModel.passwordAgain"
-              >Password (Again)</label
-            >
+            <label htmlFor="doctorFormModel.passwordAgain">{{
+              'Pages.CreateDoctor.Form.Controls.PasswordAgain' | translate
+            }}</label>
             <input
               pInputText
               type="password"
@@ -106,12 +116,16 @@
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="doctorFormModel.department">Department</label>
+            <label htmlFor="doctorFormModel.department">{{
+              'Pages.CreateDoctor.Form.Controls.Department' | translate
+            }}</label>
             <p-dropdown
               [options]="departments"
               [(ngModel)]="doctorFormModel.department"
               optionLabel="name"
-              placeholder="Select a Department"
+              placeholder="{{
+                'Pages.CreateDoctor.Form.Controls.SelectADepartment' | translate
+              }}"
               appendTo="body"
               [ngModelOptions]="{ standalone: true }"
               (ngModelChange)="checkForValidation('department')" />
@@ -125,13 +139,13 @@
         <div class="flex align-items-end justify-content-end mt-5">
           <p-button
             pRipple
-            label="Create"
+            label="{{ 'Pages.CreateDoctor.Form.Buttons.Submit' | translate }}"
             icon="pi fa-solid fa-check"
             [text]="true"
             type="submit" />
           <p-button
             pRipple
-            label="Back"
+            label="{{ 'Pages.CreateDoctor.Form.Buttons.Cancel' | translate }}"
             icon="pi fa-solid fa-arrow-left"
             [text]="true"
             [routerLink]="['/users']" />

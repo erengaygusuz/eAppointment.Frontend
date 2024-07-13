@@ -7,6 +7,7 @@ import { PageHeaderComponent } from '../../components/page-header/page-header.co
 import { DropdownModule } from 'primeng/dropdown';
 import { AppointmentDialogComponent } from '../appointments/appointment-dialog/appointment-dialog.component';
 import { ToastModule } from 'primeng/toast';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -19,18 +20,43 @@ import { ToastModule } from 'primeng/toast';
     DropdownModule,
     FullCalendarModule,
     AppointmentDialogComponent,
-    ToastModule
+    ToastModule,
+    TranslateModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   providers: [DatePipe, MessageService, ConfirmationService]
 })
 export class HomeComponent implements OnInit {
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }];
   home: MenuItem | undefined;
 
+  pageTitle: string = '';
+
+  constructor(private translate: TranslateService) {
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    } else {
+      this.translate.use('tr-TR');
+    }
+
+    this.getTranslationData('Pages.Home');
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Pages.Home');
+    });
+  }
+
   ngOnInit(): void {
-    this.items = [{ label: 'Home Page' }];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
   }
 }

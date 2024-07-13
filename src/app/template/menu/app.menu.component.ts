@@ -25,6 +25,8 @@ export class AppMenuComponent {
       this.translate.use('tr-TR');
     }
 
+    this.getTranslationData('Sidebar.MenuItems');
+
     this.translate.onLangChange.subscribe(() => {
       this.getTranslationData('Sidebar.MenuItems');
     });

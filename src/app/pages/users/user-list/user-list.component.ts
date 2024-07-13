@@ -5,15 +5,16 @@ import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { HttpService } from '../../../services/http.service';
 import { AuthService } from '../../../services/auth.service';
 import { GetAllUsersQueryResponseModel } from '../../../models/users/get.all.users.query.response.model';
-import { TableColumnInfoModel } from '../../../models/others/table.column.info.model';
 import { Table } from 'primeng/table';
 import { Router } from '@angular/router';
 import { DeleteUserByIdCommandModel } from '../../../models/users/delete.user.by.id.command.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AdvancedTableColumnInfoModel } from '../../../models/others/advanced.table.column.info.model';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [PageHeaderComponent, AdvancedTableComponent],
+  imports: [PageHeaderComponent, AdvancedTableComponent, TranslateModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css',
   providers: [MessageService, ConfirmationService]
@@ -21,27 +22,12 @@ import { DeleteUserByIdCommandModel } from '../../../models/users/delete.user.by
 export class UserListComponent implements OnInit {
   users: GetAllUsersQueryResponseModel[] = [];
 
-  items: MenuItem[] | undefined;
+  pageTitle: string = '';
+
+  items: MenuItem[] = [{ label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
-  tableColumnInfos: TableColumnInfoModel[] = [
-    {
-      columnName: 'Full Name',
-      columnFieldName: 'fullName'
-    },
-    {
-      columnName: 'Email',
-      columnFieldName: 'email'
-    },
-    {
-      columnName: 'User Name',
-      columnFieldName: 'userName'
-    },
-    {
-      columnName: 'Role Names',
-      columnFieldName: 'roleNames'
-    }
-  ];
+  columns: AdvancedTableColumnInfoModel[] = [];
 
   globalFilterFieldsData: string[] = [
     'fullName',
@@ -61,13 +47,79 @@ export class UserListComponent implements OnInit {
     public auth: AuthService,
     private router: Router,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService
-  ) {}
+    private confirmationService: ConfirmationService,
+    private translate: TranslateService
+  ) {
+    this.columns = [
+      {
+        field: 'fullName',
+        header: '',
+        isSeverity: false,
+        isOperationColumn: false,
+        isFilterableAndSortable: true
+      },
+      {
+        field: 'email',
+        header: '',
+        isSeverity: false,
+        isOperationColumn: false,
+        isFilterableAndSortable: true
+      },
+      {
+        field: 'userName',
+        header: '',
+        isSeverity: false,
+        isOperationColumn: false,
+        isFilterableAndSortable: true
+      },
+      {
+        field: 'roleNames',
+        header: '',
+        isSeverity: false,
+        isOperationColumn: false,
+        isFilterableAndSortable: true
+      },
+      {
+        field: '',
+        header: '',
+        isSeverity: false,
+        isOperationColumn: true,
+        isFilterableAndSortable: false
+      }
+    ];
+
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    } else {
+      this.translate.use('tr-TR');
+    }
+
+    this.getTranslationData('Pages.AllUsers');
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Pages.AllUsers');
+    });
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+
+      this.columns = this.columns?.map((element, index) => {
+        return {
+          ...element,
+          header: data.UsersTable.ColumnHeaders[index].Name
+        };
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.getAllUsers();
 
-    this.items = [{ label: 'User' }, { label: 'All Users' }];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
   }
 

@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TableColumnInfoModel } from '../../models/others/table.column.info.model';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
@@ -27,9 +26,6 @@ import { KeyValuePair } from '../../models/others/key.value.pair.model';
 export class SimpleTableComponent {
   @Input() tableDatas: any;
   @Input() globalFilterFields: any;
-  @Input() columnName: string = '';
-  @Input() columnFieldName: string = '';
-  @Input() tableColumnInfos: TableColumnInfoModel[] = [];
 
   @Input() columns: any;
 

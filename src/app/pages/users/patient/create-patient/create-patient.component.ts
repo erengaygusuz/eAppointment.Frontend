@@ -20,6 +20,7 @@ import { CreatePatientFormValidator } from '../../../../validators/create.patien
 import { CreatePatientValidationModel } from '../../../../models/patients/create.patient.validation.model';
 import { Mapper } from '@dynamic-mapper/angular';
 import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-patient',
@@ -35,7 +36,8 @@ import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profi
     InputMaskModule,
     FormsModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './create-patient.component.html',
   styleUrl: './create-patient.component.css',
@@ -44,6 +46,8 @@ import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profi
 export class CreatePatientComponent implements OnInit {
   patientRequestModel: CreatePatientCommandModel =
     new CreatePatientCommandModel();
+
+  pageTitle: string = '';
 
   patientValidationControl: any;
 
@@ -58,7 +62,7 @@ export class CreatePatientComponent implements OnInit {
   selectedCounty: GetAllCountiesByCityIdQueryResponseModel =
     new GetAllCountiesByCityIdQueryResponseModel();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   formValidator: CreatePatientFormValidator = new CreatePatientFormValidator();
@@ -67,15 +71,32 @@ export class CreatePatientComponent implements OnInit {
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
-    private readonly mapper: Mapper
-  ) {}
+    private readonly mapper: Mapper,
+    private translate: TranslateService
+  ) {
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    } else {
+      this.translate.use('tr-TR');
+    }
+
+    this.getTranslationData('Pages.CreatePatient');
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Pages.CreatePatient');
+    });
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
+  }
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'User' },
-      { label: 'Patient' },
-      { label: 'Create Patient' }
-    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
     this.getAllCities();
