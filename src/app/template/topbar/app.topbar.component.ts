@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-topbar',
@@ -41,7 +42,8 @@ export class AppTopBarComponent implements OnInit {
     private themeService: ThemeService,
     public authService: AuthService,
     private router: Router,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +117,8 @@ export class AppTopBarComponent implements OnInit {
     this.selectedCountry = this.countries!.filter(
       x => x.languageCode == language
     )[0];
+
+    this.languageService.setLanguage(language);
   }
 
   signOut() {

@@ -114,13 +114,67 @@
       ],
       "Form": {
         "Controls": {
-          "Firstname": "Firstname",
-          "Lastname": "Lastname",
-          "Username": "Username",
-          "PhoneNumber": "Phone Number",
-          "Email": "E-mail",
-          "Password": "Password",
-          "PasswordAgain": "Password (Again)"
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "Username": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "Email": {
+            "Label": "E-Mail",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the e-mail",
+              "NotValid": "Please enter a valid e-mail",
+              "MaxLength": "Please enter maximum 150 character for e-mail"
+            }
+          },
+          "Password": {
+            "Label": "Password",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password",
+              "MinLength": "Please enter minimum 1 character for password",
+              "MaxLength": "Please enter maximum 5 character for password"
+            }
+          },
+          "PasswordAgain": {
+            "Label": "Password (Again)",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password (again)",
+              "NotMatch": "Please enter the same password for password (again)"
+            }
+          }
         },
         "Buttons": {
           "Submit": "Create",

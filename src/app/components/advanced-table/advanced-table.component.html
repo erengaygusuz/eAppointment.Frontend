@@ -64,14 +64,14 @@
               [rounded]="true"
               [outlined]="true"
               severity="success"
-              (click)="this.editRecord.emit({ tableData: tableData })" />
+              (click)="this.editRecord.emit({ tableData: rowData })" />
             <p-button
               pRipple
               icon="fa-solid fa-trash"
               severity="danger"
               [rounded]="true"
               [outlined]="true"
-              (click)="this.deleteRecord.emit({ tableData: tableData })" />
+              (click)="this.deleteRecord.emit({ tableData: rowData })" />
           </div>
         } @else if (col.isSeverity) {
           <p-tag

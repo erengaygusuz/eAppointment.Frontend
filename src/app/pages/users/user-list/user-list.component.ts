@@ -38,10 +38,6 @@ export class UserListComponent implements OnInit {
 
   tableName: string = 'usersTable';
 
-  tableSummaryInfo: string = '';
-
-  tableSearchBoxPlaceHolder: string = 'Search User';
-
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -128,8 +124,6 @@ export class UserListComponent implements OnInit {
       this.users = [];
 
       this.users = res.data;
-
-      this.tableSummaryInfo = `In total there are ${this.users ? this.users.length : 0} users.`;
     });
   }
 

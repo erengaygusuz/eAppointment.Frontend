@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +18,8 @@ import { CreateAdminFormValidator } from '../../../../validators/create.admin.fo
 import { Mapper } from '@dynamic-mapper/angular';
 import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-admin',
@@ -40,7 +42,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './create-admin.component.css',
   providers: [MessageService]
 })
-export class CreateAdminComponent implements OnInit {
+export class CreateAdminComponent implements OnInit, OnDestroy {
   adminRequestModel: CreateAdminCommandModel = new CreateAdminCommandModel();
 
   pageTitle: string = '';
@@ -54,24 +56,43 @@ export class CreateAdminComponent implements OnInit {
 
   formValidator: CreateAdminFormValidator = new CreateAdminFormValidator();
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
     private readonly mapper: Mapper,
-    private translate: TranslateService
-  ) {
-    if (localStorage.getItem('language')) {
-      this.translate.use(localStorage.getItem('language')!);
-    } else {
-      this.translate.use('tr-TR');
-    }
+    private translate: TranslateService,
+    private languageService: LanguageService
+  ) {}
 
-    this.getTranslationData('Pages.CreateAdmin');
+  ngOnInit(): void {
+    this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Pages.CreateAdmin');
-    });
+    this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.CreateAdmin');
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.adminValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getTranslationData(key: string) {
@@ -81,10 +102,6 @@ export class CreateAdminComponent implements OnInit {
       });
       this.pageTitle = data.Title;
     });
-  }
-
-  ngOnInit(): void {
-    this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
   }
 
   createUser() {

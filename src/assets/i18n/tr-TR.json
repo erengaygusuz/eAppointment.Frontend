@@ -114,13 +114,67 @@
       ],
       "Form": {
         "Controls": {
-          "Firstname": "Ad",
-          "Lastname": "Soyad",
-          "Username": "Kullanıcı Adı",
-          "PhoneNumber": "Telefon Numarası",
-          "Email": "E-Posta",
-          "Password": "Şifre",
-          "PasswordAgain": "Şifre (Tekrar)"
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "Username": {
+            "Label": "Kullanıcı Adı",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",
+              "MinLength": "Lütfen kullanıcı adı alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen kullanıcı adı alanı için maksimum 100 karakter giriniz",
+              "NotUseSpaces": "Lütfen kullanıcı adı alanında boşluk karakteri kullanmayınız",
+              "NotUseTurkishCharacters": "Lütfen kullanıcı adı alanında türkçe karakter kullanmayınız",
+              "NotUseUpperLetters": "Lütfen kullanıcı adı alanında büyük harf kullanmayınız",
+              "NotUseNumbers": "Lütfen kullanıcı adı alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          },
+          "Email": {
+            "Label": "E-Posta",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen e-posta alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir e-posta giriniz",
+              "MaxLength": "Lütfen e-posta alanı için maksimum 150 karakter giriniz"
+            }
+          },
+          "Password": {
+            "Label": "Şifre",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen şifre alanını boş bırakmayınız",
+              "MinLength": "Lütfen şifre alanı için minimum 1 karakter giriniz",
+              "MaxLength": "Lütfen şifre alanı için maksimum 5 karakter giriniz"
+            }
+          },
+          "PasswordAgain": {
+            "Label": "Şifre (Tekrar)",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen şifre (tekrar) alanını boş bırakmayınız",
+              "NotMatch": "Lütfen şifre (tekrar) alanını şifre ile aynı giriniz"
+            }
+          }
         },
         "Buttons": {
           "Submit": "Oluştur",
