@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  AfterViewInit,
+  AfterContentInit,
+  AfterContentChecked
+} from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -9,6 +17,7 @@ import { RouterModule } from '@angular/router';
 import { KeyValuePair } from '../../models/others/key.value.pair.model';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-advanced-table',
@@ -22,12 +31,13 @@ import { TagModule } from 'primeng/tag';
     ToastModule,
     InputTextModule,
     RouterModule,
-    TagModule
+    TagModule,
+    TranslateModule
   ],
   templateUrl: './advanced-table.component.html',
   styleUrl: './advanced-table.component.css'
 })
-export class AdvancedTableComponent {
+export class AdvancedTableComponent implements AfterContentChecked {
   @Input() tableDatas: any;
   @Input() globalFilterFields: any;
 
@@ -40,10 +50,43 @@ export class AdvancedTableComponent {
   @Output() editRecord = new EventEmitter<{ tableData: any }>();
   @Output() deleteRecord = new EventEmitter<{ tableData: any }>();
 
-  @Input() tableSummaryInfo: string = '';
-  @Input() tableSearchBoxPlaceHolder: string = '';
-
   @Input() severityList: KeyValuePair[] = [];
+
+  first: number = 1;
+  last: number = 5;
+  itemsPerPage: number = 5;
+
+  rowsPerPageOptions: number[] = [5, 10, 20];
+
+  currentPageReportTemplate: string = '';
+
+  constructor(private translate: TranslateService) {}
+
+  getTranslationData(key: string) {
+    this.translate
+      .get(key, {
+        totalItems: this.tableDatas.length,
+        first: this.first,
+        last: this.last
+      })
+      .subscribe(data => {
+        this.currentPageReportTemplate = data;
+      });
+  }
+
+  ngAfterContentChecked() {
+    if (localStorage.getItem('language')) {
+      this.translate.use(localStorage.getItem('language')!);
+    } else {
+      this.translate.use('tr-TR');
+    }
+
+    this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
+
+    this.translate.onLangChange.subscribe(() => {
+      this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
+    });
+  }
 
   getSeverity(value: string): any {
     for (let i = 0; i < this.severityList.length; i++) {
@@ -51,5 +94,23 @@ export class AdvancedTableComponent {
         return this.severityList[i].value;
       }
     }
+  }
+
+  onPageChange(event: any) {
+    const currentPage = Math.ceil((event.first - 1) / event.rows + 1);
+    this.first = event.first + 1;
+    this.itemsPerPage = event.rows;
+    const totalItems = this.tableDatas.length;
+    this.last = totalItems;
+
+    if (this.itemsPerPage < totalItems) {
+      this.last = this.itemsPerPage * currentPage;
+
+      if (this.last > totalItems) {
+        this.last = totalItems;
+      }
+    }
+
+    this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
   }
 }

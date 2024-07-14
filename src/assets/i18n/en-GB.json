@@ -59,5 +59,147 @@
   },
   "Footer": {
     "Title": "e-Appointment"
+  },
+  "Pages":{
+    "Home": {
+      "Title": "Home",
+      "BreadcrumbItems": [
+        {
+          "Name": "Home"
+        }
+      ]
+    },
+    "AllUsers": {
+      "Title": "All Users",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "All Users"
+        }
+      ],
+      "UsersTable": {
+        "ColumnHeaders": [
+          {
+            "Name": "Fullname"
+          },
+          {
+            "Name": "E-mail"
+          },
+          {
+            "Name": "Username"
+          },
+          {
+            "Name": "Role"
+          },
+          {
+            "Name": "Operations"
+          }
+        ]
+      }
+    },
+    "CreateAdmin": {
+      "Title": "Create Admin",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Admin"
+        },
+        {
+          "Name": "Create Admin"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": "Firstname",
+          "Lastname": "Lastname",
+          "Username": "Username",
+          "PhoneNumber": "Phone Number",
+          "Email": "E-mail",
+          "Password": "Password",
+          "PasswordAgain": "Password (Again)"
+        },
+        "Buttons": {
+          "Submit": "Create",
+          "Cancel": "Back"
+        }
+      }
+    },
+    "CreateDoctor": {
+      "Title": "Create Doctor",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Doctor"
+        },
+        {
+          "Name": "Create Doctor"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": "Firstname",
+          "Lastname": "Lastname",
+          "Username": "Username",
+          "PhoneNumber": "Phone Number",
+          "Email": "E-mail",
+          "Password": "Password",
+          "PasswordAgain": "Password (Again)",
+          "Department": "Department",
+          "SelectADepartment": "Select a department"
+        },
+        "Buttons": {
+          "Submit": "Create",
+          "Cancel": "Back"
+        }
+      }
+    },
+    "CreatePatient": {
+      "Title": "Create Patient",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Patient"
+        },
+        {
+          "Name": "Create Patient"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": "Firstname",
+          "Lastname": "Lastname",
+          "Username": "Username",
+          "PhoneNumber": "Phone Number",
+          "Email": "E-mail",
+          "IdentityNumber": "Identity Number",
+          "Password": "Password",
+          "PasswordAgain": "Password (Again)",
+          "City": "City",
+          "SelectACity": "Select a city",
+          "County": "County",
+          "SelectACounty": "Select a county",
+          "FullAddress": "Full Address"
+        },
+        "Buttons": {
+          "Submit": "Create",
+          "Cancel": "Back"
+        }
+      }
+    }
+  },
+  "Components": {
+    "AdvancedTable": {
+      "SearchBarPlaceHolder": "Search...",
+      "Summary": "In total, there are {{totalItems}} items in our records.",
+      "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
+    }
   }
 }

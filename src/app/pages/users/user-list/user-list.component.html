@@ -6,8 +6,6 @@
         [tableDatas]="users"
         [globalFilterFields]="globalFilterFieldsData"
         [columns]="columns"
-        [tableSummaryInfo]="tableSummaryInfo"
-        [tableSearchBoxPlaceHolder]="tableSearchBoxPlaceHolder"
         (editRecord)="editRecord($event.tableData)"
         (deleteRecord)="deleteRecord($event.tableData)"
         (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />

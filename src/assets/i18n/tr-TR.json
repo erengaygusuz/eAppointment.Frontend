@@ -198,8 +198,8 @@
   "Components": {
     "AdvancedTable": {
       "SearchBarPlaceHolder": "Ara...",
-      "Summary": "Toplamda {0} kayıt bulunmaktadır.",
-      "PaginatorInfo": "Toplam {0} kayıttan {1} ile {2} arası kayıt gösteriliyor"
+      "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
+      "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     }
   }
 }
