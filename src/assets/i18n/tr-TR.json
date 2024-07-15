@@ -197,15 +197,74 @@
       ],
       "Form": {
         "Controls": {
-          "Firstname": "Ad",
-          "Lastname": "Soyad",
-          "Username": "Kullanıcı Adı",
-          "PhoneNumber": "Telefon Numarası",
-          "Email": "E-Posta",
-          "Password": "Şifre",
-          "PasswordAgain": "Şifre (Tekrar)",
-          "Department": "Poliklinik",
-          "SelectADepartment": "Lütfen bir poliklinik seçiniz"
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "Username": {
+            "Label": "Kullanıcı Adı",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",
+              "MinLength": "Lütfen kullanıcı adı alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen kullanıcı adı alanı için maksimum 100 karakter giriniz",
+              "NotUseSpaces": "Lütfen kullanıcı adı alanında boşluk karakteri kullanmayınız",
+              "NotUseTurkishCharacters": "Lütfen kullanıcı adı alanında türkçe karakter kullanmayınız",
+              "NotUseUpperLetters": "Lütfen kullanıcı adı alanında büyük harf kullanmayınız",
+              "NotUseNumbers": "Lütfen kullanıcı adı alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          },
+          "Email": {
+            "Label": "E-Posta",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen e-posta alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir e-posta giriniz",
+              "MaxLength": "Lütfen e-posta alanı için maksimum 150 karakter giriniz"
+            }
+          },
+          "Password": {
+            "Label": "Şifre",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen şifre alanını boş bırakmayınız",
+              "MinLength": "Lütfen şifre alanı için minimum 1 karakter giriniz",
+              "MaxLength": "Lütfen şifre alanı için maksimum 5 karakter giriniz"
+            }
+          },
+          "PasswordAgain": {
+            "Label": "Şifre (Tekrar)",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen şifre (tekrar) alanını boş bırakmayınız",
+              "NotMatch": "Lütfen şifre (tekrar) alanını şifre ile aynı giriniz"
+            }
+          },
+          "Department": {
+            "Label": "Poliklinik",
+            "Dropdown": "Bir poliklinik seçiniz",
+            "ValidationMessages": {
+              "NotSelect": "Lütfen bir poliklinik seçiniz"
+            }
+          }
         },
         "Buttons": {
           "Submit": "Oluştur",
@@ -228,22 +287,341 @@
       ],
       "Form": {
         "Controls": {
-          "Firstname": "Ad",
-          "Lastname": "Soyad",
-          "Username": "Kullanıcı Adı",
-          "PhoneNumber": "Telefon Numarası",
-          "Email": "E-Posta",
-          "IdentityNumber": "T.C. Kimlik No",
-          "Password": "Şifre",
-          "PasswordAgain": "Şifre (Tekrar)",
-          "City": "İl",
-          "SelectACity": "Lütfen bir il seçiniz",
-          "County": "İlçe",
-          "SelectACounty": "Lütfen bir ilçe seçiniz",
-          "FullAddress": "Tam Adres"
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "Username": {
+            "Label": "Kullanıcı Adı",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",
+              "MinLength": "Lütfen kullanıcı adı alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen kullanıcı adı alanı için maksimum 100 karakter giriniz",
+              "NotUseSpaces": "Lütfen kullanıcı adı alanında boşluk karakteri kullanmayınız",
+              "NotUseTurkishCharacters": "Lütfen kullanıcı adı alanında türkçe karakter kullanmayınız",
+              "NotUseUpperLetters": "Lütfen kullanıcı adı alanında büyük harf kullanmayınız",
+              "NotUseNumbers": "Lütfen kullanıcı adı alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          },
+          "Email": {
+            "Label": "E-Posta",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen e-posta alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir e-posta giriniz",
+              "MaxLength": "Lütfen e-posta alanı için maksimum 150 karakter giriniz"
+            }
+          },
+          "IdentityNumber": {
+            "Label": "T.C. Kimlik No",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen T.C. kimlik no alanını boş bırakmayınız",
+              "NotExactNumberCount": "Lütfen T.C. kimlik no alanı için 11 rakam giriniz",
+              "NotUseLetters": "Lütfen T.C. kimlik no alanı için harf kullanmayınız"
+            }
+          },
+          "Password": {
+            "Label": "Şifre",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen şifre alanını boş bırakmayınız",
+              "MinLength": "Lütfen şifre alanı için minimum 1 karakter giriniz",
+              "MaxLength": "Lütfen şifre alanı için maksimum 5 karakter giriniz"
+            }
+          },
+          "PasswordAgain": {
+            "Label": "Şifre (Tekrar)",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen şifre (tekrar) alanını boş bırakmayınız",
+              "NotMatch": "Lütfen şifre (tekrar) alanını şifre ile aynı giriniz"
+            }
+          },
+          "City": {
+            "Label": "İl",
+            "Dropdown": "Bir il seçiniz",
+            "ValidationMessages": {
+              "NotSelect": "Lütfen bir il seçiniz"
+            }
+          },
+          "County": {
+            "Label": "İlçe",
+            "Dropdown": "Bir ilçe seçiniz",
+            "ValidationMessages": {
+              "NotSelect": "Lütfen bir ilçe seçiniz"
+            }
+          },
+          "FullAddress": {
+            "Label": "Tam Adres",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen tam adres alanını boş bırakmayınız",
+              "MinLength": "Lütfen tam adres için minimum 50 karakter giriniz",
+              "MaxLength": "Lütfen tam adres için maksimum 500 karakter giriniz"
+            }
+          }
         },
         "Buttons": {
           "Submit": "Oluştur",
+          "Cancel": "Geri Dön"
+        }
+      }
+    },
+    "UpdateAdmin": {
+      "Title": "Yönetici Güncelle",
+      "BreadcrumbItems": [
+        {
+          "Name": "Kullanıcı"
+        },
+        {
+          "Name": "Yönetici"
+        },
+        {
+          "Name": "Yönetici Güncelle"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "Username": {
+            "Label": "Kullanıcı Adı",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",
+              "MinLength": "Lütfen kullanıcı adı alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen kullanıcı adı alanı için maksimum 100 karakter giriniz",
+              "NotUseSpaces": "Lütfen kullanıcı adı alanında boşluk karakteri kullanmayınız",
+              "NotUseTurkishCharacters": "Lütfen kullanıcı adı alanında türkçe karakter kullanmayınız",
+              "NotUseUpperLetters": "Lütfen kullanıcı adı alanında büyük harf kullanmayınız",
+              "NotUseNumbers": "Lütfen kullanıcı adı alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          },
+          "Email": {
+            "Label": "E-Posta",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen e-posta alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir e-posta giriniz",
+              "MaxLength": "Lütfen e-posta alanı için maksimum 150 karakter giriniz"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Güncelle",
+          "Cancel": "Geri Dön"
+        }
+      }
+    },
+    "UpdateDoctor": {
+      "Title": "Doktor Güncelle",
+      "BreadcrumbItems": [
+        {
+          "Name": "Kullanıcı"
+        },
+        {
+          "Name": "Doktor"
+        },
+        {
+          "Name": "Doktor Güncelle"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "Username": {
+            "Label": "Kullanıcı Adı",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",
+              "MinLength": "Lütfen kullanıcı adı alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen kullanıcı adı alanı için maksimum 100 karakter giriniz",
+              "NotUseSpaces": "Lütfen kullanıcı adı alanında boşluk karakteri kullanmayınız",
+              "NotUseTurkishCharacters": "Lütfen kullanıcı adı alanında türkçe karakter kullanmayınız",
+              "NotUseUpperLetters": "Lütfen kullanıcı adı alanında büyük harf kullanmayınız",
+              "NotUseNumbers": "Lütfen kullanıcı adı alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          },
+          "Email": {
+            "Label": "E-Posta",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen e-posta alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir e-posta giriniz",
+              "MaxLength": "Lütfen e-posta alanı için maksimum 150 karakter giriniz"
+            }
+          },
+          "Department": {
+            "Label": "Poliklinik",
+            "Dropdown": "Bir poliklinik seçiniz",
+            "ValidationMessages": {
+              "NotSelect": "Lütfen bir poliklinik seçiniz"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Güncelle",
+          "Cancel": "Geri Dön"
+        }
+      }
+    },
+    "UpdatePatient": {
+      "Title": "Hasta Güncelle",
+      "BreadcrumbItems": [
+        {
+          "Name": "Kullanıcı"
+        },
+        {
+          "Name": "Hasta"
+        },
+        {
+          "Name": "Hasta Güncelle"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "Username": {
+            "Label": "Kullanıcı Adı",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",
+              "MinLength": "Lütfen kullanıcı adı alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen kullanıcı adı alanı için maksimum 100 karakter giriniz",
+              "NotUseSpaces": "Lütfen kullanıcı adı alanında boşluk karakteri kullanmayınız",
+              "NotUseTurkishCharacters": "Lütfen kullanıcı adı alanında türkçe karakter kullanmayınız",
+              "NotUseUpperLetters": "Lütfen kullanıcı adı alanında büyük harf kullanmayınız",
+              "NotUseNumbers": "Lütfen kullanıcı adı alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          },
+          "Email": {
+            "Label": "E-Posta",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen e-posta alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir e-posta giriniz",
+              "MaxLength": "Lütfen e-posta alanı için maksimum 150 karakter giriniz"
+            }
+          },
+          "IdentityNumber": {
+            "Label": "T.C. Kimlik No",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen T.C. kimlik no alanını boş bırakmayınız",
+              "NotExactNumberCount": "Lütfen T.C. kimlik no alanı için 11 rakam giriniz",
+              "NotUseLetters": "Lütfen T.C. kimlik no alanı için harf kullanmayınız"
+            }
+          },
+          "City": {
+            "Label": "İl",
+            "Dropdown": "Bir il seçiniz",
+            "ValidationMessages": {
+              "NotSelect": "Lütfen bir il seçiniz"
+            }
+          },
+          "County": {
+            "Label": "İlçe",
+            "Dropdown": "Bir ilçe seçiniz",
+            "ValidationMessages": {
+              "NotSelect": "Lütfen bir ilçe seçiniz"
+            }
+          },
+          "FullAddress": {
+            "Label": "Tam Adres",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen tam adres alanını boş bırakmayınız",
+              "MinLength": "Lütfen tam adres için minimum 50 karakter giriniz",
+              "MaxLength": "Lütfen tam adres için maksimum 500 karakter giriniz"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Güncelle",
           "Cancel": "Geri Dön"
         }
       }

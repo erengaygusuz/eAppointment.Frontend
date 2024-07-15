@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,6 +22,9 @@ import { UpdatePatientByIdValidationModel } from '../../../../models/patients/up
 import { UpdatePatientFormValidator } from '../../../../validators/update.patient.form.validator';
 import { Mapper } from '@dynamic-mapper/angular';
 import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../../../services/language.service';
 
 @Component({
   selector: 'app-update-patient',
@@ -37,18 +40,21 @@ import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profi
     InputMaskModule,
     FormsModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './update-patient.component.html',
   styleUrl: './update-patient.component.css',
   providers: [MessageService]
 })
-export class UpdatePatientComponent implements OnInit {
+export class UpdatePatientComponent implements OnInit, OnDestroy {
   patient: GetPatientByIdQueryResponseModel =
     new GetPatientByIdQueryResponseModel();
 
   patientRequestModel: UpdatePatientByIdCommandModel =
     new UpdatePatientByIdCommandModel();
+
+  pageTitle: string = '';
 
   patientValidationControl: any;
 
@@ -63,30 +69,62 @@ export class UpdatePatientComponent implements OnInit {
   selectedCounty: GetAllCountiesByCityIdQueryResponseModel =
     new GetAllCountiesByCityIdQueryResponseModel();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   formValidator: UpdatePatientFormValidator = new UpdatePatientFormValidator();
+
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'User' },
-      { label: 'Patient' },
-      { label: 'Update Patient' }
-    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
     const id = this.route.snapshot.paramMap.get('id');
 
     this.getPatientById(Number(id!));
+
+    this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.UpdatePatient');
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.patientValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
   }
 
   getPatientById(id: number) {

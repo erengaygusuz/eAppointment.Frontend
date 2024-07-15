@@ -1,11 +1,13 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <app-page-header [breadcrumbItems]="items" [pageTitle]="'Update Admin'" />
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
       <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            <label htmlFor="adminFormModel.firstName">Firstname</label>
+            <label htmlFor="adminFormModel.firstName">{{
+              'Pages.UpdateAdmin.Form.Controls.Firstname.Label' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -19,7 +21,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="adminFormModel.lastName">Lastname</label>
+            <label htmlFor="adminFormModel.lastName">{{
+              'Pages.UpdateAdmin.Form.Controls.Lastname.Label' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -33,7 +37,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="adminFormModel.userName">Username</label>
+            <label htmlFor="adminFormModel.userName">{{
+              'Pages.UpdateAdmin.Form.Controls.Username.Label' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -47,7 +53,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            <label htmlFor="adminFormModel.phoneNumber">Phone Number</label>
+            <label htmlFor="adminFormModel.phoneNumber">{{
+              'Pages.UpdateAdmin.Form.Controls.PhoneNumber.Label' | translate
+            }}</label>
             <p-inputMask
               mask="(999) 999-9999"
               [(ngModel)]="adminFormModel.phoneNumber"
@@ -60,7 +68,9 @@
             </div>
           </div>
           <div class="field col-12">
-            <label htmlFor="adminFormModel.email">E-mail</label>
+            <label htmlFor="adminFormModel.email">{{
+              'Pages.UpdateAdmin.Form.Controls.Email.Label' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -75,13 +85,13 @@
         <div class="flex align-items-end justify-content-end mt-5">
           <p-button
             pRipple
-            label="Update"
+            label="{{ 'Pages.UpdateAdmin.Form.Buttons.Submit' | translate }}"
             icon="pi fa-solid fa-check"
             [text]="true"
             type="submit" />
           <p-button
             pRipple
-            label="Back"
+            label="{{ 'Pages.UpdateAdmin.Form.Buttons.Cancel' | translate }}"
             icon="pi fa-solid fa-arrow-left"
             [text]="true"
             [routerLink]="['/users']" />

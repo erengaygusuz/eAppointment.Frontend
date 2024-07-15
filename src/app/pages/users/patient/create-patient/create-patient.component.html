@@ -5,7 +5,9 @@
       <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            {{ 'Pages.CreatePatient.Form.Controls.Firstname' | translate }}
+            {{
+              'Pages.CreatePatient.Form.Controls.Firstname.Label' | translate
+            }}
             <input
               pInputText
               type="text"
@@ -19,7 +21,7 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            {{ 'Pages.CreatePatient.Form.Controls.Lastname' | translate }}
+            {{ 'Pages.CreatePatient.Form.Controls.Lastname.Label' | translate }}
             <input
               pInputText
               type="text"
@@ -34,7 +36,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.userName">{{
-              'Pages.CreatePatient.Form.Controls.Username' | translate
+              'Pages.CreatePatient.Form.Controls.Username.Label' | translate
             }}</label>
             <input
               pInputText
@@ -50,7 +52,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.phoneNumber">{{
-              'Pages.CreatePatient.Form.Controls.PhoneNumber' | translate
+              'Pages.CreatePatient.Form.Controls.PhoneNumber.Label' | translate
             }}</label>
             <p-inputMask
               mask="(999) 999-9999"
@@ -65,7 +67,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.email">{{
-              'Pages.CreatePatient.Form.Controls.Email' | translate
+              'Pages.CreatePatient.Form.Controls.Email.Label' | translate
             }}</label>
             <input
               pInputText
@@ -81,7 +83,8 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.identityNumber">{{
-              'Pages.CreatePatient.Form.Controls.IdentityNumber' | translate
+              'Pages.CreatePatient.Form.Controls.IdentityNumber.Label'
+                | translate
             }}</label>
             <input
               pInputText
@@ -97,7 +100,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.password">{{
-              'Pages.CreatePatient.Form.Controls.Password' | translate
+              'Pages.CreatePatient.Form.Controls.Password.Label' | translate
             }}</label>
             <input
               pInputText
@@ -113,7 +116,8 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.passwordAgain">{{
-              'Pages.CreatePatient.Form.Controls.PasswordAgain' | translate
+              'Pages.CreatePatient.Form.Controls.PasswordAgain.Label'
+                | translate
             }}</label>
             <input
               pInputText
@@ -129,14 +133,14 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.city">{{
-              'Pages.CreatePatient.Form.Controls.City' | translate
+              'Pages.CreatePatient.Form.Controls.City.Label' | translate
             }}</label>
             <p-dropdown
               [options]="cities"
               [(ngModel)]="patientFormModel.city"
               optionLabel="name"
               placeholder="{{
-                'Pages.CreatePatient.Form.Controls.SelectACity' | translate
+                'Pages.CreatePatient.Form.Controls.City.Dropdown' | translate
               }}"
               appendTo="body"
               (onChange)="getAllCountiesByCityId(patientFormModel.city.id)"
@@ -150,14 +154,14 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="patientFormModel.county">{{
-              'Pages.CreatePatient.Form.Controls.County' | translate
+              'Pages.CreatePatient.Form.Controls.County.Label' | translate
             }}</label>
             <p-dropdown
               [options]="counties"
               [(ngModel)]="patientFormModel.county"
               optionLabel="name"
               placeholder="{{
-                'Pages.CreatePatient.Form.Controls.SelectACounty' | translate
+                'Pages.CreatePatient.Form.Controls.County.Dropdown' | translate
               }}"
               appendTo="body"
               (ngModelChange)="checkForValidation('county')"
@@ -170,7 +174,7 @@
           </div>
           <div class="field col-12">
             <label htmlFor="patientFormModel.fullAddress">{{
-              'Pages.CreatePatient.Form.Controls.FullAddress' | translate
+              'Pages.CreatePatient.Form.Controls.FullAddress.Label' | translate
             }}</label>
             <textarea
               rows="5"
@@ -190,13 +194,13 @@
         <div class="flex align-items-end justify-content-end mt-5">
           <p-button
             pRipple
-            label="Create"
+            label="{{ 'Pages.CreatePatient.Form.Buttons.Submit' | translate }}"
             icon="pi fa-solid fa-check"
             [text]="true"
             type="submit" />
           <p-button
             pRipple
-            label="Back"
+            label="{{ 'Pages.CreatePatient.Form.Buttons.Cancel' | translate }}"
             icon="pi fa-solid fa-arrow-left"
             [text]="true"
             [routerLink]="['/users']" />

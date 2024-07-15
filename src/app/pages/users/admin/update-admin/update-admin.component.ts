@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,9 @@ import { UpdateAdminByIdValidationModel } from '../../../../models/admins/update
 import { UpdateAdminFormValidator } from '../../../../validators/update.admin.form.validator';
 import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
 import { Mapper } from '@dynamic-mapper/angular';
+import { LanguageService } from '../../../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-update-admin',
@@ -34,47 +37,82 @@ import { Mapper } from '@dynamic-mapper/angular';
     InputMaskModule,
     FormsModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './update-admin.component.html',
   styleUrl: './update-admin.component.css',
   providers: [MessageService]
 })
-export class UpdateAdminComponent implements OnInit {
+export class UpdateAdminComponent implements OnInit, OnDestroy {
   admin: GetAdminByIdQueryResponseModel = new GetAdminByIdQueryResponseModel();
 
   adminRequestModel: UpdateAdminByIdCommandModel =
     new UpdateAdminByIdCommandModel();
+
+  pageTitle: string = '';
 
   adminValidationControl: any;
 
   adminFormModel: UpdateAdminByIdValidationModel =
     new UpdateAdminByIdValidationModel();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   formValidator: UpdateAdminFormValidator = new UpdateAdminFormValidator();
+
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'User' },
-      { label: 'Admin' },
-      { label: 'Update Admin' }
-    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
     const id = this.route.snapshot.paramMap.get('id');
 
     this.getAdminById(Number(id!));
+
+    this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.UpdateAdmin');
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.adminValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
   }
 
   getAdminById(id: number) {

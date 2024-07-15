@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +19,8 @@ import { CreateDoctorFormValidator } from '../../../../validators/create.doctor.
 import { Mapper } from '@dynamic-mapper/angular';
 import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-doctor',
@@ -41,7 +43,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './create-doctor.component.css',
   providers: [MessageService]
 })
-export class CreateDoctorComponent implements OnInit {
+export class CreateDoctorComponent implements OnInit, OnDestroy {
   doctorRequestModel: CreateDoctorCommandModel = new CreateDoctorCommandModel();
 
   pageTitle: string = '';
@@ -60,24 +62,45 @@ export class CreateDoctorComponent implements OnInit {
 
   formValidator: CreateDoctorFormValidator = new CreateDoctorFormValidator();
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
     private readonly mapper: Mapper,
-    private translate: TranslateService
-  ) {
-    if (localStorage.getItem('language')) {
-      this.translate.use(localStorage.getItem('language')!);
-    } else {
-      this.translate.use('tr-TR');
-    }
+    private translate: TranslateService,
+    private languageService: LanguageService
+  ) {}
 
-    this.getTranslationData('Pages.CreateDoctor');
+  ngOnInit(): void {
+    this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Pages.CreateDoctor');
-    });
+    this.getAllDepartments();
+
+    this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.CreateDoctor');
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.doctorValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getTranslationData(key: string) {
@@ -87,12 +110,6 @@ export class CreateDoctorComponent implements OnInit {
       });
       this.pageTitle = data.Title;
     });
-  }
-
-  ngOnInit(): void {
-    this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
-
-    this.getAllDepartments();
   }
 
   getAllDepartments() {

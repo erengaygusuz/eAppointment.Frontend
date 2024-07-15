@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +20,9 @@ import { UpdateDoctorFormValidator } from '../../../../validators/update.doctor.
 import { UpdateDoctorByIdValidationModel } from '../../../../models/doctors/update.doctor.by.id.validation.model';
 import { Mapper } from '@dynamic-mapper/angular';
 import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile';
+import { Subject, takeUntil } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/language.service';
 
 @Component({
   selector: 'app-update-doctor',
@@ -35,18 +38,21 @@ import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile
     InputMaskModule,
     FormsModule,
     ToastModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './update-doctor.component.html',
   styleUrl: './update-doctor.component.css',
   providers: [MessageService]
 })
-export class UpdateDoctorComponent implements OnInit {
+export class UpdateDoctorComponent implements OnInit, OnDestroy {
   doctor: GetDoctorByIdQueryResponseModel =
     new GetDoctorByIdQueryResponseModel();
 
   doctorRequestModel: UpdateDoctorByIdCommandModel =
     new UpdateDoctorByIdCommandModel();
+
+  pageTitle: string = '';
 
   doctorValidationControl: any;
 
@@ -57,30 +63,62 @@ export class UpdateDoctorComponent implements OnInit {
   selectedDepartment: GetAllDepartmentsQueryResponseModel =
     new GetAllDepartmentsQueryResponseModel();
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   formValidator: UpdateDoctorFormValidator = new UpdateDoctorFormValidator();
+
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.items = [
-      { label: 'User' },
-      { label: 'Doctor' },
-      { label: 'Update Doctor' }
-    ];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
     const id = this.route.snapshot.paramMap.get('id');
 
     this.getDoctorById(Number(id!));
+
+    this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.UpdateDoctor');
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.doctorValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return { ...element, label: data.BreadcrumbItems[index].Name };
+      });
+      this.pageTitle = data.Title;
+    });
   }
 
   getAllDepartments() {

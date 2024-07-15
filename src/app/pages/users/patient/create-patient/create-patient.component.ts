@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +21,8 @@ import { CreatePatientValidationModel } from '../../../../models/patients/create
 import { Mapper } from '@dynamic-mapper/angular';
 import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-create-patient',
@@ -43,7 +45,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './create-patient.component.css',
   providers: [MessageService]
 })
-export class CreatePatientComponent implements OnInit {
+export class CreatePatientComponent implements OnInit, OnDestroy {
   patientRequestModel: CreatePatientCommandModel =
     new CreatePatientCommandModel();
 
@@ -67,24 +69,45 @@ export class CreatePatientComponent implements OnInit {
 
   formValidator: CreatePatientFormValidator = new CreatePatientFormValidator();
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
     private messageService: MessageService,
     private readonly mapper: Mapper,
-    private translate: TranslateService
-  ) {
-    if (localStorage.getItem('language')) {
-      this.translate.use(localStorage.getItem('language')!);
-    } else {
-      this.translate.use('tr-TR');
-    }
+    private translate: TranslateService,
+    private languageService: LanguageService
+  ) {}
 
-    this.getTranslationData('Pages.CreatePatient');
+  ngOnInit(): void {
+    this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Pages.CreatePatient');
-    });
+    this.getAllCities();
+
+    this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.CreatePatient');
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.patientValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getTranslationData(key: string) {
@@ -94,12 +117,6 @@ export class CreatePatientComponent implements OnInit {
       });
       this.pageTitle = data.Title;
     });
-  }
-
-  ngOnInit(): void {
-    this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
-
-    this.getAllCities();
   }
 
   getAllCities() {

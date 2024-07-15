@@ -6,7 +6,7 @@
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
             <label htmlFor="doctorFormModel.firstName">{{
-              'Pages.CreateDoctor.Form.Controls.Firstname' | translate
+              'Pages.CreateDoctor.Form.Controls.Firstname.Label' | translate
             }}</label>
             <input
               pInputText
@@ -22,7 +22,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="doctorFormModel.lastName">{{
-              'Pages.CreateDoctor.Form.Controls.Lastname' | translate
+              'Pages.CreateDoctor.Form.Controls.Lastname.Label' | translate
             }}</label>
             <input
               pInputText
@@ -38,7 +38,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="doctorFormModel.userName">{{
-              'Pages.CreateDoctor.Form.Controls.Username' | translate
+              'Pages.CreateDoctor.Form.Controls.Username.Label' | translate
             }}</label>
             <input
               pInputText
@@ -54,7 +54,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="doctorFormModel.phoneNumber">{{
-              'Pages.CreateDoctor.Form.Controls.PhoneNumber' | translate
+              'Pages.CreateDoctor.Form.Controls.PhoneNumber.Label' | translate
             }}</label>
             <p-inputMask
               mask="(999) 999-9999"
@@ -69,7 +69,7 @@
           </div>
           <div class="field col-12">
             <label htmlFor="doctorFormModel.email">{{
-              'Pages.CreateDoctor.Form.Controls.Email' | translate
+              'Pages.CreateDoctor.Form.Controls.Email.Label' | translate
             }}</label>
             <input
               pInputText
@@ -85,7 +85,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="doctorFormModel.password">{{
-              'Pages.CreateDoctor.Form.Controls.Password' | translate
+              'Pages.CreateDoctor.Form.Controls.Password.Label' | translate
             }}</label>
             <input
               pInputText
@@ -101,7 +101,7 @@
           </div>
           <div class="field col-12 md:col-6">
             <label htmlFor="doctorFormModel.passwordAgain">{{
-              'Pages.CreateDoctor.Form.Controls.PasswordAgain' | translate
+              'Pages.CreateDoctor.Form.Controls.PasswordAgain.Label' | translate
             }}</label>
             <input
               pInputText
@@ -117,14 +117,15 @@
           </div>
           <div class="field col-12">
             <label htmlFor="doctorFormModel.department">{{
-              'Pages.CreateDoctor.Form.Controls.Department' | translate
+              'Pages.CreateDoctor.Form.Controls.Department.Label' | translate
             }}</label>
             <p-dropdown
               [options]="departments"
               [(ngModel)]="doctorFormModel.department"
               optionLabel="name"
               placeholder="{{
-                'Pages.CreateDoctor.Form.Controls.SelectADepartment' | translate
+                'Pages.CreateDoctor.Form.Controls.Department.Dropdown'
+                  | translate
               }}"
               appendTo="body"
               [ngModelOptions]="{ standalone: true }"

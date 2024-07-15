@@ -197,15 +197,74 @@
       ],
       "Form": {
         "Controls": {
-          "Firstname": "Firstname",
-          "Lastname": "Lastname",
-          "Username": "Username",
-          "PhoneNumber": "Phone Number",
-          "Email": "E-mail",
-          "Password": "Password",
-          "PasswordAgain": "Password (Again)",
-          "Department": "Department",
-          "SelectADepartment": "Select a department"
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "Username": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "Email": {
+            "Label": "E-Mail",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the e-mail",
+              "NotValid": "Please enter a valid e-mail",
+              "MaxLength": "Please enter maximum 150 character for e-mail"
+            }
+          },
+          "Password": {
+            "Label": "Password",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password",
+              "MinLength": "Please enter minimum 1 character for password",
+              "MaxLength": "Please enter maximum 5 character for password"
+            }
+          },
+          "PasswordAgain": {
+            "Label": "Password (Again)",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password (again)",
+              "NotMatch": "Please enter the same password for password (again)"
+            }
+          },
+          "Department": {
+            "Label": "Department",
+            "Dropdown": "Select a department",
+            "ValidationMessages": {
+              "NotSelect": "Please select a department"
+            }
+          }
         },
         "Buttons": {
           "Submit": "Create",
@@ -228,22 +287,341 @@
       ],
       "Form": {
         "Controls": {
-          "Firstname": "Firstname",
-          "Lastname": "Lastname",
-          "Username": "Username",
-          "PhoneNumber": "Phone Number",
-          "Email": "E-mail",
-          "IdentityNumber": "Identity Number",
-          "Password": "Password",
-          "PasswordAgain": "Password (Again)",
-          "City": "City",
-          "SelectACity": "Select a city",
-          "County": "County",
-          "SelectACounty": "Select a county",
-          "FullAddress": "Full Address"
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "Username": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "Email": {
+            "Label": "E-Mail",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the e-mail",
+              "NotValid": "Please enter a valid e-mail",
+              "MaxLength": "Please enter maximum 150 character for e-mail"
+            }
+          },
+          "IdentityNumber": {
+            "Label": "Identity Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the identity number",
+              "NotExactNumberCount": "Please enter 11 numbers for identity number",
+              "NotUseLetters": "Please do not use letters in the identity number"
+            }
+          },
+          "Password": {
+            "Label": "Password",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password",
+              "MinLength": "Please enter minimum 1 character for password",
+              "MaxLength": "Please enter maximum 5 character for password"
+            }
+          },
+          "PasswordAgain": {
+            "Label": "Password (Again)",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password (again)",
+              "NotMatch": "Please enter the same password for password (again)"
+            }
+          },
+          "City": {
+            "Label": "City",
+            "Dropdown": "Select a city",
+            "ValidationMessages": {
+              "NotSelect": "Please select a city"
+            }
+          },
+          "County": {
+            "Label": "County",
+            "Dropdown": "Select a county",
+            "ValidationMessages": {
+              "NotSelect": "Please select a county"
+            }
+          },
+          "FullAddress": {
+            "Label": "Full Address",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the full address",
+              "MinLength": "Please enter minimum 50 character for full address",
+              "MaxLength": "Please enter maximum 500 character for full address"
+            }
+          }
         },
         "Buttons": {
           "Submit": "Create",
+          "Cancel": "Back"
+        }
+      }
+    },
+    "UpdateAdmin": {
+      "Title": "Update Admin",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Admin"
+        },
+        {
+          "Name": "Update Admin"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "Username": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "Email": {
+            "Label": "E-Mail",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the e-mail",
+              "NotValid": "Please enter a valid e-mail",
+              "MaxLength": "Please enter maximum 150 character for e-mail"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Update",
+          "Cancel": "Back"
+        }
+      }
+    },
+    "UpdateDoctor": {
+      "Title": "Update Doctor",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Doctor"
+        },
+        {
+          "Name": "Update Doctor"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "Username": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "Email": {
+            "Label": "E-Mail",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the e-mail",
+              "NotValid": "Please enter a valid e-mail",
+              "MaxLength": "Please enter maximum 150 character for e-mail"
+            }
+          },
+          "Department": {
+            "Label": "Department",
+            "Dropdown": "Select a department",
+            "ValidationMessages": {
+              "NotSelect": "Please select a department"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Update",
+          "Cancel": "Back"
+        }
+      }
+    },
+    "UpdatePatient": {
+      "Title": "Update Patient",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Patient"
+        },
+        {
+          "Name": "Update Patient"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "Username": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "Email": {
+            "Label": "E-Mail",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the e-mail",
+              "NotValid": "Please enter a valid e-mail",
+              "MaxLength": "Please enter maximum 150 character for e-mail"
+            }
+          },
+          "IdentityNumber": {
+            "Label": "Identity Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the identity number",
+              "NotExactNumberCount": "Please enter 11 numbers for identity number",
+              "NotUseLetters": "Please do not use letters in the identity number"
+            }
+          },
+          "City": {
+            "Label": "City",
+            "Dropdown": "Select a city",
+            "ValidationMessages": {
+              "NotSelect": "Please select a city"
+            }
+          },
+          "County": {
+            "Label": "County",
+            "Dropdown": "Select a county",
+            "ValidationMessages": {
+              "NotSelect": "Please select a county"
+            }
+          },
+          "FullAddress": {
+            "Label": "Full Address",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the full address",
+              "MinLength": "Please enter minimum 50 character for full address",
+              "MaxLength": "Please enter maximum 500 character for full address"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Update",
           "Cancel": "Back"
         }
       }
