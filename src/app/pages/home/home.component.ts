@@ -5,7 +5,6 @@ import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { DropdownModule } from 'primeng/dropdown';
-import { AppointmentDialogComponent } from '../appointments/appointment-dialog/appointment-dialog.component';
 import { ToastModule } from 'primeng/toast';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -19,7 +18,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     PageHeaderComponent,
     DropdownModule,
     FullCalendarModule,
-    AppointmentDialogComponent,
     ToastModule,
     TranslateModule
   ],

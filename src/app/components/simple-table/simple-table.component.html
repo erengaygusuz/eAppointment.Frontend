@@ -8,7 +8,9 @@
         type="text"
         #filter
         (input)="this.onGlobalFilter.emit({ table: tableName, event: $event })"
-        placeholder="{{ tableSearchBoxPlaceHolder }}"
+        placeholder="{{
+          'Components.SimpleTable.SearchBarPlaceHolder' | translate
+        }}"
         class="w-full" />
     </span>
   </ng-template>
@@ -20,12 +22,13 @@
   [rows]="10"
   [columns]="columns"
   [paginator]="true"
-  [rowsPerPageOptions]="[5, 10, 20]"
+  [rowsPerPageOptions]="rowsPerPageOptions"
   [globalFilterFields]="globalFilterFields"
   [rowHover]="false"
   dataKey="id"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [showCurrentPageReport]="true">
+  [currentPageReportTemplate]="currentPageReportTemplate"
+  [showCurrentPageReport]="true"
+  (onPage)="onPageChange($event)">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">
@@ -60,7 +63,10 @@
   </ng-template>
   <ng-template pTemplate="summary">
     <div class="flex align-items-center justify-content-between">
-      {{ tableSummaryInfo }}
+      {{
+        'Components.SimpleTable.Summary'
+          | translate: { totalItems: tableDatas.length }
+      }}
     </div>
   </ng-template>
 </p-table>

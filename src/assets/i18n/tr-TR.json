@@ -664,6 +664,11 @@
       "SearchBarPlaceHolder": "Ara...",
       "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
+    },
+    "SimpleTable": {
+      "SearchBarPlaceHolder": "Ara...",
+      "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
+      "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     }
   }
 }

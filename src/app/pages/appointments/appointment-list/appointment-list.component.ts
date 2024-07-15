@@ -36,10 +36,6 @@ export class AppointmentListComponent implements OnInit {
 
   tableName: string = 'appointmentsTable';
 
-  tableSummaryInfo: string = '';
-
-  tableSearchBoxPlaceHolder: string = 'Search Appointment';
-
   constructor(
     private http: HttpService,
     private authService: AuthService
@@ -82,8 +78,6 @@ export class AppointmentListComponent implements OnInit {
         this.appointments = [];
 
         this.appointments = res.data;
-
-        this.tableSummaryInfo = `In total there are ${this.appointments ? this.appointments.length : 0} appointments.`;
       }
     );
   }

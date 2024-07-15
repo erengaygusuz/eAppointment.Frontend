@@ -664,6 +664,11 @@
       "SearchBarPlaceHolder": "Search...",
       "Summary": "In total, there are {{totalItems}} items in our records.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
+    },
+    "SimpleTable": {
+      "SearchBarPlaceHolder": "Search...",
+      "Summary": "In total, there are {{totalItems}} items in our records.",
+      "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
     }
   }
 }

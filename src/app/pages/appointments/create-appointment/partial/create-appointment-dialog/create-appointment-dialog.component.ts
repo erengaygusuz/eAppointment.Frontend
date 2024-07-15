@@ -6,10 +6,10 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
-import { CreateAppointmentCommandModel } from '../../../models/appointments/create.appointment.command.model';
+import { CreateAppointmentCommandModel } from '../../../../../models/appointments/create.appointment.command.model';
 
 @Component({
-  selector: 'app-appointment-dialog',
+  selector: 'app-create-appointment-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -21,11 +21,11 @@ import { CreateAppointmentCommandModel } from '../../../models/appointments/crea
     InputTextareaModule,
     CalendarModule
   ],
-  templateUrl: './appointment-dialog.component.html',
-  styleUrl: './appointment-dialog.component.css'
+  templateUrl: './create-appointment-dialog.component.html',
+  styleUrl: './create-appointment-dialog.component.css'
 })
-export class AppointmentDialogComponent {
-  title: string = 'Appointment Dialog';
+export class CreateAppointmentDialogComponent {
+  title: string = 'Create Appointment Dialog';
 
   appointmentForm: FormGroup;
 

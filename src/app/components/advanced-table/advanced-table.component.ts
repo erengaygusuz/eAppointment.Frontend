@@ -3,8 +3,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  AfterViewInit,
-  AfterContentInit,
   AfterContentChecked
 } from '@angular/core';
 import { Table, TableModule } from 'primeng/table';
