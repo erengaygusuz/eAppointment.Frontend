@@ -1,32 +1,43 @@
 import { Validator } from 'fluentvalidation-ts';
 import { LoginValidationModel } from '../models/auth/login.validation.model';
+import { TranslateService } from '@ngx-translate/core';
 
 export class LoginFormValidator extends Validator<LoginValidationModel> {
   constructor() {
     super();
+  }
 
+  getTranslationData(translate: TranslateService) {
+    translate.get('Pages.Login.Form.Controls').subscribe(data => {
+      this.generateRules(data);
+    });
+  }
+
+  generateRules(data: any) {
     this.ruleFor('userNameOrEmail')
       .notEmpty()
-      .withMessage('Please fill username')
+      .withMessage(data.UsernameOrEmail.ValidationMessages.NotEmpty)
       .minLength(3)
-      .withMessage('Please enter minimum 3 characters for username')
+      .withMessage(data.UsernameOrEmail.ValidationMessages.MinLength)
       .maxLength(100)
-      .withMessage('Please enter maximum 100 characters for username')
+      .withMessage(data.UsernameOrEmail.ValidationMessages.MaxLength)
       .matches(new RegExp('^((?![ ]).)*$'))
-      .withMessage('Please do not use spaces in your username')
+      .withMessage(data.UsernameOrEmail.ValidationMessages.NotUseSpaces)
       .matches(new RegExp('^((?![ğĞçÇşŞüÜöÖıİ]).)*$'))
-      .withMessage('Please do not use turkish letters in your username')
+      .withMessage(
+        data.UsernameOrEmail.ValidationMessages.NotUseTurkishCharacters
+      )
       .matches(new RegExp('^((?![A-Z]).)*$'))
-      .withMessage('Please do not use upper case letters in your username')
+      .withMessage(data.UsernameOrEmail.ValidationMessages.NotUseUpperLetters)
       .matches(new RegExp('^((?![0-9]).)*$'))
-      .withMessage('Please do not use numbers in your username');
+      .withMessage(data.UsernameOrEmail.ValidationMessages.NotUseNumbers);
 
     this.ruleFor('password')
       .notEmpty()
-      .withMessage('Please fill password')
+      .withMessage(data.Password.ValidationMessages.NotEmpty)
       .minLength(1)
-      .withMessage('Please enter minimum 1 characters for password')
+      .withMessage(data.Password.ValidationMessages.MinLength)
       .maxLength(5)
-      .withMessage('Please enter maximum 5 characters for password');
+      .withMessage(data.Password.ValidationMessages.MaxLength);
   }
 }

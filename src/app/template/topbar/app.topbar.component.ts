@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
@@ -35,6 +36,10 @@ export class AppTopBarComponent implements OnInit {
   selectedCountry: any | undefined;
 
   userRoles: string = '';
+
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
 
   constructor(
     public layoutService: LayoutService,
@@ -70,9 +75,16 @@ export class AppTopBarComponent implements OnInit {
       { name: '', code: 'US', languageCode: 'en-US' }
     ];
 
-    this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Topbar.LanguageOptions');
-    });
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Topbar.LanguageOptions');
+      });
   }
 
   getTranslationData(key: string) {
@@ -81,19 +93,11 @@ export class AppTopBarComponent implements OnInit {
         return { ...element, name: data[index].Name };
       });
 
-      if (localStorage.getItem('language')) {
-        this.selectedCountry = this.countries!.filter(
-          x => x.languageCode == localStorage.getItem('language')
-        )[0];
+      this.selectedCountry = this.countries!.filter(
+        x => x.languageCode == this.selectedLanguage
+      )[0];
 
-        this.translate.use(this.selectedCountry.languageCode);
-      } else {
-        this.selectedCountry = this.countries!.filter(
-          x => x.languageCode == 'tr-TR'
-        )[0];
-
-        this.translate.use(this.selectedCountry.languageCode);
-      }
+      this.translate.use(this.selectedCountry.languageCode);
     });
   }
 

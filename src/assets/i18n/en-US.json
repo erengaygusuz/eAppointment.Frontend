@@ -61,6 +61,38 @@
     "Title": "e-Appointment"
   },
   "Pages":{
+    "Login":{
+      "Title": "e-Appointment",
+      "SubTitle": "Login",
+      "Info": "Please fill the information below to login",
+      "Form": {
+        "Controls": {
+          "UsernameOrEmail": {
+            "Label": "Username",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the username",
+              "MinLength": "Please enter minimum 3 character for username",
+              "MaxLength": "Please enter maximum 50 character for username",
+              "NotUseSpaces": "Please do not use spaces for username",
+              "NotUseTurkishCharacters": "Please do not use turkish characters for username",
+              "NotUseUpperLetters": "Please do not use upper letters for username",
+              "NotUseNumbers": "Please do not use numbers in the username"
+            }
+          },
+          "Password": {
+            "Label": "Password",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the password",
+              "MinLength": "Please enter minimum 1 character for password",
+              "MaxLength": "Please enter maximum 5 character for password"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Login"
+        }
+      }
+    },
     "Home": {
       "Title": "Home",
       "BreadcrumbItems": [

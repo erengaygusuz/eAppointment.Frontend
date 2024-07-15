@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LoginCommandModel } from '../../models/auth/login.command.model';
 import { HttpService } from '../../services/http.service';
@@ -16,6 +16,9 @@ import { LoginFormValidator } from '../../validators/login.form.validator';
 import { LoginValidationModel } from '../../models/auth/login.validation.model';
 import { Mapper } from '@dynamic-mapper/angular';
 import { LoginMappingProfile } from '../../mapping/login.mapping.profile';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +31,8 @@ import { LoginMappingProfile } from '../../mapping/login.mapping.profile';
     ButtonModule,
     InputTextModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    TranslateModule
   ],
   templateUrl: './login.component.html',
   styles: [
@@ -42,7 +46,7 @@ import { LoginMappingProfile } from '../../mapping/login.mapping.profile';
     `
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit, OnDestroy {
   loginRequestModel: LoginCommandModel = new LoginCommandModel();
 
   loginValidationControl: any;
@@ -51,12 +55,38 @@ export class LoginComponent {
 
   formValidator: LoginFormValidator = new LoginFormValidator();
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
     private router: Router,
     public layoutService: LayoutService,
-    private readonly mapper: Mapper
+    private readonly mapper: Mapper,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
+
+  ngOnInit(): void {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.formValidator.getTranslationData(this.translate);
+
+        this.loginValidationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
 
   onSubmit() {
     const validationResult = this.formValidator.validate(this.loginFormModel);
