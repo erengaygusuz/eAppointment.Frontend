@@ -54,6 +54,9 @@
             "Name": "Create Appointment"
           }
         ]
+      },
+      {
+        "Name": "Appointments"
       }
     ]
   },

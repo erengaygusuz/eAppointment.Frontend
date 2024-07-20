@@ -29,16 +29,16 @@
       <div class="flex align-items-end justify-content-end mt-5">
         <p-button
           pRipple
-          label="Cancel"
-          icon="pi pi-times"
-          [text]="true"
-          (click)="this.changeVisibility.emit({ visibility: false })" />
-        <p-button
-          pRipple
           label="Save"
           icon="pi pi-check"
           [text]="true"
           type="submit" />
+        <p-button
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          [text]="true"
+          (click)="this.changeVisibility.emit({ visibility: false })" />
       </div>
     </form>
   </ng-template>

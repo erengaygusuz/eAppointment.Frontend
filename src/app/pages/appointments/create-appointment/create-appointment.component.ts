@@ -12,10 +12,8 @@ import {
 import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component';
-import { CreateAppointmentDialogComponent } from './partial/create-appointment-dialog/create-appointment-dialog.component';
 import { GetAllDepartmentsQueryResponseModel } from '../../../models/departments/get.all.departments.query.response.model';
 import { GetAllDoctorsByDepartmentIdQueryResponseModel } from '../../../models/doctors/get.all.doctors.by.department.id.query.response.model';
-import { GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.doctor.id.and.by.status.query.response.model';
 import { CreateAppointmentCommandModel } from '../../../models/appointments/create.appointment.command.model';
 import { HttpService } from '../../../services/http.service';
 import { TopBarService } from '../../../services/topbar.service';
@@ -27,6 +25,7 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.patient.id.and.by.status.query.response.model';
 import { UpdateAppointmentByIdCommandModel } from '../../../models/appointments/update.appointment.by.id.command.model';
+import { CreateAppointmentDialogComponent } from '../partials/create-appointment-dialog/create-appointment-dialog.component';
 
 @Component({
   selector: 'app-create-appointment',
@@ -77,15 +76,15 @@ export class CreateAppointmentComponent implements OnInit {
   selectedDoctor: GetAllDoctorsByDepartmentIdQueryResponseModel =
     new GetAllDoctorsByDepartmentIdQueryResponseModel();
 
-  appointments: GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel[] =
+  appointments: GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel[] =
     [];
 
   createAppointmentModel = new CreateAppointmentCommandModel();
 
-  updateAppointmentrequestModel = new UpdateAppointmentByIdCommandModel();
+  updateAppointmentRequestModel = new UpdateAppointmentByIdCommandModel();
 
   selectedAppointment =
-    new GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel();
+    new GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel();
 
   appointmentDialogVisibility: boolean = false;
 
@@ -134,18 +133,18 @@ export class CreateAppointmentComponent implements OnInit {
   }
 
   handleEventDrop(arg: any) {
-    this.updateAppointmentrequestModel =
+    this.updateAppointmentRequestModel =
       new UpdateAppointmentByIdCommandModel();
-    this.updateAppointmentrequestModel.id = arg.event.id;
-    this.updateAppointmentrequestModel.startDate =
+    this.updateAppointmentRequestModel.id = arg.event.id;
+    this.updateAppointmentRequestModel.startDate =
       this.date.transform(arg.event.startStr, 'dd.MM.yyyy HH:mm') ?? '';
-    this.updateAppointmentrequestModel.endDate =
+    this.updateAppointmentRequestModel.endDate =
       this.date.transform(arg.event.endStr, 'dd.MM.yyyy HH:mm') ?? '';
-    this.updateAppointmentrequestModel.status = 4;
+    this.updateAppointmentRequestModel.status = 4;
 
     this.http.post(
-      'appointments/update',
-      this.updateAppointmentrequestModel,
+      'appointments/updatebyid',
+      this.updateAppointmentRequestModel,
       res => {
         this.messageService.add({
           severity: 'success',

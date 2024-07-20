@@ -3,13 +3,21 @@
     <div class="card">
       <app-page-header
         [breadcrumbItems]="items"
-        [pageTitle]="'My Appointments'" />
-      <app-simple-table
+        [pageTitle]="'Appointment List'" />
+      <app-edit-table
         [tableDatas]="appointments"
         [globalFilterFields]="globalFilterFieldsData"
         [columns]="columns"
+        (editRecord)="editRecord($event.tableData)"
         [severityList]="severityList"
         (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
+      <app-update-appointment-dialog
+        [visibility]="updateAppointmentDialogVisibility"
+        [appointment]="updateAppointmentFormModel"
+        [appointmentStatusList]="appointmentStatusList"
+        [validationControl]="validationControl"
+        (onSubmit)="onSubmit()"
+        (changeVisibility)="changeVisibility($event.visibility)" />
     </div>
   </div>
 </div>

@@ -1,0 +1,66 @@
+<p-dialog
+  [(visible)]="visibility"
+  [style]="{ width: '450px' }"
+  header="{{ title }}"
+  [modal]="true"
+  styleClass="p-fluid"
+  (onHide)="this.changeVisibility.emit({ visibility: false })">
+  <ng-template pTemplate="content">
+    <form (ngSubmit)="this.onSubmit.emit()" autocomplete="off">
+      <div class="field">
+        <label for="appointment.fullName">Full Name</label>
+        <input
+          type="text"
+          pInputText
+          value="{{ appointment.fullName }}"
+          disabled />
+      </div>
+      <div class="field">
+        <label for="appointment.startDate">Start Date</label>
+        <input
+          type="text"
+          pInputText
+          value="{{ appointment.startDate }}"
+          disabled />
+      </div>
+      <div class="field">
+        <label for="appointment.endDate">End Date</label>
+        <input
+          type="text"
+          pInputText
+          value="{{ appointment.endDate }}"
+          disabled />
+      </div>
+      <div class="field">
+        <label htmlFor="appointment.status">Status</label>
+        <p-dropdown
+          [options]="appointmentStatusList"
+          [(ngModel)]="appointment.status"
+          optionLabel="value"
+          placeholder="Select a status"
+          appendTo="body"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="
+            this.checkForValidation.emit({ propName: 'status' })
+          " />
+        <div *ngIf="validationControl?.status">
+          <small class="p-error">{{ validationControl?.status }}</small>
+        </div>
+      </div>
+      <div class="flex align-items-end justify-content-end mt-5">
+        <p-button
+          pRipple
+          label="Update"
+          icon="pi pi-check"
+          [text]="true"
+          type="submit" />
+        <p-button
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          [text]="true"
+          (click)="this.changeVisibility.emit({ visibility: false })" />
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>

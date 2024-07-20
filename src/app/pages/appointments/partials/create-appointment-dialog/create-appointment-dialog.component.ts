@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
-import { CreateAppointmentCommandModel } from '../../../../../models/appointments/create.appointment.command.model';
+import { CreateAppointmentCommandModel } from '../../../../models/appointments/create.appointment.command.model';
 
 @Component({
   selector: 'app-create-appointment-dialog',

@@ -83,7 +83,7 @@ export class AppMenuComponent {
                 {
                   label: this.menuItems[2].SubItems[0].Name,
                   icon: 'pi pi-fw fa-solid fa-calendar-days',
-                  routerLink: ['/appointments']
+                  routerLink: ['/my-appointments']
                 },
                 {
                   label: this.menuItems[2].SubItems[1].Name,
@@ -91,6 +91,11 @@ export class AppMenuComponent {
                   routerLink: ['/appointment']
                 }
               ]
+            },
+            {
+              label: this.menuItems[3].Name,
+              icon: 'pi pi-fw fa-solid fa-calendar-check',
+              routerLink: ['/appointments']
             }
           ]
         }

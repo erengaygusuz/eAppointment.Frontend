@@ -38,6 +38,7 @@ export class AuthService {
         ];
       this.tokenDecode.userName = decode['UserName'];
       this.tokenDecode.patientId = decode['PatientId'];
+      this.tokenDecode.doctorId = decode['DoctorId'];
       this.tokenDecode.roles = JSON.parse(
         decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
       );
