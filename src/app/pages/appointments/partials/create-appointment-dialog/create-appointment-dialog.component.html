@@ -11,7 +11,10 @@
       autocomplete="off"
       [formGroup]="appointmentForm">
       <div class="field">
-        <label for="appointment.startDate">Start Date</label>
+        <label for="appointment.startDate">{{
+          'Pages.CreateAppointment.CreateAppointmentDialog.Form.Controls.StartDate.Label'
+            | translate
+        }}</label>
         <input
           type="text"
           pInputText
@@ -19,7 +22,10 @@
           disabled />
       </div>
       <div class="field">
-        <label for="appointment.endDate">End Date</label>
+        <label for="appointment.endDate">{{
+          'Pages.CreateAppointment.CreateAppointmentDialog.Form.Controls.EndDate.Label'
+            | translate
+        }}</label>
         <input
           type="text"
           pInputText
@@ -29,13 +35,19 @@
       <div class="flex align-items-end justify-content-end mt-5">
         <p-button
           pRipple
-          label="Save"
+          label="{{
+            'Pages.CreateAppointment.CreateAppointmentDialog.Form.Buttons.Submit'
+              | translate
+          }}"
           icon="pi pi-check"
           [text]="true"
           type="submit" />
         <p-button
           pRipple
-          label="Cancel"
+          label="{{
+            'Pages.CreateAppointment.CreateAppointmentDialog.Form.Buttons.Cancel'
+              | translate
+          }}"
           icon="pi pi-times"
           [text]="true"
           (click)="this.changeVisibility.emit({ visibility: false })" />

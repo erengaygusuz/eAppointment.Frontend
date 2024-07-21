@@ -757,7 +757,32 @@
       ],
       "DepartmentDropdown": "Select a department",
       "DoctorDropdown": "Select a doctor",
-      "DoctorNotExistMessage": "There is no doctor in this department"
+      "DoctorNotExistMessage": "There is no doctor in this department",
+      "CreateAppointmentDialog": {
+        "Title": "Create Appointment",
+        "Form": {
+          "Controls": {
+            "StartDate": {
+              "Label": "Start Date"
+            },
+            "EndDate": {
+              "Label": "End Date"
+            }
+          },
+          "Buttons": {
+            "Submit": "Create",
+            "Cancel": "Cancel"
+          }
+        }
+      },
+      "ConfimationDialog": {
+        "Header": "Warning",
+        "Message": "Are you sure you want to delete your appointment?",
+        "Buttons": {
+          "Submit": "Delete",
+          "Cancel": "Cancel"
+        }
+      }
     }
   },
   "Components": {

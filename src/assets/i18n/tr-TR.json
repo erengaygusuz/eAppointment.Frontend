@@ -757,7 +757,32 @@
       ],
       "DepartmentDropdown": "Bir poliklinik seçiniz",
       "DoctorDropdown": "Bir doktor seçiniz",
-      "DoctorNotExistMessage": "Bu poliklinikte doktor bulunmamaktadır"
+      "DoctorNotExistMessage": "Bu poliklinikte doktor bulunmamaktadır",
+      "CreateAppointmentDialog": {
+        "Title": "Randevu Oluştur",
+        "Form": {
+          "Controls": {
+            "StartDate": {
+              "Label": "Başlangıç Tarihi"
+            },
+            "EndDate": {
+              "Label": "Bitiş Tarihi"
+            }
+          },
+          "Buttons": {
+            "Submit": "Oluştur",
+            "Cancel": "İptal"
+          }
+        }
+      },
+      "ConfimationDialog": {
+        "Header": "Uyarı",
+        "Message": "Randevunuzu silmek istediğinize emin misiniz?",
+        "Buttons": {
+          "Submit": "Sil",
+          "Cancel": "İptal"
+        }
+      }
     }
   },
   "Components": {

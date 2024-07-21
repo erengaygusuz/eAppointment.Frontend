@@ -71,11 +71,23 @@
       <div class="flex justify-content-center flex-wrap gap-5 mt-4">
         <div
           class="flex align-items-center justify-content-center w-4rem h-4rem border-round m-2">
-          <p-button label="Save" (click)="cd.accept()" class="w-8rem" />
+          <p-button
+            label="{{
+              'Pages.CreateAppointment.ConfimationDialog.Buttons.Submit'
+                | translate
+            }}"
+            (click)="cd.accept()"
+            class="w-8rem" />
         </div>
         <div
           class="flex align-items-center justify-content-center w-4rem h-4rem border-round m-2">
-          <p-button label="Cancel" (click)="cd.reject()" class="w-8rem" />
+          <p-button
+            label="{{
+              'Pages.CreateAppointment.ConfimationDialog.Buttons.Cancel'
+                | translate
+            }}"
+            (click)="cd.reject()"
+            class="w-8rem" />
         </div>
       </div>
     </div>

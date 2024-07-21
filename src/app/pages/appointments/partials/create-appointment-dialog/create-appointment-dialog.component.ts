@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
@@ -7,6 +14,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
 import { CreateAppointmentCommandModel } from '../../../../models/appointments/create.appointment.command.model';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../../../services/language.service';
 
 @Component({
   selector: 'app-create-appointment-dialog',
@@ -19,13 +29,14 @@ import { CreateAppointmentCommandModel } from '../../../../models/appointments/c
     ButtonModule,
     InputTextModule,
     InputTextareaModule,
-    CalendarModule
+    CalendarModule,
+    TranslateModule
   ],
   templateUrl: './create-appointment-dialog.component.html',
   styleUrl: './create-appointment-dialog.component.css'
 })
-export class CreateAppointmentDialogComponent {
-  title: string = 'Create Appointment Dialog';
+export class CreateAppointmentDialogComponent implements OnInit, OnDestroy {
+  title: string = '';
 
   appointmentForm: FormGroup;
 
@@ -37,13 +48,46 @@ export class CreateAppointmentDialogComponent {
 
   isFormSubmitted: boolean = false;
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   onSubmit() {
     this.isFormSubmitted = true;
 
     this.saveAppointment.emit({ form: this.appointmentForm });
   }
 
-  constructor() {
+  constructor(
+    private translate: TranslateService,
+    private languageService: LanguageService
+  ) {
     this.appointmentForm = new FormGroup({});
+  }
+
+  ngOnInit(): void {
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData(
+          'Pages.CreateAppointment.CreateAppointmentDialog'
+        );
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.title = data.Title;
+    });
   }
 }

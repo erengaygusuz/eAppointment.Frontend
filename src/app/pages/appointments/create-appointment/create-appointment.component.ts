@@ -91,6 +91,9 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
+  confirmationDialogMessage: string = '';
+  confirmationDialogHeader: string = '';
+
   constructor(
     private http: HttpService,
     private date: DatePipe,
@@ -137,9 +140,12 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
         };
       });
       this.pageTitle = data.Title;
+
+      this.confirmationDialogMessage = data.ConfimationDialog.Message;
+      this.confirmationDialogHeader = data.ConfimationDialog.Header;
     });
 
-    this.calendarOptions  = {
+    this.calendarOptions = {
       initialView: 'timeGridWeek',
       allDaySlot: false,
       slotMinTime: '09:00:00',
@@ -272,8 +278,8 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
     cancelAppointmentByIdCommandModel.id = arg.event.id;
 
     this.confirmationService.confirm({
-      message: 'Are you sure you want to cancel ' + arg.event.title + '?',
-      header: 'Confirm',
+      message: this.confirmationDialogMessage,
+      header: this.confirmationDialogHeader,
       accept: () => {
         this.http.post<string>(
           'appointments/cancelbyid',
