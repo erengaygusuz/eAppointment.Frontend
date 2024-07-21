@@ -57,7 +57,16 @@
           [ngModelOptions]="{ standalone: true }"
           (ngModelChange)="
             this.checkForValidation.emit({ propName: 'status' })
-          " />
+          ">
+          <ng-template pTemplate="item" let-item>
+            {{ 'Enums.AppointmentStatus.' + item.value | translate }}
+          </ng-template>
+          <ng-template pTemplate="selectedItem" let-appointment.status>
+            {{
+              'Enums.AppointmentStatus.' + appointment.status.value | translate
+            }}
+          </ng-template>
+        </p-dropdown>
         <div *ngIf="validationControl?.status">
           <small class="p-error">{{ validationControl?.status }}</small>
         </div>
