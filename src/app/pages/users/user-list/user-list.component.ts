@@ -10,11 +10,19 @@ import { Router } from '@angular/router';
 import { DeleteUserByIdCommandModel } from '../../../models/users/delete.user.by.id.command.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AdvancedTableColumnInfoModel } from '../../../models/others/advanced.table.column.info.model';
+import { ButtonModule } from 'primeng/button';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [PageHeaderComponent, AdvancedTableComponent, TranslateModule],
+  imports: [
+    PageHeaderComponent,
+    AdvancedTableComponent,
+    TranslateModule,
+    ButtonModule,
+    ConfirmDialogModule
+  ],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.css',
   providers: [MessageService, ConfirmationService]
@@ -37,6 +45,10 @@ export class UserListComponent implements OnInit {
   ];
 
   tableName: string = 'usersTable';
+
+  confirmationDialogMessage: string = '';
+  confirmationDialogHeader: string = '';
+  userFullNameWillBeDeleted: string = '';
 
   constructor(
     private http: HttpService,
@@ -110,6 +122,10 @@ export class UserListComponent implements OnInit {
           header: data.UsersTable.ColumnHeaders[index].Name
         };
       });
+
+      this.confirmationDialogMessage =
+        data.UsersTable.ConfimationDialog.Message;
+      this.confirmationDialogHeader = data.UsersTable.ConfimationDialog.Header;
     });
   }
 
@@ -139,9 +155,10 @@ export class UserListComponent implements OnInit {
 
     deleteUserRequestBody.id = user.id;
 
+    this.userFullNameWillBeDeleted = user.fullName;
+
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete ' + user.fullName + '?',
-      header: 'Confirm',
+      header: this.confirmationDialogHeader,
       accept: () => {
         this.http.post<string>(
           'users/deletebyid',

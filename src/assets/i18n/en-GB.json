@@ -131,7 +131,15 @@
           {
             "Name": "Operations"
           }
-        ]
+        ],
+        "ConfimationDialog": {
+          "Header": "Warning",
+          "Message": "Are you sure you want to delete {{fullname}}?",
+          "Buttons": {
+            "Submit": "Delete",
+            "Cancel": "Cancel"
+          }
+        }
       }
     },
     "CreateAdmin": {

@@ -24,7 +24,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     CommonModule,
     ButtonModule,
     TableModule,
-    ConfirmDialogModule,
     ToolbarModule,
     ToastModule,
     InputTextModule,

@@ -131,7 +131,15 @@
           {
             "Name": "İşlemler"
           }
-        ]
+        ],
+        "ConfimationDialog": {
+          "Header": "Uyarı",
+          "Message": "{{fullname}} adlı kullanıcıyı silmek istediğinize emin misiniz?",
+          "Buttons": {
+            "Submit": "Sil",
+            "Cancel": "İptal"
+          }
+        }
       }
     },
     "CreateAdmin": {

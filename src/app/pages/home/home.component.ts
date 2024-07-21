@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { DropdownModule } from 'primeng/dropdown';
@@ -23,7 +23,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
-  providers: [DatePipe, MessageService, ConfirmationService]
+  providers: [DatePipe, MessageService]
 })
 export class HomeComponent implements OnInit {
   items: MenuItem[] = [{ label: '' }];
