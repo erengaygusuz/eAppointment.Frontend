@@ -8,7 +8,10 @@
   <ng-template pTemplate="content">
     <form (ngSubmit)="this.onSubmit.emit()" autocomplete="off">
       <div class="field">
-        <label for="appointment.fullName">Full Name</label>
+        <label for="appointment.fullName">{{
+          'Pages.Appointments.UpdateAppointmentDialog.Form.Controls.FullName.Label'
+            | translate
+        }}</label>
         <input
           type="text"
           pInputText
@@ -16,7 +19,10 @@
           disabled />
       </div>
       <div class="field">
-        <label for="appointment.startDate">Start Date</label>
+        <label for="appointment.startDate">{{
+          'Pages.Appointments.UpdateAppointmentDialog.Form.Controls.StartDate.Label'
+            | translate
+        }}</label>
         <input
           type="text"
           pInputText
@@ -24,7 +30,10 @@
           disabled />
       </div>
       <div class="field">
-        <label for="appointment.endDate">End Date</label>
+        <label for="appointment.endDate">{{
+          'Pages.Appointments.UpdateAppointmentDialog.Form.Controls.EndDate.Label'
+            | translate
+        }}</label>
         <input
           type="text"
           pInputText
@@ -32,12 +41,18 @@
           disabled />
       </div>
       <div class="field">
-        <label htmlFor="appointment.status">Status</label>
+        <label htmlFor="appointment.status">{{
+          'Pages.Appointments.UpdateAppointmentDialog.Form.Controls.Status.Label'
+            | translate
+        }}</label>
         <p-dropdown
           [options]="appointmentStatusList"
           [(ngModel)]="appointment.status"
           optionLabel="value"
-          placeholder="Select a status"
+          placeholder="{{
+            'Pages.Appointments.UpdateAppointmentDialog.Form.Controls.Status.Dropdown'
+              | translate
+          }}"
           appendTo="body"
           [ngModelOptions]="{ standalone: true }"
           (ngModelChange)="
@@ -50,13 +65,19 @@
       <div class="flex align-items-end justify-content-end mt-5">
         <p-button
           pRipple
-          label="Update"
+          label="{{
+            'Pages.Appointments.UpdateAppointmentDialog.Form.Buttons.Submit'
+              | translate
+          }}"
           icon="pi pi-check"
           [text]="true"
           type="submit" />
         <p-button
           pRipple
-          label="Cancel"
+          label="{{
+            'Pages.Appointments.UpdateAppointmentDialog.Form.Buttons.Cancel'
+              | translate
+          }}"
           icon="pi pi-times"
           [text]="true"
           (click)="this.changeVisibility.emit({ visibility: false })" />

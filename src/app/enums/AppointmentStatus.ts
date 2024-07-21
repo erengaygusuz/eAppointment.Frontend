@@ -24,7 +24,6 @@ export class AppointmentStatus extends ClassEnum<AppointmentStatus> {
 
   private readonly convertedValue!: number;
   private readonly color!: string;
-  private readonly translatedText!: string;
 
   public constructor(value: string, convertedValue: number, color: string) {
     super(value);
