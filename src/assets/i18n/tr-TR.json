@@ -63,8 +63,8 @@
   "Footer": {
     "Title": "e-Randevu"
   },
-  "Pages":{
-    "Login":{
+  "Pages": {
+    "Login": {
       "Title": "e-Randevu",
       "SubTitle": "Giriş",
       "Info": "Lütfen giriş yapmak için aşağıdaki bilgileri doldurunuz",
@@ -661,7 +661,7 @@
         }
       }
     },
-    "Appointments":{
+    "Appointments": {
       "Title": "Randevular",
       "BreadcrumbItems": [
         {
@@ -686,9 +686,36 @@
             "Name": "İşlemler"
           }
         ]
+      },
+      "UpdateAppointmentDialog": {
+        "Title": "Randevu Güncelle",
+        "Form": {
+          "Controls": {
+            "FullName": {
+              "Label": "Ad - Soyad"
+            },
+            "StartDate": {
+              "Label": "Başlangıç Tarihi"
+            },
+            "EndDate": {
+              "Label": "Bitiş Tarihi"
+            },
+            "Status": {
+              "Label": "Durum",
+              "Dropdown": "Bir durum seçiniz",
+              "ValidationMessages": {
+                "NotSelect": "Lütfen bir durum seçiniz"
+              }
+            }
+          },
+          "Buttons": {
+            "Submit": "Güncelle",
+            "Cancel": "İptal"
+          }
+        }
       }
     },
-    "MyAppointments":{
+    "MyAppointments": {
       "Title": "Randevularum",
       "BreadcrumbItems": [
         {
@@ -750,7 +777,7 @@
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     }
   },
-  "Enums":{
+  "Enums": {
     "AppointmentStatus": {
       "SuccessfullyCompleted": "Başarıyla Tamamlandı",
       "NotAttended": "Katılım Olmadı",

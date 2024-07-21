@@ -124,7 +124,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
       }
     ];
 
-    //this.formValidator.getTranslationData(this.translate);
+    this.formValidator.getTranslationData(this.translate);
 
     this.languageService
       .getLanguage()
@@ -139,7 +139,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
           'Enums.AppointmentStatus'
         );
 
-        //this.formValidator.getTranslationData(this.translate);
+        this.formValidator.getTranslationData(this.translate);
 
         this.validationControl = {};
       });

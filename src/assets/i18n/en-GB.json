@@ -686,6 +686,33 @@
             "Name": "Operations"
           }
         ]
+      },
+      "UpdateAppointmentDialog": {
+        "Title": "Update Appointment",
+        "Form": {
+          "Controls": {
+            "FullName": {
+              "Label": "FullName"
+            },
+            "StartDate": {
+              "Label": "Start Date"
+            },
+            "EndDate": {
+              "Label": "End Date"
+            },
+            "Status": {
+              "Label": "Status",
+              "Dropdown": "Select a status",
+              "ValidationMessages": {
+                "NotSelect": "Please select a status"
+              }
+            }
+          },
+          "Buttons": {
+            "Submit": "Update",
+            "Cancel": "Cancel"
+          }
+        }
       }
     },
     "MyAppointments":{

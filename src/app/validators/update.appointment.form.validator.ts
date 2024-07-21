@@ -8,9 +8,11 @@ export class UpdateAppointmentFormValidator extends Validator<UpdateAppointmentB
   }
 
   getTranslationData(translate: TranslateService) {
-    translate.get('Pages.UpdateDoctor.Form.Controls').subscribe(data => {
-      this.generateRules(data);
-    });
+    translate
+      .get('Pages.Appointments.UpdateAppointmentDialog.Form.Controls')
+      .subscribe(data => {
+        this.generateRules(data);
+      });
   }
 
   generateRules(data: any) {
