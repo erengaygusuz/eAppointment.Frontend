@@ -1,22 +1,24 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <app-page-header
-        [breadcrumbItems]="items"
-        [pageTitle]="'Create Appointment'" />
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
       <p-dropdown
         appendTo="body"
         [options]="departments"
         [(ngModel)]="selectedDepartment"
         optionLabel="name"
         (onChange)="getAllDoctorsByDepartmentId(selectedDepartment.id)"
-        placeholder="Select a Department"
+        placeholder="{{
+          'Pages.CreateAppointment.DepartmentDropdown' | translate
+        }}"
         required>
       </p-dropdown>
 
       @if (selectedDepartment.id > 0) {
         @if (doctors.length === 0) {
-          <span class="ml-5">There is no doctor in this department</span>
+          <span class="ml-5">{{
+            'Pages.CreateAppointment.DoctorNotExistMessage' | translate
+          }}</span>
         } @else {
           <p-dropdown
             class="ml-5"
@@ -25,7 +27,9 @@
             [(ngModel)]="selectedDoctor"
             optionLabel="fullName"
             (onChange)="getAllAppointmentsByPatientId()"
-            placeholder="Select a Doctor"
+            placeholder="{{
+              'Pages.CreateAppointment.DoctorDropdown' | translate
+            }}"
             required>
           </p-dropdown>
         }

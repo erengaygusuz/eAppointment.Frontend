@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -26,6 +26,11 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.patient.id.and.by.status.query.response.model';
 import { UpdateAppointmentByIdCommandModel } from '../../../models/appointments/update.appointment.by.id.command.model';
 import { CreateAppointmentDialogComponent } from '../partials/create-appointment-dialog/create-appointment-dialog.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../../services/language.service';
+import trLocale from '@fullcalendar/core/locales/tr';
+import enGbLocale from '@fullcalendar/core/locales/en-gb';
 
 @Component({
   selector: 'app-create-appointment',
@@ -40,32 +45,15 @@ import { CreateAppointmentDialogComponent } from '../partials/create-appointment
     CreateAppointmentDialogComponent,
     ToastModule,
     ButtonModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    TranslateModule
   ],
   templateUrl: './create-appointment.component.html',
   styleUrl: './create-appointment.component.css',
   providers: [DatePipe, MessageService, ConfirmationService]
 })
-export class CreateAppointmentComponent implements OnInit {
-  calendarOptions: CalendarOptions = {
-    initialView: 'timeGridWeek',
-    allDaySlot: false,
-    slotMinTime: '09:00:00',
-    slotMaxTime: '18:00:00',
-    hiddenDays: [0, 6],
-    plugins: [timeGridPlugin, interactionPlugin],
-    dateClick: arg => this.handleDateClick(arg),
-    eventDrop: arg => this.handleEventDrop(arg),
-    eventClick: arg => this.handleEventClick(arg),
-    editable: true,
-    expandRows: true,
-    headerToolbar: {
-      left: 'prev,next',
-      center: 'title',
-      right: 'timeGridWeek,timeGridDay'
-    },
-    events: []
-  };
+export class CreateAppointmentComponent implements OnInit, OnDestroy {
+  calendarOptions!: CalendarOptions;
 
   departments: GetAllDepartmentsQueryResponseModel[] = [];
   doctors: GetAllDoctorsByDepartmentIdQueryResponseModel[] = [];
@@ -79,6 +67,8 @@ export class CreateAppointmentComponent implements OnInit {
   appointments: GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel[] =
     [];
 
+  pageTitle: string = '';
+
   createAppointmentModel = new CreateAppointmentCommandModel();
 
   updateAppointmentRequestModel = new UpdateAppointmentByIdCommandModel();
@@ -88,7 +78,7 @@ export class CreateAppointmentComponent implements OnInit {
 
   appointmentDialogVisibility: boolean = false;
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }, { label: '' }];
 
   home: MenuItem | undefined;
 
@@ -97,18 +87,22 @@ export class CreateAppointmentComponent implements OnInit {
 
   selectedEndDateStr: string = '';
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
     private date: DatePipe,
     private topbarService: TopBarService,
     private messageService: MessageService,
     private authService: AuthService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.items = [{ label: 'Appointment' }, { label: 'Create Appointment' }];
-
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
     this.topbarService.subject.subscribe(() => {
@@ -116,6 +110,56 @@ export class CreateAppointmentComponent implements OnInit {
     });
 
     this.getAllDepartments();
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData('Pages.CreateAppointment');
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return {
+          ...element,
+          label: data.BreadcrumbItems[index].Name
+        };
+      });
+      this.pageTitle = data.Title;
+    });
+
+    this.calendarOptions  = {
+      initialView: 'timeGridWeek',
+      allDaySlot: false,
+      slotMinTime: '09:00:00',
+      slotMaxTime: '18:00:00',
+      hiddenDays: [0, 6],
+      plugins: [timeGridPlugin, interactionPlugin],
+      dateClick: arg => this.handleDateClick(arg),
+      eventDrop: arg => this.handleEventDrop(arg),
+      eventClick: arg => this.handleEventClick(arg),
+      editable: true,
+      expandRows: true,
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: 'timeGridWeek,timeGridDay'
+      },
+      events: [],
+      locales: [trLocale, enGbLocale],
+      locale: this.selectedLanguage.split('-')[0]
+    };
   }
 
   getAllDepartments() {

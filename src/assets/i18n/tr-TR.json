@@ -717,6 +717,20 @@
           }
         ]
       }
+    },
+    "CreateAppointment": {
+      "Title": "Randevu Oluştur",
+      "BreadcrumbItems": [
+        {
+          "Name": "Randevu"
+        },
+        {
+          "Name": "Randevu Oluştur"
+        }
+      ],
+      "DepartmentDropdown": "Bir poliklinik seçiniz",
+      "DoctorDropdown": "Bir doktor seçiniz",
+      "DoctorNotExistMessage": "Bu poliklinikte doktor bulunmamaktadır"
     }
   },
   "Components": {

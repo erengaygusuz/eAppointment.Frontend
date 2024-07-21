@@ -717,6 +717,20 @@
           }
         ]
       }
+    },
+    "CreateAppointment": {
+      "Title": "Create Appointment",
+      "BreadcrumbItems": [
+        {
+          "Name": "Appointment"
+        },
+        {
+          "Name": "Create Appointment"
+        }
+      ],
+      "DepartmentDropdown": "Select a department",
+      "DoctorDropdown": "Select a doctor",
+      "DoctorNotExistMessage": "There is no doctor in this department"
     }
   },
   "Components": {
