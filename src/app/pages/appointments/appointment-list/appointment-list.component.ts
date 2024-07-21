@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component';
 import { MenuItem, MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -6,7 +6,7 @@ import { GetAllAppointmentsByPatientIdQueryResponseModel } from '../../../models
 import { HttpService } from '../../../services/http.service';
 import { SimpleTableComponent } from '../../../components/simple-table/simple-table.component';
 import { AuthService } from '../../../services/auth.service';
-import { KeyValuePair } from '../../../models/others/key.value.pair.model';
+import { Severity } from '../../../models/others/severity.model';
 import { EditTableComponent } from '../../../components/edit-table/edit-table.component';
 import { UpdateAppointmentByIdCommandModel } from '../../../models/appointments/update.appointment.by.id.command.model';
 import { DatePipe } from '@angular/common';
@@ -16,6 +16,9 @@ import { GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel } from '../..
 import { UpdateAppointmentByIdValidationModel } from '../../../models/appointments/update.appointment.by.id.validation.model';
 import { AppointmentStatus } from '../../../enums/AppointmentStatus';
 import { UpdateAppointmentFormValidator } from '../../../validators/update.appointment.form.validator';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'app-appointment-list',
@@ -24,14 +27,17 @@ import { UpdateAppointmentFormValidator } from '../../../validators/update.appoi
     PageHeaderComponent,
     SimpleTableComponent,
     EditTableComponent,
-    UpdateAppointmentDialogComponent
+    UpdateAppointmentDialogComponent,
+    TranslateModule
   ],
   templateUrl: './appointment-list.component.html',
   styleUrl: './appointment-list.component.css',
   providers: [DatePipe, MessageService]
 })
-export class AppointmentListComponent implements OnInit {
+export class AppointmentListComponent implements OnInit, OnDestroy {
   appointments: GetAllAppointmentsByPatientIdQueryResponseModel[] = [];
+
+  pageTitle: string = '';
 
   updateAppointmentRequestModel = new UpdateAppointmentByIdCommandModel();
 
@@ -39,12 +45,12 @@ export class AppointmentListComponent implements OnInit {
 
   validationControl: any;
 
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [{ label: '' }];
   home: MenuItem | undefined;
 
   columns: any[] = [];
 
-  severityList: KeyValuePair[] = [];
+  severityList: Severity[] = [];
 
   globalFilterFieldsData: string[] = [
     'fullName',
@@ -62,63 +68,118 @@ export class AppointmentListComponent implements OnInit {
   formValidator: UpdateAppointmentFormValidator =
     new UpdateAppointmentFormValidator();
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
     private authService: AuthService,
     private date: DatePipe,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.getAllAppointmentsByDoctorId();
-
-    this.items = [{ label: 'Appointment' }, { label: 'My Appointments' }];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
+
+    this.getAllAppointmentsByDoctorId();
 
     this.columns = [
       {
         field: 'fullName',
-        header: 'Full Name',
+        header: '',
         isSeverity: false,
         isOperationColumn: false,
         isFilterableAndSortable: true
       },
       {
         field: 'startDate',
-        header: 'Start Date',
+        header: '',
         isSeverity: false,
         isOperationColumn: false,
         isFilterableAndSortable: true
       },
       {
         field: 'endDate',
-        header: 'End Date',
+        header: '',
         isSeverity: false,
         isOperationColumn: false,
         isFilterableAndSortable: true
       },
       {
         field: 'status',
-        header: 'Status',
+        header: '',
         isSeverity: true,
         isOperationColumn: false,
         isFilterableAndSortable: true
       },
       {
         field: '',
-        header: 'Operations',
+        header: '',
         isSeverity: false,
         isOperationColumn: true,
         isFilterableAndSortable: false
       }
     ];
 
-    this.severityList = this.appointmentStatusList?.map((element, index) => {
-      return {
-        ...this.severityList,
-        key: this.appointmentStatusList[index].name(),
-        value: this.appointmentStatusList[index].getColor()
-      };
+    //this.formValidator.getTranslationData(this.translate);
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData(
+          'Pages.Appointments',
+          'Enums.AppointmentStatus'
+        );
+
+        //this.formValidator.getTranslationData(this.translate);
+
+        this.validationControl = {};
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(...keys: string[]) {
+    this.translate.get(keys).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return {
+          ...element,
+          label: data['Pages.Appointments'].BreadcrumbItems[index].Name
+        };
+      });
+      this.pageTitle = data['Pages.Appointments'].Title;
+
+      this.columns = this.columns?.map((element, index) => {
+        return {
+          ...element,
+          header:
+            data['Pages.Appointments'].AppointmentsTable.ColumnHeaders[index]
+              .Name
+        };
+      });
+
+      this.severityList = this.appointmentStatusList?.map((element, index) => {
+        return {
+          ...this.severityList,
+          value: this.appointmentStatusList[index].value,
+          color: this.appointmentStatusList[index].getColor(),
+          translatedText:
+            data['Enums.AppointmentStatus'][
+              this.appointmentStatusList[index].value
+            ]
+        };
+      });
     });
   }
 

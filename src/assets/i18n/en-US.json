@@ -660,6 +660,63 @@
           "Cancel": "Back"
         }
       }
+    },
+    "Appointments":{
+      "Title": "Appointments",
+      "BreadcrumbItems": [
+        {
+          "Name": "Appointments"
+        }
+      ],
+      "AppointmentsTable": {
+        "ColumnHeaders": [
+          {
+            "Name": "Full Name"
+          },
+          {
+            "Name": "Start Name"
+          },
+          {
+            "Name": "End Date"
+          },
+          {
+            "Name": "Status"
+          },
+          {
+            "Name": "Operations"
+          }
+        ]
+      }
+    },
+    "MyAppointments":{
+      "Title": "My Appointments",
+      "BreadcrumbItems": [
+        {
+          "Name": "Appointment"
+        },
+        {
+          "Name": "My Appointments"
+        }
+      ],
+      "MyAppointmentsTable": {
+        "ColumnHeaders": [
+          {
+            "Name": "Department Name"
+          },
+          {
+            "Name": "Doctor Full Name"
+          },
+          {
+            "Name": "Start Date"
+          },
+          {
+            "Name": "End Date"
+          },
+          {
+            "Name": "Status"
+          }
+        ]
+      }
     }
   },
   "Components": {
@@ -672,6 +729,19 @@
       "SearchBarPlaceHolder": "Search...",
       "Summary": "In total, there are {{totalItems}} items in our records.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
+    },
+    "EditTable": {
+      "SearchBarPlaceHolder": "Search...",
+      "Summary": "In total, there are {{totalItems}} items in our records.",
+      "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
+    }
+  },
+  "Enums":{
+    "AppointmentStatus": {
+      "SuccessfullyCompleted": "Successfully Completed",
+      "NotAttended": "Not Attended",
+      "Cancelled": "Cancelled",
+      "NotCompleted": "Not Completed"
     }
   }
 }

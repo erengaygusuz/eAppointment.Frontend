@@ -68,7 +68,7 @@
           </div>
         } @else if (col.isSeverity) {
           <p-tag
-            [value]="rowData[col.field]"
+            [value]="getTranslatedText(rowData[col.field])"
             [severity]="getSeverity(rowData[col.field])" />
         }
       </td>

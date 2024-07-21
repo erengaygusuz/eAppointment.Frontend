@@ -2,12 +2,12 @@ import { ClassEnum } from 'class-enum';
 
 export class AppointmentStatus extends ClassEnum<AppointmentStatus> {
   public static readonly SuccessfullyCompleted = new AppointmentStatus(
-    'Successfully Completed',
+    'SuccessfullyCompleted',
     1,
     'success'
   );
   public static readonly NotAttended = new AppointmentStatus(
-    'Not Attended',
+    'NotAttended',
     2,
     'warning'
   );
@@ -17,13 +17,14 @@ export class AppointmentStatus extends ClassEnum<AppointmentStatus> {
     'danger'
   );
   public static readonly NotCompleted = new AppointmentStatus(
-    'Not Completed',
+    'NotCompleted',
     4,
     'secondary'
   );
 
   private readonly convertedValue!: number;
   private readonly color!: string;
+  private readonly translatedText!: string;
 
   public constructor(value: string, convertedValue: number, color: string) {
     super(value);

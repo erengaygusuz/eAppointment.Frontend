@@ -1,9 +1,7 @@
 <div class="grid">
   <div class="col-12">
     <div class="card">
-      <app-page-header
-        [breadcrumbItems]="items"
-        [pageTitle]="'Appointment List'" />
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
       <app-edit-table
         [tableDatas]="appointments"
         [globalFilterFields]="globalFilterFieldsData"

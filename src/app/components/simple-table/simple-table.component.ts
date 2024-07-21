@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
-import { KeyValuePair } from '../../models/others/key.value.pair.model';
+import { Severity } from '../../models/others/severity.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -41,7 +41,7 @@ export class SimpleTableComponent implements AfterContentChecked {
 
   @Input() tableData: any;
 
-  @Input() severityList: KeyValuePair[] = [];
+  @Input() severityList: Severity[] = [];
 
   first: number = 1;
   last: number = 5;
@@ -81,8 +81,16 @@ export class SimpleTableComponent implements AfterContentChecked {
 
   getSeverity(value: string): any {
     for (let i = 0; i < this.severityList.length; i++) {
-      if (value == this.severityList[i].key) {
-        return this.severityList[i].value;
+      if (value == this.severityList[i].value) {
+        return this.severityList[i].color;
+      }
+    }
+  }
+
+  getTranslatedText(value: string): any {
+    for (let i = 0; i < this.severityList.length; i++) {
+      if (value == this.severityList[i].value) {
+        return this.severityList[i].translatedText;
       }
     }
   }

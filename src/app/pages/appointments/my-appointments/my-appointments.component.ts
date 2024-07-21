@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component';
 import { MenuItem } from 'primeng/api';
 import { Table } from 'primeng/table';
@@ -7,26 +7,36 @@ import { HttpService } from '../../../services/http.service';
 import { SimpleTableComponent } from '../../../components/simple-table/simple-table.component';
 import { AuthService } from '../../../services/auth.service';
 import { GetAllAppointmentsByPatientIdQueryModel } from '../../../models/appointments/get.all.appointments.by.patient.id.query.model';
-import { KeyValuePair } from '../../../models/others/key.value.pair.model';
+import { Severity } from '../../../models/others/severity.model';
 import { EditTableComponent } from '../../../components/edit-table/edit-table.component';
 import { AppointmentStatus } from '../../../enums/AppointmentStatus';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'app-my-appointments',
   standalone: true,
-  imports: [PageHeaderComponent, SimpleTableComponent, EditTableComponent],
+  imports: [
+    PageHeaderComponent,
+    SimpleTableComponent,
+    EditTableComponent,
+    TranslateModule
+  ],
   templateUrl: './my-appointments.component.html',
   styleUrl: './my-appointments.component.css'
 })
-export class MyAppointmentsComponent implements OnInit {
+export class MyAppointmentsComponent implements OnInit, OnDestroy {
   appointments: GetAllAppointmentsByPatientIdQueryResponseModel[] = [];
 
-  items: MenuItem[] | undefined;
+  pageTitle: string = '';
+
+  items: MenuItem[] = [{ label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
   columns: any[] = [];
 
-  severityList: KeyValuePair[] = [];
+  severityList: Severity[] = [];
 
   globalFilterFieldsData: string[] = [
     'departmentName',
@@ -40,31 +50,81 @@ export class MyAppointmentsComponent implements OnInit {
 
   appointmentStatusList = AppointmentStatus.values<AppointmentStatus>();
 
+  selectedLanguage: string = '';
+
+  unsubscribe = new Subject<void>();
+
   constructor(
     private http: HttpService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
-    this.getAllApointmentsByPatientId();
-
-    this.items = [{ label: 'Appointment' }, { label: 'My Appointments' }];
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
+    this.getAllApointmentsByPatientId();
+
     this.columns = [
-      { field: 'departmentName', header: 'Department Name', isSeverity: false },
-      { field: 'doctorName', header: 'Doctor Name', isSeverity: false },
-      { field: 'startDate', header: 'Start Date', isSeverity: false },
-      { field: 'endDate', header: 'End Date', isSeverity: false },
-      { field: 'status', header: 'Status', isSeverity: true }
+      { field: 'departmentName', header: '', isSeverity: false },
+      { field: 'doctorName', header: '', isSeverity: false },
+      { field: 'startDate', header: '', isSeverity: false },
+      { field: 'endDate', header: '', isSeverity: false },
+      { field: 'status', header: '', isSeverity: true }
     ];
 
-    this.severityList = this.appointmentStatusList?.map((element, index) => {
-      return {
-        ...this.severityList,
-        key: this.appointmentStatusList[index].name(),
-        value: this.appointmentStatusList[index].getColor()
-      };
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.selectedLanguage = data;
+
+        this.translate.use(this.selectedLanguage);
+
+        this.getTranslationData(
+          'Pages.MyAppointments',
+          'Enums.AppointmentStatus'
+        );
+      });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
+  getTranslationData(...keys: string[]) {
+    this.translate.get(keys).subscribe(data => {
+      this.items = this.items?.map((element, index) => {
+        return {
+          ...element,
+          label: data['Pages.MyAppointments'].BreadcrumbItems[index].Name
+        };
+      });
+      this.pageTitle = data['Pages.MyAppointments'].Title;
+
+      this.columns = this.columns?.map((element, index) => {
+        return {
+          ...element,
+          header:
+            data['Pages.MyAppointments'].MyAppointmentsTable.ColumnHeaders[
+              index
+            ].Name
+        };
+      });
+
+      this.severityList = this.appointmentStatusList?.map((element, index) => {
+        return {
+          ...this.severityList,
+          value: this.appointmentStatusList[index].value,
+          color: this.appointmentStatusList[index].getColor(),
+          translatedText:
+            data['Enums.AppointmentStatus'][
+              this.appointmentStatusList[index].value
+            ]
+        };
+      });
     });
   }
 

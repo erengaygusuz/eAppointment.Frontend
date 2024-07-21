@@ -660,6 +660,63 @@
           "Cancel": "Geri Dön"
         }
       }
+    },
+    "Appointments":{
+      "Title": "Randevular",
+      "BreadcrumbItems": [
+        {
+          "Name": "Randevular"
+        }
+      ],
+      "AppointmentsTable": {
+        "ColumnHeaders": [
+          {
+            "Name": "Ad - Soyad"
+          },
+          {
+            "Name": "Başlangıç Tarihi"
+          },
+          {
+            "Name": "Bitiş Tarihi"
+          },
+          {
+            "Name": "Durum"
+          },
+          {
+            "Name": "İşlemler"
+          }
+        ]
+      }
+    },
+    "MyAppointments":{
+      "Title": "Randevularum",
+      "BreadcrumbItems": [
+        {
+          "Name": "Randevu"
+        },
+        {
+          "Name": "Randevularım"
+        }
+      ],
+      "MyAppointmentsTable": {
+        "ColumnHeaders": [
+          {
+            "Name": "Poliklinik Adı"
+          },
+          {
+            "Name": "Doktor Adı - Soyadı"
+          },
+          {
+            "Name": "Başlangıç Tarihi"
+          },
+          {
+            "Name": "Bitiş Tarihi"
+          },
+          {
+            "Name": "Durum"
+          }
+        ]
+      }
     }
   },
   "Components": {
@@ -672,6 +729,19 @@
       "SearchBarPlaceHolder": "Ara...",
       "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
+    },
+    "EditTable": {
+      "SearchBarPlaceHolder": "Ara...",
+      "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
+      "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
+    }
+  },
+  "Enums":{
+    "AppointmentStatus": {
+      "SuccessfullyCompleted": "Başarıyla Tamamlandı",
+      "NotAttended": "Katılım Olmadı",
+      "Cancelled": "İptal Edildi",
+      "NotCompleted": "Henüz Tamamlanmadı"
     }
   }
 }

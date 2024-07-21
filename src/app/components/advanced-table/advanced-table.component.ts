@@ -12,7 +12,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { RouterModule } from '@angular/router';
-import { KeyValuePair } from '../../models/others/key.value.pair.model';
+import { Severity } from '../../models/others/severity.model';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -48,7 +48,7 @@ export class AdvancedTableComponent implements AfterContentChecked {
   @Output() editRecord = new EventEmitter<{ tableData: any }>();
   @Output() deleteRecord = new EventEmitter<{ tableData: any }>();
 
-  @Input() severityList: KeyValuePair[] = [];
+  @Input() severityList: Severity[] = [];
 
   first: number = 1;
   last: number = 5;
@@ -88,8 +88,16 @@ export class AdvancedTableComponent implements AfterContentChecked {
 
   getSeverity(value: string): any {
     for (let i = 0; i < this.severityList.length; i++) {
-      if (value == this.severityList[i].key) {
-        return this.severityList[i].value;
+      if (value == this.severityList[i].value) {
+        return this.severityList[i].color;
+      }
+    }
+  }
+
+  getTranslatedText(value: string): any {
+    for (let i = 0; i < this.severityList.length; i++) {
+      if (value == this.severityList[i].value) {
+        return this.severityList[i].translatedText;
       }
     }
   }
