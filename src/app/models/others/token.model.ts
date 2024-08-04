@@ -1,5 +1,3 @@
-import { GetAllRolesQueryResponseModel } from '../roles/get.all.roles.query.response.model';
-
 export class TokenModel {
   id: string = '';
   name: string = '';
@@ -7,5 +5,6 @@ export class TokenModel {
   userName: string = '';
   patientId: string = '';
   doctorId: string = '';
-  roles: GetAllRolesQueryResponseModel[] = [];
+  role: string = '';
+  permissions: string[] = [];
 }

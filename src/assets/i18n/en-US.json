@@ -161,7 +161,7 @@
             "Label": "Firstname",
             "ValidationMessages": {
               "NotEmpty": "Please fill the firstname",
-              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MinLength": "Please enter minimum 3 character for firstname",
               "MaxLength": "Please enter maximum 50 character for firstname",
               "NotUseNumbers": "Please do not use numbers in the firstname"
             }

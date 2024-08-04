@@ -1,10 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { AppLayoutComponent } from './template/layout/app.layout.component';
-import { inject } from '@angular/core';
-import { AuthService } from './services/auth.service';
 import { HomeComponent } from './pages/home/home.component';
-import { AdminAuthGuard } from './guards/admin.auth.guard';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { UserListComponent } from './pages/users/user-list/user-list.component';
@@ -17,6 +14,8 @@ import { UpdatePatientComponent } from './pages/users/patient/update-patient/upd
 import { CreateAppointmentComponent } from './pages/appointments/create-appointment/create-appointment.component';
 import { AppointmentListComponent } from './pages/appointments/appointment-list/appointment-list.component';
 import { MyAppointmentsComponent } from './pages/appointments/my-appointments/my-appointments.component';
+import { PermissionGuard } from './guards/permission.guard';
+import { PERMISSIONS } from './enums/Permissions';
 
 export const routes: Routes = [
   {
@@ -26,7 +25,6 @@ export const routes: Routes = [
   {
     path: '',
     component: AppLayoutComponent,
-    canActivateChild: [() => inject(AuthService).isAuthenticated()],
     children: [
       {
         path: '',
@@ -34,43 +32,63 @@ export const routes: Routes = [
       },
       {
         path: 'users',
-        component: UserListComponent
+        component: UserListComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.GET_ALL_USERS] }
       },
       {
         path: 'users/admin',
-        component: CreateAdminComponent
+        component: CreateAdminComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.CREATE_ADMIN] }
       },
       {
         path: 'users/admin/:id',
-        component: UpdateAdminComponent
+        component: UpdateAdminComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.UPDATE_ADMIN_BY_ID] }
       },
       {
         path: 'users/doctor',
-        component: CreateDoctorComponent
+        component: CreateDoctorComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.CREATE_DOCTOR] }
       },
       {
         path: 'users/doctor/:id',
-        component: UpdateDoctorComponent
+        component: UpdateDoctorComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.UPDATE_DOCTOR_BY_ID] }
       },
       {
         path: 'users/patient',
-        component: CreatePatientComponent
+        component: CreatePatientComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.CREATE_PATIENT] }
       },
       {
         path: 'users/patient/:id',
-        component: UpdatePatientComponent
+        component: UpdatePatientComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.UPDATE_PATIENT_BY_ID] }
       },
       {
         path: 'appointment',
-        component: CreateAppointmentComponent
+        component: CreateAppointmentComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.CREATE_APPOINTMENT] }
       },
       {
         path: 'my-appointments',
-        component: MyAppointmentsComponent
+        component: MyAppointmentsComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.GET_ALL_APPOINTMENTS_BY_PATIENT_ID] }
       },
       {
         path: 'appointments',
-        component: AppointmentListComponent
+        component: AppointmentListComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.GET_ALL_APPOINTMENTS_BY_DOCTOR_ID] }
       },
       {
         path: 'unauthorized',

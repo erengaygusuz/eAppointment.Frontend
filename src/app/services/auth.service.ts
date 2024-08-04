@@ -1,53 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { TokenModel } from '../models/others/token.model';
+import { HttpClient } from '@angular/common/http';
+import { TokenService } from './token.service';
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  tokenDecode: TokenModel = new TokenModel();
+  private refreshTokenUrl = 'https://your-api.com/auth/refresh-token';
 
-  constructor(private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService
+  ) {}
 
-  isAuthenticated() {
-    const token: string | null = localStorage.getItem('token');
+  refreshToken(): Observable<boolean> {
+    const refreshToken = this.tokenService.getRefreshToken();
 
-    if (token) {
-      const decode: JwtPayload | any = jwtDecode(token);
-      const expireDate = decode.exp;
-      const currentDate = new Date().getTime() / 1000;
-
-      if (currentDate > expireDate) {
-        localStorage.removeItem('token');
-        this.router.navigateByUrl('/login');
-
-        return false;
-      }
-
-      this.tokenDecode.id =
-        decode[
-          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
-        ];
-      this.tokenDecode.name =
-        decode['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-      this.tokenDecode.email =
-        decode[
-          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'
-        ];
-      this.tokenDecode.userName = decode['UserName'];
-      this.tokenDecode.patientId = decode['PatientId'];
-      this.tokenDecode.doctorId = decode['DoctorId'];
-      this.tokenDecode.roles = JSON.parse(
-        decode['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-      );
-
-      return true;
+    if (!refreshToken) {
+      return of(false);
     }
 
-    this.router.navigateByUrl('/login');
+    return this.http
+      .post<{ accessToken: string }>(this.refreshTokenUrl, { refreshToken })
+      .pipe(
+        switchMap(response => {
+          this.tokenService.saveToken(response.accessToken);
+          return of(true);
+        }),
+        catchError(() => of(false))
+      );
+  }
 
-    return false;
+  isTokenExpiring(): boolean {
+    const expiryDate = this.tokenService.getTokenExpiryDate();
+
+    if (!expiryDate) {
+      return false;
+    }
+
+    const currentDate = new Date();
+    // Check if the token is going to expire in the next 5 minutes
+    return currentDate.getTime() > expiryDate.getTime() - 5 * 60 * 1000;
   }
 }

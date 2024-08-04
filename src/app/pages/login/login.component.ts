@@ -19,6 +19,7 @@ import { LoginMappingProfile } from '../../mapping/login.mapping.profile';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-login',
@@ -65,7 +66,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public layoutService: LayoutService,
     private readonly mapper: Mapper,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -107,7 +109,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         'auth/login',
         this.loginRequestModel,
         res => {
-          localStorage.setItem('token', res.data!.token);
+          this.tokenService.saveToken(res.data!.token);
           this.router.navigateByUrl('/');
 
           this.loginRequestModel = new LoginCommandModel();

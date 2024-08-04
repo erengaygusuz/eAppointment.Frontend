@@ -6,11 +6,11 @@ import { ThemeService } from '../../services/theme.service';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TokenService } from '../../services/token.service';
 
 @Component({
   selector: 'app-topbar',
@@ -45,7 +45,7 @@ export class AppTopBarComponent implements OnInit {
     public layoutService: LayoutService,
     private topbarService: TopBarService,
     private themeService: ThemeService,
-    public authService: AuthService,
+    public tokenService: TokenService,
     private router: Router,
     private translate: TranslateService,
     private languageService: LanguageService

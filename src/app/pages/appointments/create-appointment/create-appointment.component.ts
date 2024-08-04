@@ -18,7 +18,6 @@ import { CreateAppointmentCommandModel } from '../../../models/appointments/crea
 import { HttpService } from '../../../services/http.service';
 import { TopBarService } from '../../../services/topbar.service';
 import { GetAllDoctorsByDepartmentIdQueryModel } from '../../../models/doctors/get.all.doctors.by.department.id.query.model';
-import { AuthService } from '../../../services/auth.service';
 import { GetAllAppointmentsByPatientIdAndByStatusQueryModel } from '../../../models/appointments/get.all.appointments.by.patient.id.and.by.status.query.model';
 import { CancelAppointmentByIdCommandModel } from '../../../models/appointments/cancel.appointment.by.id.command.model';
 import { ButtonModule } from 'primeng/button';
@@ -31,6 +30,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../services/language.service';
 import trLocale from '@fullcalendar/core/locales/tr';
 import enGbLocale from '@fullcalendar/core/locales/en-gb';
+import { TokenService } from '../../../services/token.service';
 
 @Component({
   selector: 'app-create-appointment',
@@ -99,7 +99,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
     private date: DatePipe,
     private topbarService: TopBarService,
     private messageService: MessageService,
-    private authService: AuthService,
+    private tokenService: TokenService,
     private confirmationService: ConfirmationService,
     private translate: TranslateService,
     private languageService: LanguageService
@@ -233,7 +233,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
       this.date.transform(endDate, 'dd.MM.yyyy HH:mm') ?? '';
     this.createAppointmentModel.doctorId = this.selectedDoctor.id;
     this.createAppointmentModel.patientId = Number(
-      this.authService.tokenDecode.patientId
+      this.tokenService.getPatientId()
     );
 
     this.appointmentDialogVisibility = true;
@@ -321,7 +321,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
   }
 
   getAllAppointmentsByPatientId() {
-    const patientId = Number(this.authService.tokenDecode.patientId);
+    const patientId = this.tokenService.getPatientId();
 
     const getAllAppointmentsByPatientIdAndByStatusQueryModel =
       new GetAllAppointmentsByPatientIdAndByStatusQueryModel();

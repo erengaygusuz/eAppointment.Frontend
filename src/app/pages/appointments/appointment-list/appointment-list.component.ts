@@ -5,7 +5,6 @@ import { Table } from 'primeng/table';
 import { GetAllAppointmentsByPatientIdQueryResponseModel } from '../../../models/appointments/get.all.appointments.by.patient.id.query.response.model';
 import { HttpService } from '../../../services/http.service';
 import { SimpleTableComponent } from '../../../components/simple-table/simple-table.component';
-import { AuthService } from '../../../services/auth.service';
 import { Severity } from '../../../models/others/severity.model';
 import { EditTableComponent } from '../../../components/edit-table/edit-table.component';
 import { UpdateAppointmentByIdCommandModel } from '../../../models/appointments/update.appointment.by.id.command.model';
@@ -19,6 +18,7 @@ import { UpdateAppointmentFormValidator } from '../../../validators/update.appoi
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../services/language.service';
+import { TokenService } from '../../../services/token.service';
 
 @Component({
   selector: 'app-appointment-list',
@@ -74,8 +74,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: HttpService,
-    private authService: AuthService,
-    private date: DatePipe,
+    private tokenService: TokenService,
     private messageService: MessageService,
     private translate: TranslateService,
     private languageService: LanguageService
@@ -184,7 +183,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
   }
 
   getAllAppointmentsByDoctorId() {
-    const doctorId = Number(this.authService.tokenDecode.doctorId);
+    const doctorId = this.tokenService.getDoctorId();
 
     const getAllAppointmentsByDoctorIdAndByStatusQueryModel =
       new GetAllAppointmentsByDoctorIdAndByStatusQueryModel();
