@@ -1,56 +1,47 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import {
-  HttpInterceptor,
+  HttpInterceptorFn,
   HttpRequest,
-  HttpHandler,
-  HttpEvent
+  HttpHandlerFn
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-    private authService: AuthService,
-    private tokenService: TokenService
-  ) {}
+export const AuthInterceptor: HttpInterceptorFn = (
+  req: HttpRequest<any>,
+  next: HttpHandlerFn
+) => {
+  const tokenService = inject(TokenService);
+  const authService = inject(AuthService);
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    if (this.authService.isTokenExpiring()) {
-      return this.authService.refreshToken().pipe(
-        switchMap(refreshed => {
-          const token = this.tokenService.getToken();
-          if (refreshed && token) {
-            const cloned = req.clone({
-              setHeaders: {
-                Authorization: `Bearer ${token}`
-              }
-            });
-            return next.handle(cloned);
-          }
-          return next.handle(req);
-        })
-      );
-    }
-
-    const token = this.tokenService.getToken();
-
-    console.log(token)
-
-    if (token) {
-      const cloned = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
+  if (authService.isTokenExpiring()) {
+    return authService.refreshToken().pipe(
+      switchMap(refreshed => {
+        const token = tokenService.getToken();
+        if (refreshed && token) {
+          const cloned = req.clone({
+            setHeaders: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          return next(cloned);
         }
-      });
-      return next.handle(cloned);
-    }
-
-    return next.handle(req);
+        return next(req);
+      })
+    );
   }
-}
+
+  const token = tokenService.getToken();
+
+  if (token) {
+    const cloned = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return next(cloned);
+  }
+
+  return next(req);
+};
