@@ -55,13 +55,16 @@ export class AdvancedTableComponent implements AfterContentChecked {
 
   @Input() loading: any;
 
-  first: number = 1;
-  last: number = 5;
-  itemsPerPage: number = 5;
+  @Input() totalRecords: any;
+
+  @Input() rowsPerPage: number = 0;
 
   rowsPerPageOptions: number[] = [5, 10, 20];
 
   currentPageReportTemplate: string = '';
+
+  first: number = 1;
+  last: number = 5;
 
   @Output() dataLoad = new EventEmitter<{ event: TableLazyLoadEvent }>();
 
@@ -70,7 +73,7 @@ export class AdvancedTableComponent implements AfterContentChecked {
   getTranslationData(key: string) {
     this.translate
       .get(key, {
-        totalItems: this.tableDatas.length,
+        totalItems: this.totalRecords,
         first: this.first,
         last: this.last
       })
@@ -112,15 +115,14 @@ export class AdvancedTableComponent implements AfterContentChecked {
   onPageChange(event: any) {
     const currentPage = Math.ceil((event.first - 1) / event.rows + 1);
     this.first = event.first + 1;
-    this.itemsPerPage = event.rows;
-    const totalItems = this.tableDatas.length;
-    this.last = totalItems;
+    this.rowsPerPage = event.rows;
+    this.last = this.totalRecords;
 
-    if (this.itemsPerPage < totalItems) {
-      this.last = this.itemsPerPage * currentPage;
+    if (this.rowsPerPage < this.totalRecords) {
+      this.last = this.rowsPerPage * currentPage;
 
-      if (this.last > totalItems) {
-        this.last = totalItems;
+      if (this.last > this.totalRecords) {
+        this.last = this.totalRecords;
       }
     }
 

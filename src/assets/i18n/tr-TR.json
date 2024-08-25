@@ -796,17 +796,17 @@
   "Components": {
     "AdvancedTable": {
       "SearchBarPlaceHolder": "Ara...",
-      "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
+      "Summary": "Toplamda {{totalItems}} kayıt listelenmektedir.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     },
     "SimpleTable": {
       "SearchBarPlaceHolder": "Ara...",
-      "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
+      "Summary": "Toplamda {{totalItems}} kayıt listelenmektedir.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     },
     "EditTable": {
       "SearchBarPlaceHolder": "Ara...",
-      "Summary": "Toplamda {{totalItems}} kayıt bulunmaktadır.",
+      "Summary": "Toplamda {{totalItems}} kayıt listelenmektedir.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     }
   },

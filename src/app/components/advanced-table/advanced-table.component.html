@@ -21,7 +21,7 @@
   #tableName
   [value]="tableDatas"
   [lazy]="true"
-  [rows]="itemsPerPage"
+  [rows]="rowsPerPage"
   [columns]="columns"
   [paginator]="true"
   [rowsPerPageOptions]="rowsPerPageOptions"
@@ -30,9 +30,10 @@
   dataKey="id"
   [currentPageReportTemplate]="currentPageReportTemplate"
   [showCurrentPageReport]="true"
-  (onPage)="onPageChange($event)"
   (onLazyLoad)="lazyLoad($event)"
-  [loading]="loading">
+  (onPage)="onPageChange($event)"
+  [loading]="loading"
+  [totalRecords]="totalRecords">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">

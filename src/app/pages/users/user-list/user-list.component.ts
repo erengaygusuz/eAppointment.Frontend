@@ -55,6 +55,7 @@ export class UserListComponent implements OnInit {
   totalRecords: number = 0;
   loading: boolean = true;
   searchTerm: string = '';
+  rowsPerPage: number = 5;
 
   constructor(
     private http: HttpService,
@@ -161,6 +162,8 @@ export class UserListComponent implements OnInit {
 
         this.users = res.data.getAllUsersQueryResponse;
 
+        this.totalRecords = res.data.totalCount;
+
         this.loading = false;
       }
     );
@@ -210,6 +213,7 @@ export class UserListComponent implements OnInit {
 
     const skip = event.first || 0;
     const take = event.rows || 10;
+    this.rowsPerPage = take;
 
     const sortFields =
       event.sortField == undefined

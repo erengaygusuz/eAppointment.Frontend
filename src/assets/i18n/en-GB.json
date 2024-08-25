@@ -796,17 +796,17 @@
   "Components": {
     "AdvancedTable": {
       "SearchBarPlaceHolder": "Search...",
-      "Summary": "In total, there are {{totalItems}} items in our records.",
+      "Summary": "In total, {{totalItems}} records are listed.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
     },
     "SimpleTable": {
       "SearchBarPlaceHolder": "Search...",
-      "Summary": "In total, there are {{totalItems}} items in our records.",
+      "Summary": "In total, {{totalItems}} records are listed.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
     },
     "EditTable": {
       "SearchBarPlaceHolder": "Search...",
-      "Summary": "In total, there are {{totalItems}} items in our records.",
+      "Summary": "In total, {{totalItems}} records are listed.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
     }
   },
