@@ -5,9 +5,8 @@ import {
   Output,
   AfterContentChecked
 } from '@angular/core';
-import { Table, TableModule } from 'primeng/table';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
@@ -16,12 +15,14 @@ import { Severity } from '../../models/others/severity.model';
 import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-advanced-table',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     ButtonModule,
     TableModule,
     ToolbarModule,
@@ -40,7 +41,7 @@ export class AdvancedTableComponent implements AfterContentChecked {
 
   @Input() columns: any;
 
-  @Output() onGlobalFilter = new EventEmitter<{ table: Table; event: Event }>();
+  @Output() onGlobalFilter = new EventEmitter();
 
   @Input() tableData: any;
 
@@ -49,6 +50,11 @@ export class AdvancedTableComponent implements AfterContentChecked {
 
   @Input() severityList: Severity[] = [];
 
+  @Input() searchTerm: any;
+  @Output() searchTermChange = new EventEmitter<string>();
+
+  @Input() loading: any;
+
   first: number = 1;
   last: number = 5;
   itemsPerPage: number = 5;
@@ -56,6 +62,8 @@ export class AdvancedTableComponent implements AfterContentChecked {
   rowsPerPageOptions: number[] = [5, 10, 20];
 
   currentPageReportTemplate: string = '';
+
+  @Output() dataLoad = new EventEmitter<{ event: TableLazyLoadEvent }>();
 
   constructor(private translate: TranslateService) {}
 
@@ -117,5 +125,14 @@ export class AdvancedTableComponent implements AfterContentChecked {
     }
 
     this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
+  }
+
+  lazyLoad(event: TableLazyLoadEvent) {
+    this.dataLoad.emit({ event: event });
+  }
+
+  sendSearchTermToParent(): void {
+    this.searchTermChange.emit(this.searchTerm);
+    this.onGlobalFilter.emit();
   }
 }

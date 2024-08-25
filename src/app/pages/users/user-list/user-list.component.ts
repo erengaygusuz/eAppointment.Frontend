@@ -5,13 +5,15 @@ import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
 import { HttpService } from '../../../services/http.service';
 import { AuthService } from '../../../services/auth.service';
 import { GetAllUsersQueryResponseModel } from '../../../models/users/get.all.users.query.response.model';
-import { Table } from 'primeng/table';
+import { TableLazyLoadEvent } from 'primeng/table';
 import { Router } from '@angular/router';
 import { DeleteUserByIdCommandModel } from '../../../models/users/delete.user.by.id.command.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AdvancedTableColumnInfoModel } from '../../../models/others/advanced.table.column.info.model';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { GetAllUsersQueryModel } from '../../../models/users/get.all.users.query.model';
+import { GetAllUsersQueryTableResponseModel } from '../../../models/users/get.all.users.query.table.response.model';
 
 @Component({
   selector: 'app-user-list',
@@ -49,6 +51,10 @@ export class UserListComponent implements OnInit {
   confirmationDialogMessage: string = '';
   confirmationDialogHeader: string = '';
   userFullNameWillBeDeleted: string = '';
+
+  totalRecords: number = 0;
+  loading: boolean = true;
+  searchTerm: string = '';
 
   constructor(
     private http: HttpService,
@@ -130,17 +136,34 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllUsers();
-
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
   }
 
-  getAllUsers() {
-    this.http.post<GetAllUsersQueryResponseModel[]>('users/getall', {}, res => {
-      this.users = [];
+  getAllUsers(
+    page: number,
+    pageSize: number,
+    sortFields: string,
+    sortOrders: string
+  ) {
+    const getAllUsersRequestBody = new GetAllUsersQueryModel();
 
-      this.users = res.data;
-    });
+    getAllUsersRequestBody.skip = page;
+    getAllUsersRequestBody.take = pageSize;
+    getAllUsersRequestBody.sortFields = sortFields;
+    getAllUsersRequestBody.sortOrders = sortOrders;
+    getAllUsersRequestBody.searchTerm = this.searchTerm;
+
+    this.http.post<GetAllUsersQueryTableResponseModel>(
+      'users/getall',
+      getAllUsersRequestBody,
+      res => {
+        this.users = [];
+
+        this.users = res.data.getAllUsersQueryResponse;
+
+        this.loading = false;
+      }
+    );
   }
 
   editRecord(user: GetAllUsersQueryResponseModel) {
@@ -171,16 +194,32 @@ export class UserListComponent implements OnInit {
               life: 3000
             });
 
-            this.getAllUsers();
+            this.onGlobalFilter();
           }
         );
       }
     });
   }
 
-  onGlobalFilter(table: Table, event: Event) {
-    const incomingData = event.target as HTMLInputElement;
+  onGlobalFilter() {
+    this.dataLoad({ first: 0, rows: 10 });
+  }
 
-    table.filterGlobal(incomingData.value, 'contains');
+  dataLoad(event: TableLazyLoadEvent) {
+    this.loading = true;
+
+    const skip = event.first || 0;
+    const take = event.rows || 10;
+
+    const sortFields =
+      event.sortField == undefined
+        ? ''
+        : Array.isArray(event.sortField)
+          ? event.sortField[0][0].toUpperCase() + event.sortField[0].slice(1)
+          : event.sortField[0].toUpperCase() + event.sortField.slice(1);
+
+    const sortOrders = event.sortOrder === 1 ? 'asc' : 'desc';
+
+    this.getAllUsers(skip, take, sortFields, sortOrders);
   }
 }

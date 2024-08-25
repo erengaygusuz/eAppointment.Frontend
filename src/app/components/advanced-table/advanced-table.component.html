@@ -7,7 +7,8 @@
         pInputText
         type="text"
         #filter
-        (input)="this.onGlobalFilter.emit({ table: tableName, event: $event })"
+        [(ngModel)]="searchTerm"
+        (input)="sendSearchTermToParent()"
         placeholder="{{
           'Components.AdvancedTable.SearchBarPlaceHolder' | translate
         }}"
@@ -19,6 +20,7 @@
 <p-table
   #tableName
   [value]="tableDatas"
+  [lazy]="true"
   [rows]="itemsPerPage"
   [columns]="columns"
   [paginator]="true"
@@ -28,7 +30,9 @@
   dataKey="id"
   [currentPageReportTemplate]="currentPageReportTemplate"
   [showCurrentPageReport]="true"
-  (onPage)="onPageChange($event)">
+  (onPage)="onPageChange($event)"
+  (onLazyLoad)="lazyLoad($event)"
+  [loading]="loading">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">

@@ -8,7 +8,10 @@
         [columns]="columns"
         (editRecord)="editRecord($event.tableData)"
         (deleteRecord)="deleteRecord($event.tableData)"
-        (onGlobalFilter)="onGlobalFilter($event.table, $event.event)" />
+        (onGlobalFilter)="onGlobalFilter()"
+        (dataLoad)="dataLoad($event.event)"
+        [(searchTerm)]="searchTerm"
+        [loading]="loading" />
     </div>
   </div>
 </div>
