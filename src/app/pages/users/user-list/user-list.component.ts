@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component';
 import { AdvancedTableComponent } from '../../../components/advanced-table/advanced-table.component';
-import { MessageService, ConfirmationService, MenuItem } from 'primeng/api';
+import {
+  MessageService,
+  ConfirmationService,
+  MenuItem,
+  FilterMetadata
+} from 'primeng/api';
 import { HttpService } from '../../../services/http.service';
 import { AuthService } from '../../../services/auth.service';
 import { GetAllUsersQueryResponseModel } from '../../../models/users/get.all.users.query.response.model';
@@ -39,13 +44,6 @@ export class UserListComponent implements OnInit {
 
   columns: AdvancedTableColumnInfoModel[] = [];
 
-  globalFilterFieldsData: string[] = [
-    'fullName',
-    'username',
-    'email',
-    'roleNames'
-  ];
-
   tableName: string = 'usersTable';
 
   confirmationDialogMessage: string = '';
@@ -56,6 +54,14 @@ export class UserListComponent implements OnInit {
   loading: boolean = true;
   searchTerm: string = '';
   rowsPerPage: number = 5;
+
+  filters:
+    | { [s: string]: FilterMetadata[] | FilterMetadata | undefined }
+    | undefined = {};
+
+  multiSortMeta: object = {};
+
+  globalFilter: object = {};
 
   constructor(
     private http: HttpService,
@@ -68,6 +74,7 @@ export class UserListComponent implements OnInit {
     this.columns = [
       {
         field: 'fullName',
+        sortField: 'FirstName',
         header: '',
         isSeverity: false,
         isOperationColumn: false,
@@ -75,6 +82,7 @@ export class UserListComponent implements OnInit {
       },
       {
         field: 'email',
+        sortField: 'Email',
         header: '',
         isSeverity: false,
         isOperationColumn: false,
@@ -82,6 +90,7 @@ export class UserListComponent implements OnInit {
       },
       {
         field: 'userName',
+        sortField: 'UserName',
         header: '',
         isSeverity: false,
         isOperationColumn: false,
@@ -89,13 +98,15 @@ export class UserListComponent implements OnInit {
       },
       {
         field: 'roleNames',
+        sortField: '',
         header: '',
         isSeverity: false,
         isOperationColumn: false,
-        isFilterableAndSortable: true
+        isFilterableAndSortable: false
       },
       {
         field: '',
+        sortField: '',
         header: '',
         isSeverity: false,
         isOperationColumn: true,
@@ -141,18 +152,20 @@ export class UserListComponent implements OnInit {
   }
 
   getAllUsers(
-    page: number,
-    pageSize: number,
-    sortFields: string,
-    sortOrders: string
+    first: number,
+    rows: number,
+    sortField: string,
+    sortOrder: number
   ) {
     const getAllUsersRequestBody = new GetAllUsersQueryModel();
 
-    getAllUsersRequestBody.skip = page;
-    getAllUsersRequestBody.take = pageSize;
-    getAllUsersRequestBody.sortFields = sortFields;
-    getAllUsersRequestBody.sortOrders = sortOrders;
-    getAllUsersRequestBody.searchTerm = this.searchTerm;
+    getAllUsersRequestBody.first = first;
+    getAllUsersRequestBody.rows = rows;
+    getAllUsersRequestBody.sortField = sortField;
+    getAllUsersRequestBody.sortOrder = sortOrder;
+    getAllUsersRequestBody.multiSortMeta = this.multiSortMeta;
+    getAllUsersRequestBody.filters = this.filters;
+    getAllUsersRequestBody.globalFilter = this.searchTerm;
 
     this.http.post<GetAllUsersQueryTableResponseModel>(
       'users/getall',
@@ -205,7 +218,7 @@ export class UserListComponent implements OnInit {
   }
 
   onGlobalFilter() {
-    this.dataLoad({ first: 0, rows: 10 });
+    this.dataLoad({ first: 0, rows: 5, filters: {} });
   }
 
   dataLoad(event: TableLazyLoadEvent) {
@@ -222,7 +235,14 @@ export class UserListComponent implements OnInit {
           ? event.sortField[0][0].toUpperCase() + event.sortField[0].slice(1)
           : event.sortField[0].toUpperCase() + event.sortField.slice(1);
 
-    const sortOrders = event.sortOrder === 1 ? 'asc' : 'desc';
+    const sortOrders =
+      event.sortOrder === undefined
+        ? -1
+        : event.sortOrder === null
+          ? -1
+          : event.sortOrder;
+
+    this.filters = event.filters;
 
     this.getAllUsers(skip, take, sortFields, sortOrders);
   }

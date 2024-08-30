@@ -4,7 +4,6 @@
       <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
       <app-advanced-table
         [tableDatas]="users"
-        [globalFilterFields]="globalFilterFieldsData"
         [columns]="columns"
         (editRecord)="editRecord($event.tableData)"
         (deleteRecord)="deleteRecord($event.tableData)"
@@ -13,7 +12,8 @@
         [(searchTerm)]="searchTerm"
         [loading]="loading"
         [rowsPerPage]="rowsPerPage"
-        [totalRecords]="totalRecords" />
+        [totalRecords]="totalRecords"
+        [multiSortMeta]="multiSortMeta" />
     </div>
   </div>
 </div>

@@ -37,7 +37,6 @@ import { FormsModule } from '@angular/forms';
 })
 export class AdvancedTableComponent implements AfterContentChecked {
   @Input() tableDatas: any;
-  @Input() globalFilterFields: any;
 
   @Input() columns: any;
 
@@ -56,6 +55,8 @@ export class AdvancedTableComponent implements AfterContentChecked {
   @Input() loading: any;
 
   @Input() totalRecords: any;
+
+  @Input() multiSortMeta: any;
 
   @Input() rowsPerPage: number = 0;
 

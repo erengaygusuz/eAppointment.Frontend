@@ -25,7 +25,6 @@
   [columns]="columns"
   [paginator]="true"
   [rowsPerPageOptions]="rowsPerPageOptions"
-  [globalFilterFields]="globalFilterFields"
   [rowHover]="false"
   dataKey="id"
   [currentPageReportTemplate]="currentPageReportTemplate"
@@ -33,10 +32,13 @@
   (onLazyLoad)="lazyLoad($event)"
   (onPage)="onPageChange($event)"
   [loading]="loading"
-  [totalRecords]="totalRecords">
+  [totalRecords]="totalRecords"
+  [multiSortMeta]="multiSortMeta">
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th *ngFor="let column of columns" pSortableColumn="{{ column.field }}">
+      <th
+        *ngFor="let column of columns"
+        pSortableColumn="{{ column.sortField }}">
         <div class="flex justify-content-between align-items-center flex-wrap">
           <div class="flex align-items-center justify-content-center">
             <span>{{ column.header }}</span>
@@ -46,10 +48,10 @@
             class="flex align-items-center justify-content-center">
             <p-columnFilter
               type="text"
-              field="{{ column.field }}"
+              field="{{ column.sortField }}"
               display="menu"
               placeholder="Search by {{ column.header }}"></p-columnFilter>
-            <p-sortIcon field="{{ column.field }}" />
+            <p-sortIcon field="{{ column.sortField }}" />
           </div>
         </div>
       </th>
