@@ -8,6 +8,12 @@ export const PermissionGuard: CanActivateFn = (
   const tokenService = inject(TokenService);
   const router = inject(Router);
 
+  if (tokenService.getToken() == null) {
+    router.navigate(['/login']);
+
+    return false;
+  }
+
   if (tokenService.isTokenExpired()) {
     tokenService.clearTokens();
 
@@ -16,18 +22,22 @@ export const PermissionGuard: CanActivateFn = (
     return false;
   }
 
-  const requiredPermissions = route.data['Permissions'] as Array<string>;
+  if (route.data !== null && route.data !== undefined) {
+    const requiredPermissions = route.data['Permissions'] as Array<string>;
 
-  const userPermissions = tokenService.getUserPermissions();
+    if (requiredPermissions !== null && requiredPermissions !== undefined) {
+      const userPermissions = tokenService.getUserPermissions();
 
-  const hasPermission = requiredPermissions.every(permission =>
-    userPermissions.includes(permission)
-  );
+      const hasPermission = requiredPermissions.every(permission =>
+        userPermissions.includes(permission)
+      );
 
-  if (!hasPermission) {
-    router.navigate(['/unauthorized']);
+      if (!hasPermission) {
+        router.navigate(['/unauthorized']);
 
-    return false;
+        return false;
+      }
+    }
   }
 
   return true;

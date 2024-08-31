@@ -28,7 +28,8 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [PermissionGuard]
       },
       {
         path: 'users',
@@ -92,7 +93,8 @@ export const routes: Routes = [
       },
       {
         path: 'unauthorized',
-        component: UnauthorizedComponent
+        component: UnauthorizedComponent,
+        canActivate: [PermissionGuard]
       }
     ]
   },
