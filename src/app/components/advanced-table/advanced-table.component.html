@@ -50,7 +50,10 @@
               type="text"
               field="{{ column.sortField }}"
               display="menu"
-              placeholder="Search by {{ column.header }}"></p-columnFilter>
+              placeholder="{{
+                'Components.AdvancedTable.FilterPlaceHolder'
+                  | translate: { columnHeader: column.header }
+              }}"></p-columnFilter>
             <p-sortIcon field="{{ column.sortField }}" />
           </div>
         </div>

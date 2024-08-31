@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { RouterOutlet } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from './services/language.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +12,13 @@ import { RouterOutlet } from '@angular/router';
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {
+  unsubscribe = new Subject<void>();
+
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private translate: TranslateService,
+    private languageService: LanguageService
+  ) {
     this.primengConfig.csp.set({ nonce: '...' });
   }
 
@@ -21,5 +30,16 @@ export class AppComponent implements OnInit {
       menu: 1000, // overlay menus
       tooltip: 1100 // tooltip
     };
+
+    this.languageService
+      .getLanguage()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.translate.use(data);
+
+        this.translate
+          .get('Components.PrimeNG')
+          .subscribe(res => this.primengConfig.setTranslation(res));
+      });
   }
 }
