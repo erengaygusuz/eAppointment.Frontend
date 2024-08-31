@@ -45,13 +45,13 @@ export class TokenService {
   getPatientId(): number {
     const decodedToken = this.getDecodedToken();
 
-    return decodedToken ? Number(decodedToken.patientId) : 0;
+    return decodedToken ? Number(decodedToken.PatientId) : 0;
   }
 
   getDoctorId(): number {
     const decodedToken = this.getDecodedToken();
 
-    return decodedToken ? Number(decodedToken.doctorId) : 0;
+    return decodedToken ? Number(decodedToken.DoctorId) : 0;
   }
 
   getName(): string {

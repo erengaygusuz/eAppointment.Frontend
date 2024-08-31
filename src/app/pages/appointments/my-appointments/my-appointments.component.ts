@@ -129,7 +129,7 @@ export class MyAppointmentsComponent implements OnInit, OnDestroy {
   }
 
   getAllApointmentsByPatientId() {
-    const patientId = Number(this.tokenService.getPatientId());
+    const patientId = this.tokenService.getPatientId();
 
     const getAllAppointmentsByPatientIdQueryModel =
       new GetAllAppointmentsByPatientIdQueryModel();
