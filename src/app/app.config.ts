@@ -17,6 +17,14 @@ import { LoginMappingProfile } from './mapping/login.mapping.profile';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { provideIcons } from '@ng-icons/core';
+import {
+  bootstrapFiletypeXlsx,
+  bootstrapFiletypeCsv,
+  bootstrapFiletypeJson,
+  bootstrapFiletypePdf,
+  bootstrapFiletypeXml
+} from '@ng-icons/bootstrap-icons';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -45,6 +53,13 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient]
         }
       })
-    )
+    ),
+    provideIcons({
+      bootstrapFiletypeXlsx,
+      bootstrapFiletypeCsv,
+      bootstrapFiletypeJson,
+      bootstrapFiletypePdf,
+      bootstrapFiletypeXml
+    })
   ]
 };

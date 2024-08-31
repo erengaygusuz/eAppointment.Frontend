@@ -16,6 +16,9 @@ import { CommonModule } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
+import { NgIcon } from '@ng-icons/core';
+import { DropdownModule } from 'primeng/dropdown';
+import { ExportOptionModel } from '../../models/others/export.option.model';
 
 @Component({
   selector: 'app-advanced-table',
@@ -30,7 +33,9 @@ import { FormsModule } from '@angular/forms';
     InputTextModule,
     RouterModule,
     TagModule,
-    TranslateModule
+    TranslateModule,
+    NgIcon,
+    DropdownModule
   ],
   templateUrl: './advanced-table.component.html',
   styleUrl: './advanced-table.component.css'
@@ -69,7 +74,44 @@ export class AdvancedTableComponent implements AfterContentChecked {
 
   @Output() dataLoad = new EventEmitter<{ event: TableLazyLoadEvent }>();
 
-  constructor(private translate: TranslateService) {}
+  selectedExportOption!: ExportOptionModel;
+
+  exportOptions: ExportOptionModel[] = [];
+
+  constructor(private translate: TranslateService) {
+    this.exportOptions = [
+      {
+        value: 0,
+        label: 'CSV',
+        iconName: 'bootstrapFiletypeCsv',
+        color: 'green'
+      },
+      {
+        value: 1,
+        label: 'XLSX',
+        iconName: 'bootstrapFiletypeXlsx',
+        color: 'blue'
+      },
+      {
+        value: 2,
+        label: 'JSON',
+        iconName: 'bootstrapFiletypeJson',
+        color: 'gray'
+      },
+      {
+        value: 3,
+        label: 'PDF',
+        iconName: 'bootstrapFiletypePdf',
+        color: 'red'
+      },
+      {
+        value: 4,
+        label: 'XML',
+        iconName: 'bootstrapFiletypeXml',
+        color: 'orange'
+      }
+    ];
+  }
 
   getTranslationData(key: string) {
     this.translate
@@ -137,5 +179,29 @@ export class AdvancedTableComponent implements AfterContentChecked {
   sendSearchTermToParent(): void {
     this.searchTermChange.emit(this.searchTerm);
     this.onGlobalFilter.emit();
+  }
+
+  exportAsFile(exportOptionIndex: number) {
+    switch (exportOptionIndex) {
+      // csv
+      case 0:
+        break;
+
+      // xlsx
+      case 1:
+        break;
+
+      // json
+      case 2:
+        break;
+
+      // pdf
+      case 3:
+        break;
+
+      // xml
+      case 4:
+        break;
+    }
   }
 }
