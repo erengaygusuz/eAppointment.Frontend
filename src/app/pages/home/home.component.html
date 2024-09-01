@@ -2,6 +2,60 @@
   <div class="col-12">
     <div class="card">
       <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
+      <div class="card">
+        <p-chart type="bar" [data]="basicData" [options]="basicOptions" />
+      </div>
+      <div class="card flex justify-content-center">
+        <p-chart type="pie" [data]="pieData" [options]="pieOptions" />
+      </div>
+      <div class="card flex justify-content-center">
+        <p-chart
+          type="doughnut"
+          [data]="doughnutData"
+          [options]="doughnutOptions" />
+      </div>
+      <div class="card">
+        <p-chart
+          type="bar"
+          [data]="verticalBarData"
+          [options]="verticalBarOptions" />
+      </div>
+      <div class="card">
+        <p-chart
+          type="bar"
+          [data]="horizontalData"
+          [options]="horizontalOptions" />
+      </div>
+      <div class="card">
+        <p-chart type="bar" [data]="stackedData" [options]="stackedOptions" />
+      </div>
+      <div class="card">
+        <p-chart type="line" [data]="lineData" [options]="lineOptions" />
+      </div>
+      <div class="card">
+        <p-chart
+          type="line"
+          [data]="multiAxisData"
+          [options]="multiAxisOptions" />
+      </div>
+      <div class="card">
+        <p-chart
+          type="line"
+          [data]="lineStylesData"
+          [options]="lineStylesOptions" />
+      </div>
+      <div class="card flex justify-content-center">
+        <p-chart
+          type="polarArea"
+          [data]="polarAreaData"
+          [options]="polarAreaOptions" />
+      </div>
+      <div class="card flex justify-content-center">
+        <p-chart type="radar" [data]="radarData" [options]="radarOptions" />
+      </div>
+      <div class="card">
+        <p-chart type="line" [data]="comboData" [options]="comboOptions" />
+      </div>
     </div>
   </div>
 </div>
