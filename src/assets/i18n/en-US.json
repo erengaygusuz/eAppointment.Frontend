@@ -798,7 +798,16 @@
       "SearchBarPlaceHolder": "Search...",
       "Summary": "In total, {{totalItems}} records are listed.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries",
-      "FilterPlaceHolder": "Search by {{columnHeader}}"
+      "FilterPlaceHolder": "Search by {{columnHeader}}",
+      "FilterBtnLabel": "Clear Filters",
+      "ExportModule": {
+        "ExportBtnLabel": "Export",
+        "ExportOptionDropdown": "Please select an option",
+        "ExportOptionToast": {
+          "Title": "Warning",
+          "Message": "Please select an export option"
+        }
+      } 
     },
     "SimpleTable": {
       "SearchBarPlaceHolder": "Search...",

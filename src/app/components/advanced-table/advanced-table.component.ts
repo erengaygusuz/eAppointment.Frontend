@@ -5,7 +5,7 @@ import {
   Output,
   AfterContentChecked
 } from '@angular/core';
-import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ToastModule } from 'primeng/toast';
@@ -19,6 +19,10 @@ import { FormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { ExportOptionModel } from '../../models/others/export.option.model';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-advanced-table',
@@ -35,7 +39,8 @@ import { ExportOptionModel } from '../../models/others/export.option.model';
     TagModule,
     TranslateModule,
     NgIcon,
-    DropdownModule
+    DropdownModule,
+    ToastModule
   ],
   templateUrl: './advanced-table.component.html',
   styleUrl: './advanced-table.component.css'
@@ -74,11 +79,22 @@ export class AdvancedTableComponent implements AfterContentChecked {
 
   @Output() dataLoad = new EventEmitter<{ event: TableLazyLoadEvent }>();
 
-  selectedExportOption!: ExportOptionModel;
+  selectedExportOption: ExportOptionModel = {
+    value: -1,
+    label: '',
+    iconName: '',
+    color: ''
+  };
 
   exportOptions: ExportOptionModel[] = [];
 
-  constructor(private translate: TranslateService) {
+  exportToastTitle: string = '';
+  exportToastMessage: string = '';
+
+  constructor(
+    private translate: TranslateService,
+    private messageService: MessageService
+  ) {
     this.exportOptions = [
       {
         value: 0,
@@ -113,9 +129,9 @@ export class AdvancedTableComponent implements AfterContentChecked {
     ];
   }
 
-  getTranslationData(key: string) {
+  getTranslationData(key1: string, key2: string) {
     this.translate
-      .get(key, {
+      .get(key1, {
         totalItems: this.totalRecords,
         first: this.first,
         last: this.last
@@ -123,6 +139,11 @@ export class AdvancedTableComponent implements AfterContentChecked {
       .subscribe(data => {
         this.currentPageReportTemplate = data;
       });
+
+    this.translate.get(key2).subscribe(data => {
+      this.exportToastTitle = data.ExportOptionToast.Title;
+      this.exportToastMessage = data.ExportOptionToast.Message;
+    });
   }
 
   ngAfterContentChecked() {
@@ -132,10 +153,16 @@ export class AdvancedTableComponent implements AfterContentChecked {
       this.translate.use('tr-TR');
     }
 
-    this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
+    this.getTranslationData(
+      'Components.AdvancedTable.PaginatorInfo',
+      'Components.AdvancedTable.ExportModule'
+    );
 
     this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
+      this.getTranslationData(
+        'Components.AdvancedTable.PaginatorInfo',
+        'Components.AdvancedTable.ExportModule'
+      );
     });
   }
 
@@ -169,7 +196,10 @@ export class AdvancedTableComponent implements AfterContentChecked {
       }
     }
 
-    this.getTranslationData('Components.AdvancedTable.PaginatorInfo');
+    this.getTranslationData(
+      'Components.AdvancedTable.PaginatorInfo',
+      'Components.AdvancedTable.ExportModule'
+    );
   }
 
   lazyLoad(event: TableLazyLoadEvent) {
@@ -181,27 +211,132 @@ export class AdvancedTableComponent implements AfterContentChecked {
     this.onGlobalFilter.emit();
   }
 
-  exportAsFile(exportOptionIndex: number) {
-    switch (exportOptionIndex) {
-      // csv
+  exportAsFile() {
+    switch (this.selectedExportOption.value) {
       case 0:
+        this.exportToCsv();
+
         break;
 
-      // xlsx
       case 1:
+        this.exportToExcel();
+
         break;
 
-      // json
       case 2:
+        this.exportToJson();
+
         break;
 
-      // pdf
       case 3:
+        this.exportToPdf();
+
         break;
 
-      // xml
       case 4:
+        this.exportToXml();
+
         break;
+
+      default:
+        this.messageService.add({
+          severity: 'warn',
+          summary: this.exportToastTitle,
+          detail: this.exportToastMessage,
+          life: 3000
+        });
     }
+  }
+
+  exportToJson() {
+    const json = JSON.stringify(this.tableDatas);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'table-data.json';
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  exportToXml() {
+    const xml = this.convertToXml(this.tableDatas);
+    const blob = new Blob([xml], { type: 'application/xml' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'table-data.xml';
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  convertToXml(data: any[]): string {
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<rows>\n';
+
+    data.forEach(row => {
+      xml += '  <row>\n';
+      Object.keys(row).forEach(key => {
+        xml += `    <${key}>${row[key]}</${key}>\n`;
+      });
+      xml += '  </row>\n';
+    });
+
+    xml += '</rows>';
+
+    return xml;
+  }
+
+  exportToCsv() {
+    const csv = this.convertToCsv(this.tableDatas);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'table-data.csv';
+    link.click();
+    window.URL.revokeObjectURL(url);
+  }
+
+  convertToCsv(data: any[]): string {
+    const header = Object.keys(data[0]).join(',') + '\n';
+    const rows = data.map(row => Object.values(row).join(',')).join('\n');
+
+    return header + rows;
+  }
+
+  exportToExcel() {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.tableDatas);
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+
+    XLSX.writeFile(workbook, 'table-data.xlsx');
+  }
+
+  exportToPdf() {
+    const doc = new jsPDF();
+
+    const col = Object.keys(this.tableDatas[0]);
+    const rows = this.tableDatas.map((row: any) => Object.values(row));
+
+    autoTable(doc, {
+      head: [col],
+      body: rows
+    });
+
+    const blob = doc.output('blob');
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'table-data.pdf';
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
+  clearFilters(table: Table) {
+    table.clear();
+    this.searchTerm = '';
+    this.searchTermChange.emit(this.searchTerm);
+    this.onGlobalFilter.emit();
   }
 }

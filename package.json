@@ -42,12 +42,15 @@
     "flag-icons": "^7.2.3",
     "fluentvalidation-ts": "^3.2.0",
     "form-validate-angular": "^17.0.1",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.3",
     "jwt-decode": "^4.0.0",
     "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.17.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {

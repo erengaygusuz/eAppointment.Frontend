@@ -798,7 +798,16 @@
       "SearchBarPlaceHolder": "Ara...",
       "Summary": "Toplamda {{totalItems}} kayıt listelenmektedir.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor",
-      "FilterPlaceHolder": "{{columnHeader}} ile ara"
+      "FilterPlaceHolder": "{{columnHeader}} ile ara",
+      "FilterBtnLabel": "Filtreleri Temizle",
+      "ExportModule": {
+        "ExportBtnLabel": "Çıktı Al",
+        "ExportOptionDropdown": "Lütfen bir seçenek seç",
+        "ExportOptionToast": {
+          "Title": "Uyarı",
+          "Message": "Lütfen bir çıktı alma seçeneği seçiniz"
+        }
+      } 
     },
     "SimpleTable": {
       "SearchBarPlaceHolder": "Ara...",

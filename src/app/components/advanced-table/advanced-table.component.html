@@ -5,7 +5,10 @@
         [options]="exportOptions"
         [(ngModel)]="selectedExportOption"
         optionLabel="label"
-        placeholder="Select an Option">
+        placeholder="{{
+          'Components.AdvancedTable.ExportModule.ExportOptionDropdown'
+            | translate
+        }}">
         <ng-template pTemplate="selectedItem">
           <div
             class="flex align-items-center gap-2"
@@ -31,18 +34,22 @@
       </p-dropdown>
       <p-button
         pRipple
-        label="Export"
+        label="{{
+          'Components.AdvancedTable.ExportModule.ExportBtnLabel' | translate
+        }}"
         icon="pi fa-solid fa-file-export"
-        [text]="true" />
+        [text]="true"
+        (onClick)="exportAsFile()" />
     </div>
   </ng-template>
   <ng-template pTemplate="right">
     <div class="flex align-items-center gap-2">
       <p-button
         pRipple
-        label="Clear Filter"
+        label="{{ 'Components.AdvancedTable.FilterBtnLabel' | translate }}"
         icon="pi pi-filter-slash"
-        [text]="true" />
+        [text]="true"
+        (onClick)="clearFilters(tableName)" />
       <span class="p-input-icon-left">
         <i class="fa-solid fa-magnifying-glass"></i>
         <input
