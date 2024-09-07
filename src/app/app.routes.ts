@@ -16,6 +16,9 @@ import { AppointmentListComponent } from './pages/appointments/appointment-list/
 import { MyAppointmentsComponent } from './pages/appointments/my-appointments/my-appointments.component';
 import { PermissionGuard } from './guards/permission.guard';
 import { PERMISSIONS } from './enums/Permissions';
+import { UpdateAdminProfileComponent } from './pages/users/admin/update-admin-profile/update-admin-profile.component';
+import { UpdateDoctorProfileComponent } from './pages/users/doctor/update-doctor-profile/update-doctor-profile.component';
+import { UpdatePatientProfileComponent } from './pages/users/patient/update-patient-profile/update-patient-profile.component';
 
 export const routes: Routes = [
   {
@@ -50,6 +53,12 @@ export const routes: Routes = [
         data: { Permissions: [PERMISSIONS.UPDATE_ADMIN_BY_ID] }
       },
       {
+        path: 'users/admin/:id/profile',
+        component: UpdateAdminProfileComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.UPDATE_ADMIN_PROFILE_BY_ID] }
+      },
+      {
         path: 'users/doctor',
         component: CreateDoctorComponent,
         canActivate: [PermissionGuard],
@@ -62,6 +71,12 @@ export const routes: Routes = [
         data: { Permissions: [PERMISSIONS.UPDATE_DOCTOR_BY_ID] }
       },
       {
+        path: 'users/doctor/:id/profile',
+        component: UpdateDoctorProfileComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.UPDATE_DOCTOR_PROFILE_BY_ID] }
+      },
+      {
         path: 'users/patient',
         component: CreatePatientComponent,
         canActivate: [PermissionGuard],
@@ -72,6 +87,12 @@ export const routes: Routes = [
         component: UpdatePatientComponent,
         canActivate: [PermissionGuard],
         data: { Permissions: [PERMISSIONS.UPDATE_PATIENT_BY_ID] }
+      },
+      {
+        path: 'users/patient/:id/profile',
+        component: UpdatePatientProfileComponent,
+        canActivate: [PermissionGuard],
+        data: { Permissions: [PERMISSIONS.UPDATE_PATIENT_PROFILE_BY_ID] }
       },
       {
         path: 'appointment',

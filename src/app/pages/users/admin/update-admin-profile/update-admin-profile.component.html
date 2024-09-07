@@ -1,0 +1,151 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
+      <form (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="p-fluid p-formgrid grid mt-5">
+          <div class="field col-12 md:col-3">
+            <div class="flex flex-column">
+              <div
+                class="flex align-items-center justify-content-center mb-5 mt-2">
+                <label htmlFor="adminFormModel.firstName"
+                  >Profil Fotoğrafı</label
+                >
+              </div>
+              <div class="flex align-items-center justify-content-center mb-5">
+                <img
+                  *ngIf="uploadedPhoto; else defaultAvatar"
+                  [src]="uploadedPhoto"
+                  alt="Profile Image"
+                  width="150px"
+                  height="150px"
+                  class="circular-image"
+                  style="border-radius: 50%" />
+                <ng-template #defaultAvatar>
+                  <p-avatar
+                    icon="pi pi-user"
+                    size="large"
+                    shape="circle"></p-avatar>
+                </ng-template>
+              </div>
+              <div class="flex align-items-center justify-content-center">
+                <p-fileUpload
+                  mode="basic"
+                  chooseLabel="Choose"
+                  chooseIcon="pi pi-upload"
+                  name="demo[]"
+                  accept="image/*"
+                  maxFileSize="1000000"
+                  (onUpload)="onUpload($event)" />
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-9 flex flex-column">
+            <div class="flex mb-3">
+              <div class="field col-6 md:col-6">
+                <label htmlFor="adminFormModel.firstName">{{
+                  'Pages.UpdateAdmin.Form.Controls.Firstname.Label' | translate
+                }}</label>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="adminFormModel.firstName"
+                  (ngModelChange)="checkForValidation('firstName')"
+                  [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="adminValidationControl?.firstName">
+                  <small class="p-error">{{
+                    adminValidationControl?.firstName
+                  }}</small>
+                </div>
+              </div>
+              <div class="field col-6 md:col-6">
+                <label htmlFor="adminFormModel.lastName">{{
+                  'Pages.UpdateAdmin.Form.Controls.Lastname.Label' | translate
+                }}</label>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="adminFormModel.lastName"
+                  (ngModelChange)="checkForValidation('lastName')"
+                  [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="adminValidationControl?.lastName">
+                  <small class="p-error">{{
+                    adminValidationControl?.lastName
+                  }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="flex mb-3">
+              <div class="field col-6 md:col-6">
+                <label htmlFor="adminFormModel.userName">{{
+                  'Pages.UpdateAdmin.Form.Controls.Username.Label' | translate
+                }}</label>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="adminFormModel.userName"
+                  (ngModelChange)="checkForValidation('userName')"
+                  [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="adminValidationControl?.userName">
+                  <small class="p-error">{{
+                    adminValidationControl?.userName
+                  }}</small>
+                </div>
+              </div>
+              <div class="field col-6 md:col-6">
+                <label htmlFor="adminFormModel.phoneNumber">{{
+                  'Pages.UpdateAdmin.Form.Controls.PhoneNumber.Label'
+                    | translate
+                }}</label>
+                <p-inputMask
+                  mask="(999) 999-9999"
+                  [(ngModel)]="adminFormModel.phoneNumber"
+                  (ngModelChange)="checkForValidation('phoneNumber')"
+                  [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="adminValidationControl?.phoneNumber">
+                  <small class="p-error">{{
+                    adminValidationControl?.phoneNumber
+                  }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="flex mb-3">
+              <div class="field col-12">
+                <label htmlFor="adminFormModel.email">{{
+                  'Pages.UpdateAdmin.Form.Controls.Email.Label' | translate
+                }}</label>
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="adminFormModel.email"
+                  (ngModelChange)="checkForValidation('email')"
+                  [ngModelOptions]="{ standalone: true }" />
+                <div *ngIf="adminValidationControl?.email">
+                  <small class="p-error">{{
+                    adminValidationControl?.email
+                  }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex align-items-end justify-content-end mt-5">
+          <p-button
+            pRipple
+            label="{{ 'Pages.UpdateAdmin.Form.Buttons.Submit' | translate }}"
+            icon="pi fa-solid fa-check"
+            [text]="true"
+            type="submit" />
+          <p-button
+            pRipple
+            label="{{ 'Pages.UpdateAdmin.Form.Buttons.Cancel' | translate }}"
+            icon="pi fa-solid fa-arrow-left"
+            [text]="true"
+            [routerLink]="['/users']" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast />

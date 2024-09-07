@@ -2,6 +2,7 @@ export const enum PERMISSIONS {
   CREATE_ADMIN = 'Permissions.Admins.CreateAdmin',
   GET_ADMIN_BY_ID = 'Permissions.Admins.GetAdminById',
   UPDATE_ADMIN_BY_ID = 'Permissions.Admins.UpdateAdminById',
+  UPDATE_ADMIN_PROFILE_BY_ID = 'Permissions.Admins.UpdateAdminProfileById',
 
   CREATE_DOCTOR = 'Permissions.Doctors.CreateDoctor',
   GET_DOCTOR_BY_ID = 'Permissions.Doctors.GetDoctorById',

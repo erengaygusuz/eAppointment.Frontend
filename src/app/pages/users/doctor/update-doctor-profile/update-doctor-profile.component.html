@@ -1,0 +1,127 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <app-page-header [breadcrumbItems]="items" [pageTitle]="pageTitle" />
+      <form (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="p-fluid p-formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctorFormModel.firstName">{{
+              'Pages.CreateDoctor.Form.Controls.Firstname.Label' | translate
+            }}</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctorFormModel.firstName"
+              (ngModelChange)="checkForValidation('firstName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.firstName">
+              <small class="p-error">{{
+                doctorValidationControl?.firstName
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctorFormModel.lastName">{{
+              'Pages.CreateDoctor.Form.Controls.Lastname.Label' | translate
+            }}</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctorFormModel.lastName"
+              (ngModelChange)="checkForValidation('lastName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.lastName">
+              <small class="p-error">{{
+                doctorValidationControl?.lastName
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctorFormModel.userName">{{
+              'Pages.CreateDoctor.Form.Controls.Username.Label' | translate
+            }}</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctorFormModel.userName"
+              (ngModelChange)="checkForValidation('userName')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.userName">
+              <small class="p-error">{{
+                doctorValidationControl?.userName
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label htmlFor="doctorFormModel.phoneNumber">{{
+              'Pages.CreateDoctor.Form.Controls.PhoneNumber.Label' | translate
+            }}</label>
+            <p-inputMask
+              mask="(999) 999-9999"
+              [(ngModel)]="doctorFormModel.phoneNumber"
+              (ngModelChange)="checkForValidation('phoneNumber')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.phoneNumber">
+              <small class="p-error">{{
+                doctorValidationControl?.phoneNumber
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="doctorFormModel.email">{{
+              'Pages.CreateDoctor.Form.Controls.Email.Label' | translate
+            }}</label>
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="doctorFormModel.email"
+              (ngModelChange)="checkForValidation('email')"
+              [ngModelOptions]="{ standalone: true }" />
+            <div *ngIf="doctorValidationControl?.email">
+              <small class="p-error">{{
+                doctorValidationControl?.email
+              }}</small>
+            </div>
+          </div>
+          <div class="field col-12">
+            <label htmlFor="doctorFormModel.department">{{
+              'Pages.CreateDoctor.Form.Controls.Department.Label' | translate
+            }}</label>
+            <p-dropdown
+              [options]="departments"
+              [(ngModel)]="doctorFormModel.department"
+              optionLabel="name"
+              placeholder="{{
+                'Pages.CreateDoctor.Form.Controls.Department.Dropdown'
+                  | translate
+              }}"
+              appendTo="body"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="checkForValidation('department')" />
+            <div *ngIf="doctorValidationControl?.department">
+              <small class="p-error">{{
+                doctorValidationControl?.department
+              }}</small>
+            </div>
+          </div>
+        </div>
+        <div class="flex align-items-end justify-content-end mt-5">
+          <p-button
+            pRipple
+            label="{{ 'Pages.CreateDoctor.Form.Buttons.Submit' | translate }}"
+            icon="pi fa-solid fa-check"
+            [text]="true"
+            type="submit" />
+          <p-button
+            pRipple
+            label="{{ 'Pages.CreateDoctor.Form.Buttons.Cancel' | translate }}"
+            icon="pi fa-solid fa-arrow-left"
+            [text]="true"
+            [routerLink]="['/users']" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<p-toast />
