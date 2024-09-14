@@ -496,6 +496,54 @@
         }
       }
     },
+    "UpdateAdminProfile": {
+      "Title": "Yönetici Profil Güncelle",
+      "BreadcrumbItems": [
+        {
+          "Name": "Kullanıcı"
+        },
+        {
+          "Name": "Yönetici"
+        },
+        {
+          "Name": "Yönetici Profil Güncelle"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Ad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
+              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
+            }
+          },
+          "Lastname": {
+            "Label": "Soyad",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
+              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Telefon Numarası",
+            "ValidationMessages": {
+              "NotEmpty": "Lütfen telefon numarası alanını boş bırakmayınız",
+              "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
+              "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Güncelle",
+          "Cancel": "Geri Dön"
+        }
+      }
+    },
     "UpdateDoctor": {
       "Title": "Doktor Güncelle",
       "BreadcrumbItems": [

@@ -496,6 +496,54 @@
         }
       }
     },
+    "UpdateAdminProfile": {
+      "Title": "Update Admin Profile",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Admin"
+        },
+        {
+          "Name": "Update Admin Profile"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Update",
+          "Cancel": "Back"
+        }
+      }
+    },
     "UpdateDoctor": {
       "Title": "Update Doctor",
       "BreadcrumbItems": [

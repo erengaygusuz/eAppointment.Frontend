@@ -11,21 +11,24 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { HttpService } from '../../../../services/http.service';
 import { AuthService } from '../../../../services/auth.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { GetAdminByIdQueryResponseModel } from '../../../../models/admins/get.admin.by.id.query.response.model';
-import { UpdateAdminByIdCommandModel } from '../../../../models/admins/update.admin.by.id.command.model';
 import { ToastModule } from 'primeng/toast';
-import { GetAdminByIdQueryModel } from '../../../../models/admins/get.admin.by.id.query.model';
-import { UpdateAdminByIdValidationModel } from '../../../../models/admins/update.admin.by.id.validation.model';
-import { UpdateAdminFormValidator } from '../../../../validators/update.admin.form.validator';
 import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
 import { Mapper } from '@dynamic-mapper/angular';
 import { LanguageService } from '../../../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AvatarModule } from 'primeng/avatar';
-import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
+import {
+  FileSelectEvent,
+  FileUploadEvent,
+  FileUploadModule
+} from 'primeng/fileupload';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
+import { UpdateAdminProfileByIdCommandModel } from '../../../../models/admins/update.admin.profile.by.id.command.model';
+import { UpdateAdminProfileByIdValidationModel } from '../../../../models/admins/update.admin.profile.by.id.validation.model';
+import { UpdateAdminProfileFormValidator } from '../../../../validators/update.admin.profile.form.validator';
+import { GetAdminProfileByIdQueryResponseModel } from '../../../../models/admins/get.admin.profile.by.id.query.response.model';
+import { GetAdminProfileByIdQueryModel } from '../../../../models/admins/get.admin.profile.by.id.query.model';
 
 @Component({
   selector: 'app-update-admin',
@@ -44,7 +47,6 @@ import { ImageModule } from 'primeng/image';
     RouterModule,
     TranslateModule,
     FileUploadModule,
-    AvatarModule,
     CardModule,
     ImageModule
   ],
@@ -53,28 +55,31 @@ import { ImageModule } from 'primeng/image';
   providers: [MessageService]
 })
 export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
-  admin: GetAdminByIdQueryResponseModel = new GetAdminByIdQueryResponseModel();
+  admin: GetAdminProfileByIdQueryResponseModel =
+    new GetAdminProfileByIdQueryResponseModel();
 
-  adminRequestModel: UpdateAdminByIdCommandModel =
-    new UpdateAdminByIdCommandModel();
+  adminRequestModel: UpdateAdminProfileByIdCommandModel =
+    new UpdateAdminProfileByIdCommandModel();
 
   pageTitle: string = '';
 
   adminValidationControl: any;
 
-  adminFormModel: UpdateAdminByIdValidationModel =
-    new UpdateAdminByIdValidationModel();
+  adminFormModel: UpdateAdminProfileByIdValidationModel =
+    new UpdateAdminProfileByIdValidationModel();
 
   items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
-  formValidator: UpdateAdminFormValidator = new UpdateAdminFormValidator();
+  formValidator: UpdateAdminProfileFormValidator =
+    new UpdateAdminProfileFormValidator();
 
   selectedLanguage: string = '';
 
   unsubscribe = new Subject<void>();
 
-  uploadedPhoto: string = '/assets/images/profile/admin-1.png';
+  uploadedPhoto: string = '';
+  emptyUserPhoto: string = '/assets/images/profile/user.png';
 
   constructor(
     private http: HttpService,
@@ -91,7 +96,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.getAdminById(Number(id!));
+    this.getAdminProfileById(Number(id!));
 
     this.formValidator.getTranslationData(this.translate);
 
@@ -103,7 +108,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Pages.UpdateAdmin');
+        this.getTranslationData('Pages.UpdateAdminProfile');
 
         this.formValidator.getTranslationData(this.translate);
 
@@ -125,50 +130,54 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAdminById(id: number) {
-    const getAdminByIdQueryModel = new GetAdminByIdQueryModel();
+  getAdminProfileById(id: number) {
+    const getAdminProfileByIdQueryModel = new GetAdminProfileByIdQueryModel();
 
-    getAdminByIdQueryModel.id = id;
+    getAdminProfileByIdQueryModel.id = id;
 
-    this.http.post<GetAdminByIdQueryResponseModel>(
-      'admins/getbyid',
-      getAdminByIdQueryModel,
+    this.http.post<GetAdminProfileByIdQueryResponseModel>(
+      'admins/getprofilebyid',
+      getAdminProfileByIdQueryModel,
       res => {
-        this.admin = new GetAdminByIdQueryResponseModel();
+        this.admin = new GetAdminProfileByIdQueryResponseModel();
 
         this.admin = res.data;
 
         this.adminFormModel = this.mapper.map(
-          AdminMappingProfile.GetAdminByIdQueryResponseModelToUpdateAdminByIdValidationModel,
+          AdminMappingProfile.GetAdminProfileByIdQueryResponseModelToUpdateAdminProfileByIdValidationModel,
           this.admin
         );
       }
     );
   }
 
-  updateUser() {
-    this.adminRequestModel = new UpdateAdminByIdCommandModel();
+  updateUserProfile() {
+    this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
 
     const id = this.route.snapshot.paramMap.get('id');
 
     this.adminRequestModel = this.mapper.map(
-      AdminMappingProfile.UpdateAdminByIdValidationModelToUpdateAdminByIdCommandModel,
+      AdminMappingProfile.UpdateAdminProfileByIdValidationModelToUpdateAdminProfileByIdCommandModel,
       this.adminFormModel
     );
 
     this.adminRequestModel.id = Number(id);
 
     if (!(Object.keys(this.adminValidationControl).length > 0)) {
-      this.http.post('admins/updatebyid', this.adminRequestModel, res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: res.data,
-          life: 3000
-        });
+      this.http.post(
+        'admins/updateprofilebyid',
+        this.adminRequestModel,
+        res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Successful',
+            detail: res.data,
+            life: 3000
+          });
 
-        this.adminRequestModel = new UpdateAdminByIdCommandModel();
-      });
+          this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
+        }
+      );
     }
   }
 
@@ -177,7 +186,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
       this.adminFormModel
     );
 
-    this.updateUser();
+    this.updateUserProfile();
   }
 
   checkForValidation(propName: string) {
@@ -192,11 +201,34 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     this.adminValidationControl = convertedValidationResult;
   }
 
-  onUpload(event: FileUploadEvent) {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Success',
-      detail: 'File Uploaded with Basic Mode'
+  async onSelect(event: FileSelectEvent) {
+    const file = event.files[0];
+
+    this.adminRequestModel.profilePhotoPath = JSON.stringify(
+      await this.getBase64(file)
+    );
+
+    console.log(this.adminRequestModel.profilePhotoPath);
+
+    this.uploadedPhoto = this.adminRequestModel.profilePhotoPath;
+  }
+
+  async getBase64(file: File) {
+    const temporaryFileReader = new FileReader();
+
+    return new Promise((resolve, reject) => {
+      temporaryFileReader.onerror = () => {
+        temporaryFileReader.abort();
+        reject(new DOMException('Problem parsing input file.'));
+      };
+
+      temporaryFileReader.onloadend = () => {
+        resolve(temporaryFileReader.result);
+      };
+
+      if (file) {
+        temporaryFileReader.readAsDataURL(file);
+      }
     });
   }
 }

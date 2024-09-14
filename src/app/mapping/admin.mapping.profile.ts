@@ -5,6 +5,9 @@ import { CreateAdminValidationModel } from '../models/admins/create.admin.valida
 import { UpdateAdminByIdValidationModel } from '../models/admins/update.admin.by.id.validation.model';
 import { UpdateAdminByIdCommandModel } from '../models/admins/update.admin.by.id.command.model';
 import { GetAdminByIdQueryResponseModel } from '../models/admins/get.admin.by.id.query.response.model';
+import { UpdateAdminProfileByIdValidationModel } from '../models/admins/update.admin.profile.by.id.validation.model';
+import { UpdateAdminProfileByIdCommandModel } from '../models/admins/update.admin.profile.by.id.command.model';
+import { GetAdminProfileByIdQueryResponseModel } from '../models/admins/get.admin.profile.by.id.query.response.model';
 
 @Injectable()
 export class AdminMappingProfile extends Profile {
@@ -17,10 +20,22 @@ export class AdminMappingProfile extends Profile {
       UpdateAdminByIdCommandModel
     );
 
+  static readonly UpdateAdminProfileByIdValidationModelToUpdateAdminProfileByIdCommandModel =
+    new MappingPair(
+      UpdateAdminProfileByIdValidationModel,
+      UpdateAdminProfileByIdCommandModel
+    );
+
   static readonly GetAdminByIdQueryResponseModelToUpdateAdminByIdValidationModel =
     new MappingPair(
       GetAdminByIdQueryResponseModel,
       UpdateAdminByIdValidationModel
+    );
+
+  static readonly GetAdminProfileByIdQueryResponseModelToUpdateAdminProfileByIdValidationModel =
+    new MappingPair(
+      GetAdminProfileByIdQueryResponseModel,
+      UpdateAdminProfileByIdValidationModel
     );
 
   constructor() {
@@ -72,6 +87,24 @@ export class AdminMappingProfile extends Profile {
     );
 
     this.createMap(
+      AdminMappingProfile.UpdateAdminProfileByIdValidationModelToUpdateAdminProfileByIdCommandModel,
+      {
+        firstName: opt => {
+          opt.mapFrom(src => src.firstName);
+        },
+        lastName: opt => {
+          opt.mapFrom(src => src.lastName);
+        },
+        phoneNumber: opt => {
+          opt.mapFrom(src => src.phoneNumber);
+        },
+        profilePhotoPath: opt => {
+          opt.mapFrom(src => src.profilePhotoPath);
+        }
+      }
+    );
+
+    this.createMap(
       AdminMappingProfile.GetAdminByIdQueryResponseModelToUpdateAdminByIdValidationModel,
       {
         firstName: opt => {
@@ -88,6 +121,30 @@ export class AdminMappingProfile extends Profile {
         },
         email: opt => {
           opt.mapFrom(src => src.email);
+        }
+      }
+    );
+
+    this.createMap(
+      AdminMappingProfile.GetAdminProfileByIdQueryResponseModelToUpdateAdminProfileByIdValidationModel,
+      {
+        firstName: opt => {
+          opt.mapFrom(src => src.firstName);
+        },
+        lastName: opt => {
+          opt.mapFrom(src => src.lastName);
+        },
+        userName: opt => {
+          opt.mapFrom(src => src.userName);
+        },
+        phoneNumber: opt => {
+          opt.mapFrom(src => src.phoneNumber);
+        },
+        email: opt => {
+          opt.mapFrom(src => src.email);
+        },
+        profilePhotoPath: opt => {
+          opt.mapFrom(src => src.profilePhotoPath);
         }
       }
     );

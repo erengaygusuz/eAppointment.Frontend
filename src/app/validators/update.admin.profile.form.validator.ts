@@ -1,14 +1,14 @@
 import { Validator } from 'fluentvalidation-ts';
-import { UpdateAdminByIdValidationModel } from '../models/admins/update.admin.by.id.validation.model';
 import { TranslateService } from '@ngx-translate/core';
+import { UpdateAdminProfileByIdValidationModel } from '../models/admins/update.admin.profile.by.id.validation.model';
 
-export class UpdateAdminFormValidator extends Validator<UpdateAdminByIdValidationModel> {
+export class UpdateAdminProfileFormValidator extends Validator<UpdateAdminProfileByIdValidationModel> {
   constructor() {
     super();
   }
 
   getTranslationData(translate: TranslateService) {
-    translate.get('Pages.UpdateAdmin.Form.Controls').subscribe(data => {
+    translate.get('Pages.UpdateAdminProfile.Form.Controls').subscribe(data => {
       this.generateRules(data);
     });
   }
@@ -34,22 +34,6 @@ export class UpdateAdminFormValidator extends Validator<UpdateAdminByIdValidatio
       .matches(new RegExp('^((?![0-9]).)*$'))
       .withMessage(data.Lastname.ValidationMessages.NotUseNumbers);
 
-    this.ruleFor('userName')
-      .notEmpty()
-      .withMessage(data.Username.ValidationMessages.NotEmpty)
-      .minLength(3)
-      .withMessage(data.Username.ValidationMessages.MinLength)
-      .maxLength(100)
-      .withMessage(data.Username.ValidationMessages.MaxLength)
-      .matches(new RegExp('^((?![ ]).)*$'))
-      .withMessage(data.Username.ValidationMessages.NotUseSpaces)
-      .matches(new RegExp('^((?![ğĞçÇşŞüÜöÖıİ]).)*$'))
-      .withMessage(data.Username.ValidationMessages.NotUseTurkishCharacters)
-      .matches(new RegExp('^((?![A-Z]).)*$'))
-      .withMessage(data.Username.ValidationMessages.NotUseUpperLetters)
-      .matches(new RegExp('^((?![0-9]).)*$'))
-      .withMessage(data.Username.ValidationMessages.NotUseNumbers);
-
     this.ruleFor('phoneNumber')
       .notEmpty()
       .withMessage(data.PhoneNumber.ValidationMessages.NotEmpty)
@@ -57,13 +41,5 @@ export class UpdateAdminFormValidator extends Validator<UpdateAdminByIdValidatio
       .withMessage(data.PhoneNumber.ValidationMessages.NotValid)
       .matches(new RegExp('^((?![a-zA-Z]).)*$'))
       .withMessage(data.PhoneNumber.ValidationMessages.NotUseLetters);
-
-    this.ruleFor('email')
-      .notEmpty()
-      .withMessage(data.Email.ValidationMessages.NotEmpty)
-      .emailAddress()
-      .withMessage(data.Email.ValidationMessages.NotValid)
-      .maxLength(150)
-      .withMessage(data.Email.ValidationMessages.MaxLength);
   }
 }
