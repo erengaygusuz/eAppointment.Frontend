@@ -139,9 +139,6 @@ export class AdminMappingProfile extends Profile {
         },
         email: opt => {
           opt.mapFrom(src => src.email);
-        },
-        profilePhoto: opt => {
-          opt.mapFrom(src => src.profilePhoto);
         }
       }
     );

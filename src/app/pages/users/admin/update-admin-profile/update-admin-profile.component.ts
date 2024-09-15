@@ -146,7 +146,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
           this.admin
         );
 
-        console.log(this.admin);
+        this.uploadedPhoto = `data:${this.admin.profilePhotoContentType};base64,${this.admin.profilePhotoBase64Content}`;
       }
     );
   }
@@ -183,6 +183,8 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
           detail: res.data,
           life: 3000
         });
+
+        this.getAdminProfileById(this.adminRequestModel.id);
 
         this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
       });
