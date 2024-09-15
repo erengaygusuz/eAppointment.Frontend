@@ -97,9 +97,6 @@ export class AdminMappingProfile extends Profile {
         },
         phoneNumber: opt => {
           opt.mapFrom(src => src.phoneNumber);
-        },
-        profilePhotoPath: opt => {
-          opt.mapFrom(src => src.profilePhotoPath);
         }
       }
     );
@@ -143,8 +140,8 @@ export class AdminMappingProfile extends Profile {
         email: opt => {
           opt.mapFrom(src => src.email);
         },
-        profilePhotoPath: opt => {
-          opt.mapFrom(src => src.profilePhotoPath);
+        profilePhoto: opt => {
+          opt.mapFrom(src => src.profilePhoto);
         }
       }
     );

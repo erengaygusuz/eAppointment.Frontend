@@ -17,11 +17,7 @@ import { Mapper } from '@dynamic-mapper/angular';
 import { LanguageService } from '../../../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  FileSelectEvent,
-  FileUploadEvent,
-  FileUploadModule
-} from 'primeng/fileupload';
+import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
 import { UpdateAdminProfileByIdCommandModel } from '../../../../models/admins/update.admin.profile.by.id.command.model';
@@ -201,34 +197,39 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     this.adminValidationControl = convertedValidationResult;
   }
 
-  async onSelect(event: FileSelectEvent) {
+  onSelect(event: FileSelectEvent) {
     const file = event.files[0];
 
-    this.adminRequestModel.profilePhotoPath = JSON.stringify(
-      await this.getBase64(file)
-    );
+    const formData = new FormData();
+    formData.append('profilePhoto', file, file.name);
 
-    console.log(this.adminRequestModel.profilePhotoPath);
-
-    this.uploadedPhoto = this.adminRequestModel.profilePhotoPath;
+    this.adminRequestModel.profilePhoto = formData;
   }
 
-  async getBase64(file: File) {
-    const temporaryFileReader = new FileReader();
+  getFileExtension(file: File): string {
+    const fileName = file.name;
+    const extension = fileName.substring(fileName.lastIndexOf('.') + 1);
 
+    return extension ? extension.toLowerCase() : '';
+  }
+
+  readFileAsBuffer(file: File): Promise<ArrayBuffer> {
     return new Promise((resolve, reject) => {
-      temporaryFileReader.onerror = () => {
-        temporaryFileReader.abort();
-        reject(new DOMException('Problem parsing input file.'));
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.result) {
+          resolve(reader.result as ArrayBuffer);
+        } else {
+          reject(new Error('Failed to read file as buffer'));
+        }
       };
 
-      temporaryFileReader.onloadend = () => {
-        resolve(temporaryFileReader.result);
-      };
+      // Handle errors
+      reader.onerror = () => reject(new Error('Error reading file'));
 
-      if (file) {
-        temporaryFileReader.readAsDataURL(file);
-      }
+      // Read the file as an ArrayBuffer
+      reader.readAsArrayBuffer(file);
     });
   }
 }

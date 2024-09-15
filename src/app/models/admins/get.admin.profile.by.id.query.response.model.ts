@@ -4,5 +4,5 @@ export class GetAdminProfileByIdQueryResponseModel {
   phoneNumber: string = '';
   email: string = '';
   userName: string = '';
-  profilePhotoPath: string = '';
+  profilePhoto: FormData = new FormData();
 }

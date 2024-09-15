@@ -3,5 +3,5 @@ export class UpdateAdminProfileByIdCommandModel {
   firstName: string = '';
   lastName: string = '';
   phoneNumber: string = '';
-  profilePhotoPath: string = '';
+  profilePhoto: FormData = new FormData();
 }

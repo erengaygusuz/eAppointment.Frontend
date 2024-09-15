@@ -3,7 +3,7 @@ export class UpdateAdminProfileByIdValidationModel {
   firstName: string = '';
   lastName: string = '';
   phoneNumber: string = '';
-  profilePhotoPath: string = '';
+  profilePhoto: FormData = new FormData();
   email: string = '';
   userName: string = '';
 }
