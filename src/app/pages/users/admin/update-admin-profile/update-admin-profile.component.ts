@@ -77,6 +77,8 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
   uploadedPhoto: string = '';
   emptyUserPhoto: string = '/assets/images/profile/user.png';
 
+  selectedProfilePhoto: File = new File([], '');
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -143,6 +145,8 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
           AdminMappingProfile.GetAdminProfileByIdQueryResponseModelToUpdateAdminProfileByIdValidationModel,
           this.admin
         );
+
+        console.log(this.admin);
       }
     );
   }
@@ -159,21 +163,29 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
     this.adminRequestModel.id = Number(id);
 
-    if (!(Object.keys(this.adminValidationControl).length > 0)) {
-      this.http.post(
-        'admins/updateprofilebyid',
-        this.adminRequestModel,
-        res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Successful',
-            detail: res.data,
-            life: 3000
-          });
+    const formData = new FormData();
 
-          this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
-        }
-      );
+    formData.append('id', this.adminRequestModel.id.toString());
+    formData.append('firstName', this.adminRequestModel.firstName);
+    formData.append('lastName', this.adminRequestModel.lastName);
+    formData.append('phoneNumber', this.adminRequestModel.phoneNumber);
+    formData.append(
+      'profilePhoto',
+      this.selectedProfilePhoto,
+      this.selectedProfilePhoto.name
+    );
+
+    if (!(Object.keys(this.adminValidationControl).length > 0)) {
+      this.http.post('admins/updateprofilebyid', formData, res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: res.data,
+          life: 3000
+        });
+
+        this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
+      });
     }
   }
 
@@ -200,10 +212,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
   onSelect(event: FileSelectEvent) {
     const file = event.files[0];
 
-    const formData = new FormData();
-    formData.append('profilePhoto', file, file.name);
-
-    this.adminRequestModel.profilePhoto = formData;
+    this.selectedProfilePhoto = file;
   }
 
   getFileExtension(file: File): string {
