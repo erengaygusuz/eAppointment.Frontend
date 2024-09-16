@@ -4,12 +4,13 @@ import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './services/language.service';
 import { Subject, takeUntil } from 'rxjs';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: '<router-outlet></router-outlet>'
+  imports: [RouterOutlet, NgxSpinnerModule],
+  templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   unsubscribe = new Subject<void>();

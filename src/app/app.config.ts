@@ -25,6 +25,8 @@ import {
   bootstrapFiletypePdf,
   bootstrapFiletypeXml
 } from '@ng-icons/bootstrap-icons';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -33,7 +35,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor])),
+    provideHttpClient(withInterceptors([AuthInterceptor, SpinnerInterceptor])),
     provideAnimations(),
     provideStore(),
     MessageService,
@@ -60,6 +62,7 @@ export const appConfig: ApplicationConfig = {
       bootstrapFiletypeJson,
       bootstrapFiletypePdf,
       bootstrapFiletypeXml
-    })
+    }),
+    importProvidersFrom(NgxSpinnerModule.forRoot({ type: 'timer' }))
   ]
 };
