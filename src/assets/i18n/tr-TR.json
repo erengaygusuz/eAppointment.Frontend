@@ -536,6 +536,11 @@
               "NotValid": "Lütfen geçerli bir telefon numarası giriniz",
               "NotUseLetters": "Lütfen telefon numarası alanı için harf kullanmayınız"
             }
+          },
+          "ProfilePhoto": {
+            "Title": "Profil Fotoğrafı",
+            "Choose": "Seç",
+            "Clear": "Temizle"
           }
         },
         "Buttons": {

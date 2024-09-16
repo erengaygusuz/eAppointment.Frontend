@@ -42,6 +42,17 @@ export class TokenService {
     return decodedToken ? this.parseStringArray(decodedToken.Permissions) : [];
   }
 
+  getUserId(): number {
+    const decodedToken = this.getDecodedToken();
+    const userId = decodedToken
+      ? decodedToken[
+          'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'
+        ]
+      : '0';
+
+    return userId ? Number(userId) : 0;
+  }
+
   getPatientId(): number {
     const decodedToken = this.getDecodedToken();
 

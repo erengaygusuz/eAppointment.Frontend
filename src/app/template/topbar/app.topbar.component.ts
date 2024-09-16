@@ -11,11 +11,18 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TokenService } from '../../services/token.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [CommonModule, DropdownModule, FormsModule, TranslateModule],
+  imports: [
+    CommonModule,
+    DropdownModule,
+    FormsModule,
+    TranslateModule,
+    ButtonModule
+  ],
   templateUrl: './app.topbar.component.html'
 })
 export class AppTopBarComponent implements OnInit {
@@ -128,5 +135,15 @@ export class AppTopBarComponent implements OnInit {
   signOut() {
     localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
+  }
+
+  openProfilePage() {
+    this.router.navigateByUrl(
+      '/users/' +
+        this.tokenService.getRole().toLowerCase() +
+        '/' +
+        this.tokenService.getUserId() +
+        '/profile'
+    );
   }
 }

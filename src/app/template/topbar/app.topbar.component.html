@@ -64,7 +64,7 @@
           <span>{{ 'Topbar.ThemeOptions.Option2' | translate }}</span>
         }
       </button>
-      <button class="p-link layout-topbar-button">
+      <button class="p-link layout-topbar-button" (click)="openProfilePage()">
         <i class="pi fa-solid fa-user"></i>
         <span class="inline-flex flex-column">
           <span class="font-bold">{{ tokenService.getName() }}</span>

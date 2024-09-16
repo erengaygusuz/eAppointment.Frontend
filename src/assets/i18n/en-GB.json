@@ -536,6 +536,11 @@
               "NotValid": "Please enter a valid phone number",
               "NotUseLetters": "Please do not use letters in the phone number"
             }
+          },
+          "ProfilePhoto": {
+            "Title": "Profile Photo",
+            "Choose": "Choose",
+            "Clear": "Clear"
           }
         },
         "Buttons": {

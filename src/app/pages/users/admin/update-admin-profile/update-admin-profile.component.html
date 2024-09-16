@@ -8,9 +8,10 @@
             <div class="flex flex-column">
               <div
                 class="flex align-items-center justify-content-center mb-5 mt-2">
-                <label htmlFor="adminFormModel.firstName"
-                  >Profil Fotoğrafı</label
-                >
+                <label htmlFor="adminFormModel.firstName">{{
+                  'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.Title'
+                    | translate
+                }}</label>
               </div>
               <div class="flex align-items-center justify-content-center mb-5">
                 <img
@@ -21,28 +22,46 @@
                     else defaultAvatar
                   "
                   [src]="uploadedPhoto"
-                  alt="Profile Image"
+                  alt="{{
+                    'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.Title'
+                      | translate
+                  }}"
                   width="150px"
                   height="150px"
                   style="border-radius: 50%" />
                 <ng-template #defaultAvatar>
                   <img
                     [src]="emptyUserPhoto"
-                    alt="Profile Image"
+                    alt="{{
+                      'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.Title'
+                        | translate
+                    }}"
                     width="150px"
                     height="150px"
                     style="border-radius: 50%" />
                 </ng-template>
               </div>
-              <div class="flex align-items-center justify-content-center">
+              <div class="flex align-items-center justify-content-evenly">
                 <p-fileUpload
+                  #fileUpload
                   mode="basic"
-                  chooseLabel="Choose"
+                  chooseLabel="{{
+                    'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.Choose'
+                      | translate
+                  }}"
                   chooseIcon="pi pi-upload"
                   name="demo[]"
                   accept="image/*"
                   maxFileSize="1000000"
                   (onSelect)="onSelect($event)" />
+                <p-button
+                  label="{{
+                    'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.Clear'
+                      | translate
+                  }}"
+                  icon="pi fa-solid fa-xmark"
+                  severity="danger"
+                  (click)="clearSelectedFile()" />
               </div>
             </div>
           </div>
@@ -128,13 +147,17 @@
         <div class="flex align-items-end justify-content-end mt-5">
           <p-button
             pRipple
-            label="{{ 'Pages.UpdateAdmin.Form.Buttons.Submit' | translate }}"
+            label="{{
+              'Pages.UpdateAdminProfile.Form.Buttons.Submit' | translate
+            }}"
             icon="pi fa-solid fa-check"
             [text]="true"
             type="submit" />
           <p-button
             pRipple
-            label="{{ 'Pages.UpdateAdmin.Form.Buttons.Cancel' | translate }}"
+            label="{{
+              'Pages.UpdateAdminProfile.Form.Buttons.Cancel' | translate
+            }}"
             icon="pi fa-solid fa-arrow-left"
             [text]="true"
             [routerLink]="['/users']" />

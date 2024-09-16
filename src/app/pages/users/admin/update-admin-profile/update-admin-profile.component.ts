@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +17,11 @@ import { Mapper } from '@dynamic-mapper/angular';
 import { LanguageService } from '../../../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FileSelectEvent, FileUploadModule } from 'primeng/fileupload';
+import {
+  FileSelectEvent,
+  FileUpload,
+  FileUploadModule
+} from 'primeng/fileupload';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
 import { UpdateAdminProfileByIdCommandModel } from '../../../../models/admins/update.admin.profile.by.id.command.model';
@@ -78,6 +82,8 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
   emptyUserPhoto: string = '/assets/images/profile/user.png';
 
   selectedProfilePhoto: File = new File([], '');
+
+  @ViewChild('fileUpload') fileUpload!: FileUpload;
 
   constructor(
     private http: HttpService,
@@ -186,6 +192,8 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
         this.getAdminProfileById(this.adminRequestModel.id);
 
+        this.clearSelectedFile();
+
         this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
       });
     }
@@ -242,5 +250,10 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
       // Read the file as an ArrayBuffer
       reader.readAsArrayBuffer(file);
     });
+  }
+
+  clearSelectedFile() {
+    this.fileUpload.clear();
+    this.selectedProfilePhoto = new File([], '');
   }
 }
