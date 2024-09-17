@@ -85,6 +85,11 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
   @ViewChild('fileUpload') fileUpload!: FileUpload;
 
+  notCorrectTypeSummaryMessage: string = '';
+  notCorrectTypeDetailMessage: string = '';
+  notCorrectSizeSummaryMessage: string = '';
+  notCorrectSizeDetailMessage: string = '';
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -112,7 +117,10 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Pages.UpdateAdminProfile');
+        this.getTranslationData(
+          'Pages.UpdateAdminProfile',
+          'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.ValidationMessages'
+        );
 
         this.formValidator.getTranslationData(this.translate);
 
@@ -125,12 +133,19 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };
       });
       this.pageTitle = data.Title;
+    });
+
+    this.translate.get(key2).subscribe(data => {
+      this.notCorrectSizeSummaryMessage = data.NotCorrectSize.Summary;
+      this.notCorrectSizeDetailMessage = data.NotCorrectSize.Detail;
+      this.notCorrectTypeSummaryMessage = data.NotCorrectType.Summary;
+      this.notCorrectTypeDetailMessage = data.NotCorrectType.Detail;
     });
   }
 
@@ -222,34 +237,29 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
   onSelect(event: FileSelectEvent) {
     const file = event.files[0];
 
-    this.selectedProfilePhoto = file;
-  }
+    if (file.type != 'image/png') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.notCorrectTypeSummaryMessage,
+        detail: this.notCorrectTypeDetailMessage
+      });
 
-  getFileExtension(file: File): string {
-    const fileName = file.name;
-    const extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+      this.clearSelectedFile();
+    } else {
+      this.selectedProfilePhoto = file;
+    }
 
-    return extension ? extension.toLowerCase() : '';
-  }
+    if (file.size != 2000000) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.notCorrectSizeSummaryMessage,
+        detail: this.notCorrectSizeDetailMessage
+      });
 
-  readFileAsBuffer(file: File): Promise<ArrayBuffer> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.result) {
-          resolve(reader.result as ArrayBuffer);
-        } else {
-          reject(new Error('Failed to read file as buffer'));
-        }
-      };
-
-      // Handle errors
-      reader.onerror = () => reject(new Error('Error reading file'));
-
-      // Read the file as an ArrayBuffer
-      reader.readAsArrayBuffer(file);
-    });
+      this.clearSelectedFile();
+    } else {
+      this.selectedProfilePhoto = file;
+    }
   }
 
   clearSelectedFile() {

@@ -540,7 +540,17 @@
           "ProfilePhoto": {
             "Title": "Profil Fotoğrafı",
             "Choose": "Seç",
-            "Clear": "Temizle"
+            "Clear": "Temizle",
+            "ValidationMessages": {
+              "NotCorrectSize": {
+                "Summary": "Dosya Boyutu Uygun Değil",
+                "Detail": "Lütfen 2 MB'dan küçük bir dosya ekleyiniz"
+              },
+              "NotCorrectType": {
+                "Summary": "Dosya Türü Uygun Değil",
+                "Detail": "Lütfen PNG formatında bir görsel ekleyiniz"
+              }
+            }
           }
         },
         "Buttons": {

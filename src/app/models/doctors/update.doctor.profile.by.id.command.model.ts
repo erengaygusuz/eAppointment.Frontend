@@ -3,4 +3,5 @@ export class UpdateDoctorProfileByIdCommandModel {
   firstName: string = '';
   lastName: string = '';
   phoneNumber: string = '';
+  profilePhoto: File = new File([], '');
 }

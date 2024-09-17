@@ -540,7 +540,17 @@
           "ProfilePhoto": {
             "Title": "Profile Photo",
             "Choose": "Choose",
-            "Clear": "Clear"
+            "Clear": "Clear",
+            "ValidationMessages": {
+              "NotCorrectSize": {
+                "Summary": "File Size Not Correct",
+                "Detail": "Please select a file that its size lower than 2MB"
+              },
+              "NotCorrectType": {
+                "Summary": "File Type Not Correct",
+                "Detail": "Please select a PNG file"
+              }
+            }
           }
         },
         "Buttons": {

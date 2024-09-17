@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { PageHeaderComponent } from '../../../../components/page-header/page-header.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,24 +10,28 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { MenuItem, MessageService } from 'primeng/api';
 import { HttpService } from '../../../../services/http.service';
 import { AuthService } from '../../../../services/auth.service';
-import { ToastModule } from 'primeng/toast';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { UpdatePatientByIdCommandModel } from '../../../../models/patients/update.patient.by.id.command.model';
-import { GetAllCitiesQueryResponseModel } from '../../../../models/cities/get.all.cities.query.response.model';
-import { GetAllCountiesByCityIdQueryResponseModel } from '../../../../models/counties/get.all.counties.by.city.id.query.response.model';
-import { GetAllCountiesByCityIdQuerymodel } from '../../../../models/counties/get.all.counties.by.city.id.query.model';
-import { GetPatientByIdQueryResponseModel } from '../../../../models/patients/get.patient.by.id.query.response.model';
-import { GetPatientByIdQueryModel } from '../../../../models/patients/get.patient.by.id.query.model';
-import { UpdatePatientByIdValidationModel } from '../../../../models/patients/update.patient.by.id.validation.model';
-import { UpdatePatientFormValidator } from '../../../../validators/update.patient.form.validator';
+import { ToastModule } from 'primeng/toast';
+import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
 import { Mapper } from '@dynamic-mapper/angular';
-import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
 import { LanguageService } from '../../../../services/language.service';
+import { Subject, takeUntil } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  FileSelectEvent,
+  FileUpload,
+  FileUploadModule
+} from 'primeng/fileupload';
+import { CardModule } from 'primeng/card';
+import { ImageModule } from 'primeng/image';
+import { UpdateAdminProfileByIdCommandModel } from '../../../../models/admins/update.admin.profile.by.id.command.model';
+import { UpdateAdminProfileByIdValidationModel } from '../../../../models/admins/update.admin.profile.by.id.validation.model';
+import { UpdateAdminProfileFormValidator } from '../../../../validators/update.admin.profile.form.validator';
+import { GetAdminProfileByIdQueryResponseModel } from '../../../../models/admins/get.admin.profile.by.id.query.response.model';
+import { GetAdminProfileByIdQueryModel } from '../../../../models/admins/get.admin.profile.by.id.query.model';
 
 @Component({
-  selector: 'app-update-patient',
+  selector: 'app-update-admin',
   standalone: true,
   imports: [
     CommonModule,
@@ -41,42 +45,50 @@ import { LanguageService } from '../../../../services/language.service';
     FormsModule,
     ToastModule,
     RouterModule,
-    TranslateModule
+    TranslateModule,
+    FileUploadModule,
+    CardModule,
+    ImageModule
   ],
   templateUrl: './update-patient-profile.component.html',
   styleUrl: './update-patient-profile.component.css',
   providers: [MessageService]
 })
 export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
-  patient: GetPatientByIdQueryResponseModel =
-    new GetPatientByIdQueryResponseModel();
+  admin: GetAdminProfileByIdQueryResponseModel =
+    new GetAdminProfileByIdQueryResponseModel();
 
-  patientRequestModel: UpdatePatientByIdCommandModel =
-    new UpdatePatientByIdCommandModel();
+  adminRequestModel: UpdateAdminProfileByIdCommandModel =
+    new UpdateAdminProfileByIdCommandModel();
 
   pageTitle: string = '';
 
-  patientValidationControl: any;
+  adminValidationControl: any;
 
-  patientFormModel: UpdatePatientByIdValidationModel =
-    new UpdatePatientByIdValidationModel();
-
-  cities: GetAllCitiesQueryResponseModel[] = [];
-  selectedCity: GetAllCitiesQueryResponseModel =
-    new GetAllCitiesQueryResponseModel();
-
-  counties: GetAllCountiesByCityIdQueryResponseModel[] = [];
-  selectedCounty: GetAllCountiesByCityIdQueryResponseModel =
-    new GetAllCountiesByCityIdQueryResponseModel();
+  adminFormModel: UpdateAdminProfileByIdValidationModel =
+    new UpdateAdminProfileByIdValidationModel();
 
   items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
-  formValidator: UpdatePatientFormValidator = new UpdatePatientFormValidator();
+  formValidator: UpdateAdminProfileFormValidator =
+    new UpdateAdminProfileFormValidator();
 
   selectedLanguage: string = '';
 
   unsubscribe = new Subject<void>();
+
+  uploadedPhoto: string = '';
+  emptyUserPhoto: string = '/assets/images/profile/user.png';
+
+  selectedProfilePhoto: File = new File([], '');
+
+  @ViewChild('fileUpload') fileUpload!: FileUpload;
+
+  notCorrectTypeSummaryMessage: string = '';
+  notCorrectTypeDetailMessage: string = '';
+  notCorrectSizeSummaryMessage: string = '';
+  notCorrectSizeDetailMessage: string = '';
 
   constructor(
     private http: HttpService,
@@ -93,7 +105,7 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
 
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.getPatientById(Number(id!));
+    this.getAdminProfileById(Number(id!));
 
     this.formValidator.getTranslationData(this.translate);
 
@@ -105,11 +117,14 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Pages.UpdatePatient');
+        this.getTranslationData(
+          'Pages.UpdateAdminProfile',
+          'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.ValidationMessages'
+        );
 
         this.formValidator.getTranslationData(this.translate);
 
-        this.patientValidationControl = {};
+        this.adminValidationControl = {};
       });
   }
 
@@ -118,87 +133,71 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };
       });
       this.pageTitle = data.Title;
     });
+
+    this.translate.get(key2).subscribe(data => {
+      this.notCorrectSizeSummaryMessage = data.NotCorrectSize.Summary;
+      this.notCorrectSizeDetailMessage = data.NotCorrectSize.Detail;
+      this.notCorrectTypeSummaryMessage = data.NotCorrectType.Summary;
+      this.notCorrectTypeDetailMessage = data.NotCorrectType.Detail;
+    });
   }
 
-  getPatientById(id: number) {
-    const getPatientByIdQueryModel = new GetPatientByIdQueryModel();
+  getAdminProfileById(id: number) {
+    const getAdminProfileByIdQueryModel = new GetAdminProfileByIdQueryModel();
 
-    getPatientByIdQueryModel.id = id;
+    getAdminProfileByIdQueryModel.id = id;
 
-    this.http.post<GetPatientByIdQueryResponseModel>(
-      'patients/getbyid',
-      getPatientByIdQueryModel,
+    this.http.post<GetAdminProfileByIdQueryResponseModel>(
+      'admins/getprofilebyid',
+      getAdminProfileByIdQueryModel,
       res => {
-        this.patient = new GetPatientByIdQueryResponseModel();
+        this.admin = new GetAdminProfileByIdQueryResponseModel();
 
-        this.patient = res.data;
+        this.admin = res.data;
 
-        this.patientFormModel = this.mapper.map(
-          PatientMappingProfile.GetPatientByIdQueryResponseModelToUpdatePatientByIdValidationModel,
-          this.patient
+        this.adminFormModel = this.mapper.map(
+          AdminMappingProfile.GetAdminProfileByIdQueryResponseModelToUpdateAdminProfileByIdValidationModel,
+          this.admin
         );
 
-        this.getAllCities();
+        this.uploadedPhoto = `data:${this.admin.profilePhotoContentType};base64,${this.admin.profilePhotoBase64Content}`;
       }
     );
   }
 
-  getAllCities() {
-    this.http.post<GetAllCitiesQueryResponseModel[]>(
-      'cities/getall',
-      {},
-      res => {
-        this.cities = res.data;
-
-        this.patientFormModel.city = this.cities.filter(
-          x => x.id == this.patient.cityId
-        )[0];
-
-        this.getAllCountiesByCityId(this.patientFormModel.city.id);
-      }
-    );
-  }
-
-  getAllCountiesByCityId(cityId: number) {
-    const getAllCountiesByCityIdQuerymodel =
-      new GetAllCountiesByCityIdQuerymodel();
-
-    getAllCountiesByCityIdQuerymodel.cityId = cityId;
-
-    this.http.post<GetAllCountiesByCityIdQueryResponseModel[]>(
-      'counties/getall',
-      getAllCountiesByCityIdQuerymodel,
-      res => {
-        this.counties = res.data;
-
-        this.patientFormModel.county = this.counties.filter(
-          x => x.id == this.patient.countyId
-        )[0];
-      }
-    );
-  }
-
-  updateUser() {
-    this.patientRequestModel = new UpdatePatientByIdCommandModel();
+  updateUserProfile() {
+    this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
 
     const id = this.route.snapshot.paramMap.get('id');
 
-    this.patientRequestModel = this.mapper.map(
-      PatientMappingProfile.UpdatePatientByIdValidationModelToUpdatePatientByIdCommandModel,
-      this.patientFormModel
+    this.adminRequestModel = this.mapper.map(
+      AdminMappingProfile.UpdateAdminProfileByIdValidationModelToUpdateAdminProfileByIdCommandModel,
+      this.adminFormModel
     );
 
-    this.patientRequestModel.id = Number(id);
+    this.adminRequestModel.id = Number(id);
 
-    if (!(Object.keys(this.patientValidationControl).length > 0)) {
-      this.http.post('patients/updatebyid', this.patientRequestModel, res => {
+    const formData = new FormData();
+
+    formData.append('id', this.adminRequestModel.id.toString());
+    formData.append('firstName', this.adminRequestModel.firstName);
+    formData.append('lastName', this.adminRequestModel.lastName);
+    formData.append('phoneNumber', this.adminRequestModel.phoneNumber);
+    formData.append(
+      'profilePhoto',
+      this.selectedProfilePhoto,
+      this.selectedProfilePhoto.name
+    );
+
+    if (!(Object.keys(this.adminValidationControl).length > 0)) {
+      this.http.post('admins/updateprofilebyid', formData, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -206,22 +205,25 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
           life: 3000
         });
 
-        this.patientRequestModel = new UpdatePatientByIdCommandModel();
-        this.patientValidationControl = {};
+        this.getAdminProfileById(this.adminRequestModel.id);
+
+        this.clearSelectedFile();
+
+        this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
       });
     }
   }
 
   onSubmit() {
-    this.patientValidationControl = this.formValidator.validate(
-      this.patientFormModel
+    this.adminValidationControl = this.formValidator.validate(
+      this.adminFormModel
     );
 
-    this.updateUser();
+    this.updateUserProfile();
   }
 
   checkForValidation(propName: string) {
-    const validationResult = this.formValidator.validate(this.patientFormModel);
+    const validationResult = this.formValidator.validate(this.adminFormModel);
 
     const convertedValidationResult = Object.fromEntries(
       Object.entries(validationResult)
@@ -229,6 +231,39 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
         .map(obj => obj)
     );
 
-    this.patientValidationControl = convertedValidationResult;
+    this.adminValidationControl = convertedValidationResult;
+  }
+
+  onSelect(event: FileSelectEvent) {
+    const file = event.files[0];
+
+    if (file.type != 'image/png') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.notCorrectTypeSummaryMessage,
+        detail: this.notCorrectTypeDetailMessage
+      });
+
+      this.clearSelectedFile();
+    } else {
+      this.selectedProfilePhoto = file;
+    }
+
+    if (file.size != 2000000) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: this.notCorrectSizeSummaryMessage,
+        detail: this.notCorrectSizeDetailMessage
+      });
+
+      this.clearSelectedFile();
+    } else {
+      this.selectedProfilePhoto = file;
+    }
+  }
+
+  clearSelectedFile() {
+    this.fileUpload.clear();
+    this.selectedProfilePhoto = new File([], '');
   }
 }
