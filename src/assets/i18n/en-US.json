@@ -634,6 +634,69 @@
         }
       }
     },
+    "UpdateDoctorProfile": {
+      "Title": "Update Doctor Profile",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Doctor"
+        },
+        {
+          "Name": "Update Doctor Profile"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "ProfilePhoto": {
+            "Title": "Profile Photo",
+            "Choose": "Choose",
+            "Clear": "Clear",
+            "ValidationMessages": {
+              "NotCorrectSize": {
+                "Summary": "File Size Not Correct",
+                "Detail": "Please select a file that its size lower than 2MB"
+              },
+              "NotCorrectType": {
+                "Summary": "File Type Not Correct",
+                "Detail": "Please select a PNG file"
+              }
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Update",
+          "Cancel": "Back"
+        }
+      }
+    },
     "UpdatePatient": {
       "Title": "Update Patient",
       "BreadcrumbItems": [
@@ -723,6 +786,69 @@
               "NotEmpty": "Please fill the full address",
               "MinLength": "Please enter minimum 50 character for full address",
               "MaxLength": "Please enter maximum 500 character for full address"
+            }
+          }
+        },
+        "Buttons": {
+          "Submit": "Update",
+          "Cancel": "Back"
+        }
+      }
+    },
+    "UpdatePatientProfile": {
+      "Title": "Update Patient Profile",
+      "BreadcrumbItems": [
+        {
+          "Name": "User"
+        },
+        {
+          "Name": "Patient"
+        },
+        {
+          "Name": "Update Patient Profile"
+        }
+      ],
+      "Form": {
+        "Controls": {
+          "Firstname": {
+            "Label": "Firstname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the firstname",
+              "MinLength": "Please enter minimum 3 character for firstnamae",
+              "MaxLength": "Please enter maximum 50 character for firstname",
+              "NotUseNumbers": "Please do not use numbers in the firstname"
+            }
+          },
+          "Lastname": {
+            "Label": "Lastname",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the lastname",
+              "MinLength": "Please enter minimum 3 character for lastname",
+              "MaxLength": "Please enter maximum 50 character for lastname",
+              "NotUseNumbers": "Please do not use numbers in the lastname"
+            }
+          },
+          "PhoneNumber": {
+            "Label": "Phone Number",
+            "ValidationMessages": {
+              "NotEmpty": "Please fill the phone number",
+              "NotValid": "Please enter a valid phone number",
+              "NotUseLetters": "Please do not use letters in the phone number"
+            }
+          },
+          "ProfilePhoto": {
+            "Title": "Profile Photo",
+            "Choose": "Choose",
+            "Clear": "Clear",
+            "ValidationMessages": {
+              "NotCorrectSize": {
+                "Summary": "File Size Not Correct",
+                "Detail": "Please select a file that its size lower than 2MB"
+              },
+              "NotCorrectType": {
+                "Summary": "File Type Not Correct",
+                "Detail": "Please select a PNG file"
+              }
             }
           }
         },

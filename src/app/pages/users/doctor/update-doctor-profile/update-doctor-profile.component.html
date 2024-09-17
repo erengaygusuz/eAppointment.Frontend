@@ -8,7 +8,7 @@
             <div class="flex flex-column">
               <div
                 class="flex align-items-center justify-content-center mb-5 mt-2">
-                <label htmlFor="adminFormModel.firstName">{{
+                <label htmlFor="doctorFormModel.firstName">{{
                   'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.Title'
                     | translate
                 }}</label>
@@ -67,78 +67,102 @@
           <div class="field col-12 md:col-9 flex flex-column">
             <div class="flex mb-3">
               <div class="field col-6 md:col-6">
-                <label htmlFor="adminFormModel.firstName">{{
+                <label htmlFor="doctorFormModel.firstName">{{
                   'Pages.UpdateAdmin.Form.Controls.Firstname.Label' | translate
                 }}</label>
                 <input
                   pInputText
                   type="text"
-                  [(ngModel)]="adminFormModel.firstName"
+                  [(ngModel)]="doctorFormModel.firstName"
                   (ngModelChange)="checkForValidation('firstName')"
                   [ngModelOptions]="{ standalone: true }" />
-                <div *ngIf="adminValidationControl?.firstName">
+                <div *ngIf="doctorValidationControl?.firstName">
                   <small class="p-error">{{
-                    adminValidationControl?.firstName
+                    doctorValidationControl?.firstName
                   }}</small>
                 </div>
               </div>
               <div class="field col-6 md:col-6">
-                <label htmlFor="adminFormModel.lastName">{{
+                <label htmlFor="doctorFormModel.lastName">{{
                   'Pages.UpdateAdmin.Form.Controls.Lastname.Label' | translate
                 }}</label>
                 <input
                   pInputText
                   type="text"
-                  [(ngModel)]="adminFormModel.lastName"
+                  [(ngModel)]="doctorFormModel.lastName"
                   (ngModelChange)="checkForValidation('lastName')"
                   [ngModelOptions]="{ standalone: true }" />
-                <div *ngIf="adminValidationControl?.lastName">
+                <div *ngIf="doctorValidationControl?.lastName">
                   <small class="p-error">{{
-                    adminValidationControl?.lastName
+                    doctorValidationControl?.lastName
                   }}</small>
                 </div>
               </div>
             </div>
             <div class="flex mb-3">
               <div class="field col-6 md:col-6">
-                <label htmlFor="adminFormModel.userName">{{
+                <label htmlFor="doctorFormModel.userName">{{
                   'Pages.UpdateAdmin.Form.Controls.Username.Label' | translate
                 }}</label>
                 <input
                   pInputText
                   type="text"
-                  [(ngModel)]="adminFormModel.userName"
+                  [(ngModel)]="doctorFormModel.userName"
                   [ngModelOptions]="{ standalone: true }"
                   disabled="true" />
               </div>
               <div class="field col-6 md:col-6">
-                <label htmlFor="adminFormModel.phoneNumber">{{
+                <label htmlFor="doctorFormModel.phoneNumber">{{
                   'Pages.UpdateAdmin.Form.Controls.PhoneNumber.Label'
                     | translate
                 }}</label>
                 <p-inputMask
                   mask="(999) 999-9999"
-                  [(ngModel)]="adminFormModel.phoneNumber"
+                  [(ngModel)]="doctorFormModel.phoneNumber"
                   (ngModelChange)="checkForValidation('phoneNumber')"
                   [ngModelOptions]="{ standalone: true }" />
-                <div *ngIf="adminValidationControl?.phoneNumber">
+                <div *ngIf="doctorValidationControl?.phoneNumber">
                   <small class="p-error">{{
-                    adminValidationControl?.phoneNumber
+                    doctorValidationControl?.phoneNumber
                   }}</small>
                 </div>
               </div>
             </div>
             <div class="flex mb-3">
               <div class="field col-12">
-                <label htmlFor="adminFormModel.email">{{
+                <label htmlFor="doctorFormModel.email">{{
                   'Pages.UpdateAdmin.Form.Controls.Email.Label' | translate
                 }}</label>
                 <input
                   pInputText
                   type="text"
-                  [(ngModel)]="adminFormModel.email"
+                  [(ngModel)]="doctorFormModel.email"
                   [ngModelOptions]="{ standalone: true }"
                   disabled="true" />
+              </div>
+            </div>
+            <div class="flex mb-3">
+              <div class="field col-12">
+                <label htmlFor="doctorFormModel.department">{{
+                  'Pages.CreateDoctor.Form.Controls.Department.Label'
+                    | translate
+                }}</label>
+                <p-dropdown
+                  [options]="departments"
+                  [(ngModel)]="doctorFormModel.department"
+                  optionLabel="name"
+                  placeholder="{{
+                    'Pages.CreateDoctor.Form.Controls.Department.Dropdown'
+                      | translate
+                  }}"
+                  appendTo="body"
+                  [ngModelOptions]="{ standalone: true }"
+                  (ngModelChange)="checkForValidation('department')" />
+                <div *ngIf="doctorValidationControl?.department">
+                  <small class="p-error">{{
+                    doctorValidationControl?.department
+                  }}</small>
+                </div>
               </div>
             </div>
           </div>

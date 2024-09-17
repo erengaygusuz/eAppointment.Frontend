@@ -5,6 +5,9 @@ import { CreateDoctorCommandModel } from '../models/doctors/create.doctor.comman
 import { UpdateDoctorByIdCommandModel } from '../models/doctors/update.doctor.by.id.command.model';
 import { UpdateDoctorByIdValidationModel } from '../models/doctors/update.doctor.by.id.validation.model';
 import { GetDoctorByIdQueryResponseModel } from '../models/doctors/get.doctor.by.id.query.response.model';
+import { UpdateDoctorProfileByIdValidationModel } from '../models/doctors/update.doctor.profile.by.id.validation.model';
+import { UpdateDoctorProfileByIdCommandModel } from '../models/doctors/update.doctor.profile.by.id.command.model';
+import { GetDoctorProfileByIdQueryResponseModel } from '../models/doctors/get.doctor.profile.by.id.query.response.model';
 
 @Injectable()
 export class DoctorMappingProfile extends Profile {
@@ -17,10 +20,22 @@ export class DoctorMappingProfile extends Profile {
       UpdateDoctorByIdCommandModel
     );
 
+  static readonly UpdateDoctorProfileByIdValidationModelToUpdateDoctorProfileByIdCommandModel =
+    new MappingPair(
+      UpdateDoctorProfileByIdValidationModel,
+      UpdateDoctorProfileByIdCommandModel
+    );
+
   static readonly GetDoctorByIdQueryResponseModelToUpdateDoctorByIdValidationModel =
     new MappingPair(
       GetDoctorByIdQueryResponseModel,
       UpdateDoctorByIdValidationModel
+    );
+
+  static readonly GetDoctorProfileByIdQueryResponseModelToUpdateDoctorProfileByIdValidationModel =
+    new MappingPair(
+      GetDoctorProfileByIdQueryResponseModel,
+      UpdateDoctorProfileByIdValidationModel
     );
 
   constructor() {
@@ -78,7 +93,43 @@ export class DoctorMappingProfile extends Profile {
     );
 
     this.createMap(
+      DoctorMappingProfile.UpdateDoctorProfileByIdValidationModelToUpdateDoctorProfileByIdCommandModel,
+      {
+        firstName: opt => {
+          opt.mapFrom(src => src.firstName);
+        },
+        lastName: opt => {
+          opt.mapFrom(src => src.lastName);
+        },
+        phoneNumber: opt => {
+          opt.mapFrom(src => src.phoneNumber);
+        }
+      }
+    );
+
+    this.createMap(
       DoctorMappingProfile.GetDoctorByIdQueryResponseModelToUpdateDoctorByIdValidationModel,
+      {
+        firstName: opt => {
+          opt.mapFrom(src => src.firstName);
+        },
+        lastName: opt => {
+          opt.mapFrom(src => src.lastName);
+        },
+        userName: opt => {
+          opt.mapFrom(src => src.userName);
+        },
+        phoneNumber: opt => {
+          opt.mapFrom(src => src.phoneNumber);
+        },
+        email: opt => {
+          opt.mapFrom(src => src.email);
+        }
+      }
+    );
+
+    this.createMap(
+      DoctorMappingProfile.GetDoctorProfileByIdQueryResponseModelToUpdateDoctorProfileByIdValidationModel,
       {
         firstName: opt => {
           opt.mapFrom(src => src.firstName);

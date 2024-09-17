@@ -12,7 +12,7 @@ import { HttpService } from '../../../../services/http.service';
 import { AuthService } from '../../../../services/auth.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
-import { AdminMappingProfile } from '../../../../mapping/admin.mapping.profile';
+import { DoctorMappingProfile } from '../../../../mapping/doctor.mapping.profile';
 import { Mapper } from '@dynamic-mapper/angular';
 import { LanguageService } from '../../../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -24,14 +24,16 @@ import {
 } from 'primeng/fileupload';
 import { CardModule } from 'primeng/card';
 import { ImageModule } from 'primeng/image';
-import { UpdateAdminProfileByIdCommandModel } from '../../../../models/admins/update.admin.profile.by.id.command.model';
-import { UpdateAdminProfileByIdValidationModel } from '../../../../models/admins/update.admin.profile.by.id.validation.model';
-import { UpdateAdminProfileFormValidator } from '../../../../validators/update.admin.profile.form.validator';
-import { GetAdminProfileByIdQueryResponseModel } from '../../../../models/admins/get.admin.profile.by.id.query.response.model';
-import { GetAdminProfileByIdQueryModel } from '../../../../models/admins/get.admin.profile.by.id.query.model';
+import { UpdateDoctorProfileByIdCommandModel } from '../../../../models/doctors/update.doctor.profile.by.id.command.model';
+import { UpdateDoctorProfileByIdValidationModel } from '../../../../models/doctors/update.doctor.profile.by.id.validation.model';
+import { GetDoctorProfileByIdQueryResponseModel } from '../../../../models/doctors/get.doctor.profile.by.id.query.response.model';
+import { GetDoctorProfileByIdQueryModel } from '../../../../models/doctors/get.doctor.profile.by.id.query.model';
+import { UpdateDoctorProfileFormValidator } from '../../../../validators/update.doctor.profile.form.validator';
+import { GetAllDepartmentsQueryResponseModel } from '../../../../models/departments/get.all.departments.query.response.model';
+import { TokenService } from '../../../../services/token.service';
 
 @Component({
-  selector: 'app-update-admin',
+  selector: 'app-update-doctor',
   standalone: true,
   imports: [
     CommonModule,
@@ -55,24 +57,28 @@ import { GetAdminProfileByIdQueryModel } from '../../../../models/admins/get.adm
   providers: [MessageService]
 })
 export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
-  admin: GetAdminProfileByIdQueryResponseModel =
-    new GetAdminProfileByIdQueryResponseModel();
+  doctor: GetDoctorProfileByIdQueryResponseModel =
+    new GetDoctorProfileByIdQueryResponseModel();
 
-  adminRequestModel: UpdateAdminProfileByIdCommandModel =
-    new UpdateAdminProfileByIdCommandModel();
+  doctorRequestModel: UpdateDoctorProfileByIdCommandModel =
+    new UpdateDoctorProfileByIdCommandModel();
 
   pageTitle: string = '';
 
-  adminValidationControl: any;
+  doctorValidationControl: any;
 
-  adminFormModel: UpdateAdminProfileByIdValidationModel =
-    new UpdateAdminProfileByIdValidationModel();
+  doctorFormModel: UpdateDoctorProfileByIdValidationModel =
+    new UpdateDoctorProfileByIdValidationModel();
+
+  departments: GetAllDepartmentsQueryResponseModel[] = [];
+  selectedDepartment: GetAllDepartmentsQueryResponseModel =
+    new GetAllDepartmentsQueryResponseModel();
 
   items: MenuItem[] = [{ label: '' }, { label: '' }, { label: '' }];
   home: MenuItem | undefined;
 
-  formValidator: UpdateAdminProfileFormValidator =
-    new UpdateAdminProfileFormValidator();
+  formValidator: UpdateDoctorProfileFormValidator =
+    new UpdateDoctorProfileFormValidator();
 
   selectedLanguage: string = '';
 
@@ -97,15 +103,16 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private readonly mapper: Mapper,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private tokenService: TokenService
   ) {}
 
   ngOnInit(): void {
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.tokenService.getDoctorId();
 
-    this.getAdminProfileById(Number(id!));
+    this.getDoctorProfileById(Number(id!));
 
     this.formValidator.getTranslationData(this.translate);
 
@@ -118,13 +125,13 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
         this.translate.use(this.selectedLanguage);
 
         this.getTranslationData(
-          'Pages.UpdateAdminProfile',
-          'Pages.UpdateAdminProfile.Form.Controls.ProfilePhoto.ValidationMessages'
+          'Pages.UpdateDoctorProfile',
+          'Pages.UpdateDoctorProfile.Form.Controls.ProfilePhoto.ValidationMessages'
         );
 
         this.formValidator.getTranslationData(this.translate);
 
-        this.adminValidationControl = {};
+        this.doctorValidationControl = {};
       });
   }
 
@@ -149,55 +156,69 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
     });
   }
 
-  getAdminProfileById(id: number) {
-    const getAdminProfileByIdQueryModel = new GetAdminProfileByIdQueryModel();
-
-    getAdminProfileByIdQueryModel.id = id;
-
-    this.http.post<GetAdminProfileByIdQueryResponseModel>(
-      'admins/getprofilebyid',
-      getAdminProfileByIdQueryModel,
+  getAllDepartments() {
+    this.http.post<GetAllDepartmentsQueryResponseModel[]>(
+      'departments/getall',
+      {},
       res => {
-        this.admin = new GetAdminProfileByIdQueryResponseModel();
+        this.departments = res.data;
 
-        this.admin = res.data;
+        this.doctorFormModel.department = this.departments.filter(
+          x => x.id == this.doctor.departmentId
+        )[0];
+      }
+    );
+  }
 
-        this.adminFormModel = this.mapper.map(
-          AdminMappingProfile.GetAdminProfileByIdQueryResponseModelToUpdateAdminProfileByIdValidationModel,
-          this.admin
+  getDoctorProfileById(id: number) {
+    const getDoctorProfileByIdQueryModel = new GetDoctorProfileByIdQueryModel();
+
+    getDoctorProfileByIdQueryModel.id = id;
+
+    this.http.post<GetDoctorProfileByIdQueryResponseModel>(
+      'doctors/getprofilebyid',
+      getDoctorProfileByIdQueryModel,
+      res => {
+        this.doctor = new GetDoctorProfileByIdQueryResponseModel();
+
+        this.doctor = res.data;
+
+        this.doctorFormModel = this.mapper.map(
+          DoctorMappingProfile.GetDoctorProfileByIdQueryResponseModelToUpdateDoctorProfileByIdValidationModel,
+          this.doctor
         );
 
-        this.uploadedPhoto = `data:${this.admin.profilePhotoContentType};base64,${this.admin.profilePhotoBase64Content}`;
+        this.uploadedPhoto = `data:${this.doctor.profilePhotoContentType};base64,${this.doctor.profilePhotoBase64Content}`;
+
+        this.getAllDepartments();
       }
     );
   }
 
   updateUserProfile() {
-    this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
+    this.doctorRequestModel = new UpdateDoctorProfileByIdCommandModel();
 
-    const id = this.route.snapshot.paramMap.get('id');
-
-    this.adminRequestModel = this.mapper.map(
-      AdminMappingProfile.UpdateAdminProfileByIdValidationModelToUpdateAdminProfileByIdCommandModel,
-      this.adminFormModel
+    this.doctorRequestModel = this.mapper.map(
+      DoctorMappingProfile.UpdateDoctorProfileByIdValidationModelToUpdateDoctorProfileByIdCommandModel,
+      this.doctorFormModel
     );
 
-    this.adminRequestModel.id = Number(id);
+    this.doctorRequestModel.id = this.tokenService.getDoctorId();
 
     const formData = new FormData();
 
-    formData.append('id', this.adminRequestModel.id.toString());
-    formData.append('firstName', this.adminRequestModel.firstName);
-    formData.append('lastName', this.adminRequestModel.lastName);
-    formData.append('phoneNumber', this.adminRequestModel.phoneNumber);
+    formData.append('id', this.doctorRequestModel.id.toString());
+    formData.append('firstName', this.doctorRequestModel.firstName);
+    formData.append('lastName', this.doctorRequestModel.lastName);
+    formData.append('phoneNumber', this.doctorRequestModel.phoneNumber);
     formData.append(
       'profilePhoto',
       this.selectedProfilePhoto,
       this.selectedProfilePhoto.name
     );
 
-    if (!(Object.keys(this.adminValidationControl).length > 0)) {
-      this.http.post('admins/updateprofilebyid', formData, res => {
+    if (!(Object.keys(this.doctorValidationControl).length > 0)) {
+      this.http.post('doctors/updateprofilebyid', formData, res => {
         this.messageService.add({
           severity: 'success',
           summary: 'Successful',
@@ -205,25 +226,25 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
           life: 3000
         });
 
-        this.getAdminProfileById(this.adminRequestModel.id);
+        this.getDoctorProfileById(this.doctorRequestModel.id);
 
         this.clearSelectedFile();
 
-        this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
+        this.doctorRequestModel = new UpdateDoctorProfileByIdCommandModel();
       });
     }
   }
 
   onSubmit() {
-    this.adminValidationControl = this.formValidator.validate(
-      this.adminFormModel
+    this.doctorValidationControl = this.formValidator.validate(
+      this.doctorFormModel
     );
 
     this.updateUserProfile();
   }
 
   checkForValidation(propName: string) {
-    const validationResult = this.formValidator.validate(this.adminFormModel);
+    const validationResult = this.formValidator.validate(this.doctorFormModel);
 
     const convertedValidationResult = Object.fromEntries(
       Object.entries(validationResult)
@@ -231,7 +252,7 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
         .map(obj => obj)
     );
 
-    this.adminValidationControl = convertedValidationResult;
+    this.doctorValidationControl = convertedValidationResult;
   }
 
   onSelect(event: FileSelectEvent) {
@@ -249,7 +270,7 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
       this.selectedProfilePhoto = file;
     }
 
-    if (file.size != 2000000) {
+    if (file.size >= 2000000) {
       this.messageService.add({
         severity: 'warn',
         summary: this.notCorrectSizeSummaryMessage,

@@ -1,17 +1,20 @@
 export const enum PERMISSIONS {
   CREATE_ADMIN = 'Permissions.Admins.CreateAdmin',
   GET_ADMIN_BY_ID = 'Permissions.Admins.GetAdminById',
+  GET_ADMIN_PROFILE_BY_ID = 'Permissions.Admins.GetAdminProfileById',
   UPDATE_ADMIN_BY_ID = 'Permissions.Admins.UpdateAdminById',
   UPDATE_ADMIN_PROFILE_BY_ID = 'Permissions.Admins.UpdateAdminProfileById',
 
   CREATE_DOCTOR = 'Permissions.Doctors.CreateDoctor',
   GET_DOCTOR_BY_ID = 'Permissions.Doctors.GetDoctorById',
+  GET_DOCTOR_PROFILE_BY_ID = 'Permissions.Doctors.GetDoctorProfileById',
   UPDATE_DOCTOR_BY_ID = 'Permissions.Doctors.UpdateDoctorById',
   GET_ALL_DOCTORS_BY_DEPARTMENT_ID = 'Permissions.Doctors.GetAllDoctorsByDepartmentId',
   UPDATE_DOCTOR_PROFILE_BY_ID = 'Permissions.Doctors.UpdateDoctorProfileById',
 
   CREATE_PATIENT = 'Permissions.Patients.CreatePatient',
   GET_PATIENT_BY_ID = 'Permissions.Patients.GetPatientById',
+  GET_PATIENT_PROFILE_BY_ID = 'Permissions.Patients.GetPatientProfileById',
   GET_ALL_PATIENTS_BY_DOCTOR_ID = 'Permissions.Patients.GetAllPatientsByDoctorId',
   UPDATE_PATIENT_BY_ID = 'Permissions.Patients.UpdatePatientById',
   UPDATE_PATIENT_PROFILE_BY_ID = 'Permissions.Patients.UpdatePatientProfileById',

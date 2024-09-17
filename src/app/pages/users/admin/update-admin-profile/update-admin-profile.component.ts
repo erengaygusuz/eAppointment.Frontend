@@ -249,7 +249,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
       this.selectedProfilePhoto = file;
     }
 
-    if (file.size != 2000000) {
+    if (file.size >= 2000000) {
       this.messageService.add({
         severity: 'warn',
         summary: this.notCorrectSizeSummaryMessage,
