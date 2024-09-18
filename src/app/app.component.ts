@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,19 @@ export class AppComponent implements OnInit {
   constructor(
     private primengConfig: PrimeNGConfig,
     private translate: TranslateService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private themeService: ThemeService
   ) {
     this.primengConfig.csp.set({ nonce: '...' });
+
+    if (localStorage.getItem('theme') && localStorage.getItem('colorScheme')) {
+      this.themeService.theme = (
+        localStorage.getItem('theme') || 'lara-light-indigo'
+      ).toString();
+      this.themeService.colorScheme = (
+        localStorage.getItem('colorScheme') || 'light'
+      ).toString();
+    }
   }
 
   ngOnInit() {

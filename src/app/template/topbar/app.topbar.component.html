@@ -48,15 +48,14 @@
       <button
         class="p-link layout-topbar-button"
         (click)="
-          onThemeChange(
-            selectedTheme ===
-              'assets/layout/styles/theme/lara-light-indigo/theme'
-              ? 'assets/layout/styles/theme/lara-dark-indigo/theme'
-              : 'assets/layout/styles/theme/lara-light-indigo/theme',
-            !isDarkThemeSelected
+          themeService.changeTheme(
+            'lara-' +
+              (themeService.colorScheme === 'dark' ? 'light' : 'dark') +
+              '-indigo',
+            themeService.colorScheme === 'dark' ? 'light' : 'dark'
           )
         ">
-        @if (isDarkThemeSelected) {
+        @if (themeService.colorScheme === 'dark') {
           <i class="pi fa-regular fa-moon"></i>
           <span>{{ 'Topbar.ThemeOptions.Option1' | translate }}</span>
         } @else {

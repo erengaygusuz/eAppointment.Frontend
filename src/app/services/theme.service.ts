@@ -1,24 +1,41 @@
 import { Injectable } from '@angular/core';
+import { LayoutService } from './app.layout.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ThemeService {
   activeTheme: string = '';
 
-  getTheme() {
-    return this.activeTheme;
+  constructor(private layoutService: LayoutService) {}
+
+  set theme(val: string) {
+    this.layoutService.config.update(config => ({
+      ...config,
+      theme: val
+    }));
   }
 
-  setTheme(theme: string) {
-    const themeLink = document.getElementById('theme-css') as HTMLLinkElement;
+  get theme(): string {
+    return this.layoutService.config().theme;
+  }
 
-    console.log(themeLink);
+  set colorScheme(val: string) {
+    this.layoutService.config.update(config => ({
+      ...config,
+      colorScheme: val
+    }));
+  }
 
-    if (themeLink) {
-      themeLink.href = theme + '.css';
-    }
+  get colorScheme(): string {
+    return this.layoutService.config().colorScheme;
+  }
 
-    this.activeTheme = theme;
+  changeTheme(theme: string, colorScheme: string) {
+    this.theme = theme;
+    this.colorScheme = colorScheme;
+
+    localStorage.setItem('theme', theme);
+    localStorage.setItem('colorScheme', colorScheme);
   }
 }

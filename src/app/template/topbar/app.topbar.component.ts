@@ -34,10 +34,6 @@ export class AppTopBarComponent implements OnInit {
 
   @ViewChild('topbarmenu') menu!: ElementRef;
 
-  selectedTheme: string = 'assets/layout/styles/theme/lara-light-indigo/theme';
-
-  isDarkThemeSelected: boolean = false;
-
   countries: any[] | undefined;
 
   selectedCountry: any | undefined;
@@ -51,7 +47,7 @@ export class AppTopBarComponent implements OnInit {
   constructor(
     public layoutService: LayoutService,
     private topbarService: TopBarService,
-    private themeService: ThemeService,
+    public themeService: ThemeService,
     public tokenService: TokenService,
     private router: Router,
     private translate: TranslateService,
@@ -59,23 +55,6 @@ export class AppTopBarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('themeOption')) {
-      this.themeService.setTheme(localStorage.getItem('themeOption')!);
-
-      this.selectedTheme = localStorage.getItem('themeOption')!;
-    } else {
-      this.themeService.setTheme(this.selectedTheme);
-    }
-
-    if (
-      this.selectedTheme ===
-      'assets/layout/styles/theme/lara-light-indigo/theme'
-    ) {
-      this.isDarkThemeSelected = false;
-    } else {
-      this.isDarkThemeSelected = true;
-    }
-
     this.countries = [
       { name: '', code: 'TR', languageCode: 'tr-TR' },
       { name: '', code: 'GB', languageCode: 'en-GB' },
@@ -106,14 +85,6 @@ export class AppTopBarComponent implements OnInit {
 
       this.translate.use(this.selectedCountry.languageCode);
     });
-  }
-
-  onThemeChange(theme: string, themeCondition: boolean) {
-    this.selectedTheme = theme;
-    this.themeService.setTheme(theme);
-    this.isDarkThemeSelected = themeCondition;
-
-    localStorage.setItem('themeOption', theme);
   }
 
   onTopbarClick() {
