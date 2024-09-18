@@ -20,6 +20,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { TokenService } from '../../services/token.service';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
@@ -33,7 +35,8 @@ import { TokenService } from '../../services/token.service';
     InputTextModule,
     IconFieldModule,
     InputIconModule,
-    TranslateModule
+    TranslateModule,
+    ToastModule
   ],
   templateUrl: './login.component.html',
   styles: [
@@ -45,7 +48,8 @@ import { TokenService } from '../../services/token.service';
         color: var(--primary-color) !important;
       }
     `
-  ]
+  ],
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginRequestModel: LoginCommandModel = new LoginCommandModel();
@@ -60,6 +64,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
+  toastErrorSummary: string = '';
+
   constructor(
     private http: HttpService,
     private router: Router,
@@ -67,7 +73,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly mapper: Mapper,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private messageService: MessageService
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +86,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
+        this.getTranslationData('Components.Toast.Error.Summary');
+
         this.formValidator.getTranslationData(this.translate);
 
         this.loginValidationControl = {};
@@ -88,6 +97,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
+      this.toastErrorSummary = data;
+    });
   }
 
   onSubmit() {
@@ -115,6 +130,18 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.loginRequestModel = new LoginCommandModel();
           this.loginFormModel = new LoginValidationModel();
           this.loginValidationControl = {};
+        },
+        err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
         }
       );
     }

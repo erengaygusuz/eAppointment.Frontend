@@ -1008,6 +1008,20 @@
       "Summary": "Toplamda {{totalItems}} kayıt listelenmektedir.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     },
+    "Toast":{
+      "Warning": {
+        "Summary": "Uyarı"
+      },
+      "Error": {
+        "Summary": "Hata"
+      },
+      "Success": {
+        "Summary": "Başarılı"
+      },
+      "Info": {
+        "Summary": "Bilgi"
+      }
+    },
     "PrimeNG": {
       "startsWith": "İle başlar",
       "contains": "İçerir",

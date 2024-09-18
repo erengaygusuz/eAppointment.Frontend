@@ -16,7 +16,11 @@ export class HttpService {
     errCallback?: (err: HttpErrorResponse) => void
   ) {
     this.http
-      .post<ResultModel<T>>(`${environment.API_URL}/${apiUrl}`, body)
+      .post<ResultModel<T>>(`${environment.API_URL}/${apiUrl}`, body, {
+        headers: {
+          'Accept-Language': (localStorage.getItem('language') || '').toString()
+        }
+      })
       .subscribe({
         next: res => {
           callback(res);

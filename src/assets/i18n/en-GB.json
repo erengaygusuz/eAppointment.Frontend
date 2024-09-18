@@ -1008,6 +1008,20 @@
       "Summary": "In total, {{totalItems}} records are listed.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
     },
+    "Toast":{
+      "Warning":{
+        "Summary": "Warning"
+      },
+      "Error":{
+        "Summary": "Error"
+      },
+      "Success": {
+        "Summary": "Success"
+      },
+      "Info":{
+        "Summary": "Info"
+      }
+    },
     "PrimeNG": {
       "startsWith": "Starts with",
       "contains": "Contains",
