@@ -94,6 +94,9 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
   confirmationDialogMessage: string = '';
   confirmationDialogHeader: string = '';
 
+  toastErrorSummary: string = '';
+  toastSuccessSummary: string = '';
+
   constructor(
     private http: HttpService,
     private date: DatePipe,
@@ -122,7 +125,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Pages.CreateAppointment');
+        this.getTranslationData('Pages.CreateAppointment', 'Components.Toast');
       });
   }
 
@@ -131,8 +134,8 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return {
           ...element,
@@ -143,6 +146,11 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
 
       this.confirmationDialogMessage = data.ConfimationDialog.Message;
       this.confirmationDialogHeader = data.ConfimationDialog.Header;
+    });
+
+    this.translate.get(key2).subscribe(data => {
+      this.toastErrorSummary = data.Error.Summary;
+      this.toastSuccessSummary = data.Success.Summary;
     });
 
     this.calendarOptions = {
@@ -198,7 +206,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
       res => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Successful',
+          summary: this.toastSuccessSummary,
           detail: res.data,
           life: 3000
         });
@@ -207,8 +215,19 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
 
         this.getAllAppointmentsByPatientId();
       },
-      () => {
+      err => {
         this.getAllAppointmentsByPatientId();
+
+        this.messageService.add({
+          severity: 'error',
+          summary: this.toastErrorSummary,
+          detail:
+            err.error.errorMessages === undefined ||
+            err.error.errorMessages === null
+              ? ''
+              : err.error.errorMessages[0],
+          life: 3000
+        });
       }
     );
   }
@@ -257,7 +276,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
         res => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Successful',
+            summary: this.toastSuccessSummary,
             detail: res.data,
             life: 3000
           });
@@ -266,6 +285,20 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
           this.createAppointmentModel = new CreateAppointmentCommandModel();
 
           this.getAllAppointmentsByPatientId();
+        },
+        err => {
+          this.getAllAppointmentsByPatientId();
+
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
         }
       );
     }
@@ -284,15 +317,29 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
         this.http.post<string>(
           'appointments/cancelbyid',
           cancelAppointmentByIdCommandModel,
-          () => {
+          res => {
             this.messageService.add({
               severity: 'success',
-              summary: 'Successful',
-              detail: `User ${arg.event.title} Cancelled`,
+              summary: this.toastSuccessSummary,
+              detail: res.data,
               life: 3000
             });
 
             this.getAllAppointmentsByPatientId();
+          },
+          err => {
+            this.getAllAppointmentsByPatientId();
+
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail:
+                err.error.errorMessages === undefined ||
+                err.error.errorMessages === null
+                  ? ''
+                  : err.error.errorMessages[0],
+              life: 3000
+            });
           }
         );
       }

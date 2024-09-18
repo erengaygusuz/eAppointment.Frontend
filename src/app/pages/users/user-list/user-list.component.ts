@@ -63,6 +63,9 @@ export class UserListComponent implements OnInit {
 
   globalFilter: object = {};
 
+  toastErrorSummary: string = '';
+  toastSuccessSummary: string = '';
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -120,15 +123,15 @@ export class UserListComponent implements OnInit {
       this.translate.use('tr-TR');
     }
 
-    this.getTranslationData('Pages.AllUsers');
+    this.getTranslationData('Pages.AllUsers', 'Components.Toast');
 
     this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Pages.AllUsers');
+      this.getTranslationData('Pages.AllUsers', 'Components.Toast');
     });
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };
       });
@@ -144,6 +147,11 @@ export class UserListComponent implements OnInit {
       this.confirmationDialogMessage =
         data.UsersTable.ConfimationDialog.Message;
       this.confirmationDialogHeader = data.UsersTable.ConfimationDialog.Header;
+    });
+
+    this.translate.get(key2).subscribe(data => {
+      this.toastErrorSummary = data.Error.Summary;
+      this.toastSuccessSummary = data.Success.Summary;
     });
   }
 
@@ -202,15 +210,27 @@ export class UserListComponent implements OnInit {
         this.http.post<string>(
           'users/deletebyid',
           deleteUserRequestBody,
-          () => {
+          res => {
             this.messageService.add({
               severity: 'success',
-              summary: 'Successful',
-              detail: `User ${user.fullName} Deleted`,
+              summary: this.toastSuccessSummary,
+              detail: res.data,
               life: 3000
             });
 
             this.onGlobalFilter();
+          },
+          err => {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail:
+                err.error.errorMessages === undefined ||
+                err.error.errorMessages === null
+                  ? ''
+                  : err.error.errorMessages[0],
+              life: 3000
+            });
           }
         );
       }

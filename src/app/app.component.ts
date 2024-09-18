@@ -32,6 +32,10 @@ export class AppComponent implements OnInit {
         localStorage.getItem('colorScheme') || 'light'
       ).toString();
     }
+
+    if (localStorage.getItem('language') === null) {
+      localStorage.setItem('language', 'tr-TR');
+    }
   }
 
   ngOnInit() {

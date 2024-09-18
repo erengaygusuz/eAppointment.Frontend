@@ -72,6 +72,9 @@ export class UpdateDoctorComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
+  toastErrorSummary: string = '';
+  toastSuccessSummary: string = '';
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -99,7 +102,7 @@ export class UpdateDoctorComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Pages.UpdateDoctor');
+        this.getTranslationData('Pages.UpdateDoctor', 'Components.Toast');
 
         this.formValidator.getTranslationData(this.translate);
 
@@ -112,12 +115,17 @@ export class UpdateDoctorComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };
       });
       this.pageTitle = data.Title;
+    });
+
+    this.translate.get(key2).subscribe(data => {
+      this.toastErrorSummary = data.Error.Summary;
+      this.toastSuccessSummary = data.Success.Summary;
     });
   }
 
@@ -171,16 +179,32 @@ export class UpdateDoctorComponent implements OnInit, OnDestroy {
     this.doctorRequestModel.id = Number(id);
 
     if (!(Object.keys(this.doctorValidationControl).length > 0)) {
-      this.http.post('doctors/updatebyid', this.doctorRequestModel, res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: res.data,
-          life: 3000
-        });
+      this.http.post(
+        'doctors/updatebyid',
+        this.doctorRequestModel,
+        res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.toastSuccessSummary,
+            detail: res.data,
+            life: 3000
+          });
 
-        this.doctorRequestModel = new UpdateDoctorByIdCommandModel();
-      });
+          this.doctorRequestModel = new UpdateDoctorByIdCommandModel();
+        },
+        err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
+        }
+      );
     }
   }
 

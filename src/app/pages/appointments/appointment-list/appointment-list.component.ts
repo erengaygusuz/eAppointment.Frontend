@@ -72,6 +72,9 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
+  toastErrorSummary: string = '';
+  toastSuccessSummary: string = '';
+
   constructor(
     private http: HttpService,
     private tokenService: TokenService,
@@ -135,7 +138,8 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
 
         this.getTranslationData(
           'Pages.Appointments',
-          'Enums.AppointmentStatus'
+          'Enums.AppointmentStatus',
+          'Components.Toast'
         );
 
         this.formValidator.getTranslationData(this.translate);
@@ -157,6 +161,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
           label: data['Pages.Appointments'].BreadcrumbItems[index].Name
         };
       });
+
       this.pageTitle = data['Pages.Appointments'].Title;
 
       this.columns = this.columns?.map((element, index) => {
@@ -179,6 +184,9 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
             ]
         };
       });
+
+      this.toastErrorSummary = data['Components.Toast'].Error.Summary;
+      this.toastSuccessSummary = data['Components.Toast'].Success.Summary;
     });
   }
 
@@ -245,7 +253,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
         res => {
           this.messageService.add({
             severity: 'success',
-            summary: 'Successful',
+            summary: this.toastSuccessSummary,
             detail: res.data,
             life: 3000
           });
@@ -257,6 +265,18 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
           this.validationControl = {};
 
           this.getAllAppointmentsByDoctorId();
+        },
+        err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
         }
       );
     }

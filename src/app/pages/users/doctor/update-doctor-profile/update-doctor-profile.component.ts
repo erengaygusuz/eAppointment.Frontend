@@ -96,6 +96,9 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
   notCorrectSizeSummaryMessage: string = '';
   notCorrectSizeDetailMessage: string = '';
 
+  toastErrorSummary: string = '';
+  toastSuccessSummary: string = '';
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -126,7 +129,8 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
 
         this.getTranslationData(
           'Pages.UpdateDoctorProfile',
-          'Pages.UpdateDoctorProfile.Form.Controls.ProfilePhoto.ValidationMessages'
+          'Pages.UpdateDoctorProfile.Form.Controls.ProfilePhoto.ValidationMessages',
+          'Components.Toast'
         );
 
         this.formValidator.getTranslationData(this.translate);
@@ -140,7 +144,7 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key1: string, key2: string) {
+  getTranslationData(key1: string, key2: string, key3: string) {
     this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };
@@ -153,6 +157,11 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
       this.notCorrectSizeDetailMessage = data.NotCorrectSize.Detail;
       this.notCorrectTypeSummaryMessage = data.NotCorrectType.Summary;
       this.notCorrectTypeDetailMessage = data.NotCorrectType.Detail;
+    });
+
+    this.translate.get(key3).subscribe(data => {
+      this.toastErrorSummary = data.Error.Summary;
+      this.toastSuccessSummary = data.Success.Summary;
     });
   }
 
@@ -218,20 +227,36 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.doctorValidationControl).length > 0)) {
-      this.http.post('doctors/updateprofilebyid', formData, res => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: res.data,
-          life: 3000
-        });
+      this.http.post(
+        'doctors/updateprofilebyid',
+        formData,
+        res => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.toastSuccessSummary,
+            detail: res.data,
+            life: 3000
+          });
 
-        this.getDoctorProfileById(this.doctorRequestModel.id);
+          this.getDoctorProfileById(this.doctorRequestModel.id);
 
-        this.clearSelectedFile();
+          this.clearSelectedFile();
 
-        this.doctorRequestModel = new UpdateDoctorProfileByIdCommandModel();
-      });
+          this.doctorRequestModel = new UpdateDoctorProfileByIdCommandModel();
+        },
+        err => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
+        }
+      );
     }
   }
 
