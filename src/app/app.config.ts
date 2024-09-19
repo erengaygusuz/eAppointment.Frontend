@@ -27,6 +27,7 @@ import {
 } from '@ng-icons/bootstrap-icons';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
+import { EncryptionDecryptionInterceptor } from './interceptors/encryption.decryption.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -35,7 +36,13 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor, SpinnerInterceptor])),
+    provideHttpClient(
+      withInterceptors([
+        AuthInterceptor,
+        SpinnerInterceptor,
+        EncryptionDecryptionInterceptor
+      ])
+    ),
     provideAnimations(),
     provideStore(),
     MessageService,
