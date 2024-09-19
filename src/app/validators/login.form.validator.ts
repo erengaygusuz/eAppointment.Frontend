@@ -14,23 +14,21 @@ export class LoginFormValidator extends Validator<LoginValidationModel> {
   }
 
   generateRules(data: any) {
-    this.ruleFor('userNameOrEmail')
+    this.ruleFor('userName')
       .notEmpty()
-      .withMessage(data.UsernameOrEmail.ValidationMessages.NotEmpty)
+      .withMessage(data.Username.ValidationMessages.NotEmpty)
       .minLength(3)
-      .withMessage(data.UsernameOrEmail.ValidationMessages.MinLength)
+      .withMessage(data.Username.ValidationMessages.MinLength)
       .maxLength(100)
-      .withMessage(data.UsernameOrEmail.ValidationMessages.MaxLength)
+      .withMessage(data.Username.ValidationMessages.MaxLength)
       .matches(new RegExp('^((?![ ]).)*$'))
-      .withMessage(data.UsernameOrEmail.ValidationMessages.NotUseSpaces)
+      .withMessage(data.Username.ValidationMessages.NotUseSpaces)
       .matches(new RegExp('^((?![ğĞçÇşŞüÜöÖıİ]).)*$'))
-      .withMessage(
-        data.UsernameOrEmail.ValidationMessages.NotUseTurkishCharacters
-      )
+      .withMessage(data.Username.ValidationMessages.NotUseTurkishCharacters)
       .matches(new RegExp('^((?![A-Z]).)*$'))
-      .withMessage(data.UsernameOrEmail.ValidationMessages.NotUseUpperLetters)
+      .withMessage(data.Username.ValidationMessages.NotUseUpperLetters)
       .matches(new RegExp('^((?![0-9]).)*$'))
-      .withMessage(data.UsernameOrEmail.ValidationMessages.NotUseNumbers);
+      .withMessage(data.Username.ValidationMessages.NotUseNumbers);
 
     this.ruleFor('password')
       .notEmpty()

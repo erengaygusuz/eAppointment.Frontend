@@ -15,7 +15,10 @@
       {
         "Name": "İngilizce (US)"
       }
-    ]
+    ],
+    "LogoutButton": {
+      "Label": "Çıkış Yap"
+    }
   },
   "Sidebar": {
     "MenuItems": [
@@ -70,7 +73,7 @@
       "Info": "Lütfen giriş yapmak için aşağıdaki bilgileri doldurunuz",
       "Form": {
         "Controls": {
-          "UsernameOrEmail": {
+          "Username": {
             "Label": "Kullanıcı Adı",
             "ValidationMessages": {
               "NotEmpty": "Lütfen kullanıcı adı alanını boş bırakmayınız",

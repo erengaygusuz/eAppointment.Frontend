@@ -104,7 +104,7 @@ export class AppTopBarComponent implements OnInit {
   }
 
   signOut() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('auth_token');
     this.router.navigateByUrl('/login');
   }
 

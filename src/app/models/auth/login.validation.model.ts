@@ -1,4 +1,4 @@
 export class LoginValidationModel {
-  userNameOrEmail: string = '';
+  userName: string = '';
   password: string = '';
 }

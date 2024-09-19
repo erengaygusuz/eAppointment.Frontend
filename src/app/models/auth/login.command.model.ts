@@ -1,4 +1,4 @@
 export class LoginCommandModel {
-  userNameOrEmail: string = '';
+  userName: string = '';
   password: string = '';
 }

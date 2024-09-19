@@ -15,7 +15,10 @@
       {
         "Name": "English (US)"
       }
-    ]
+    ],
+    "LogoutButton": {
+      "Label": "Logout"
+    }
   },
   "Sidebar": {
     "MenuItems": [
@@ -70,7 +73,7 @@
       "Info": "Please fill the information below to login",
       "Form": {
         "Controls": {
-          "UsernameOrEmail": {
+          "Username": {
             "Label": "Username",
             "ValidationMessages": {
               "NotEmpty": "Please fill the username",

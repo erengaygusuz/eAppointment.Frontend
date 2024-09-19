@@ -16,8 +16,8 @@ export class LoginMappingProfile extends Profile {
     this.createMap(
       LoginMappingProfile.LoginValidationModelToLoginCommandModel,
       {
-        userNameOrEmail: opt => {
-          opt.mapFrom(src => src.userNameOrEmail);
+        userName: opt => {
+          opt.mapFrom(src => src.userName);
         },
         password: opt => {
           opt.mapFrom(src => src.password);

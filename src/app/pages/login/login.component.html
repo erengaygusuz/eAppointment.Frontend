@@ -23,21 +23,23 @@
                 for="email"
                 class="block text-900 text-xl font-medium mb-2"
                 >{{
-                  'Pages.Login.Form.Controls.UsernameOrEmail.Label' | translate
+                  'Pages.Login.Form.Controls.Username.Label' | translate
                 }}</label
               >
               <input
                 pInputText
                 type="text"
-                [(ngModel)]="loginFormModel.userNameOrEmail"
-                (ngModelChange)="checkForValidation('userNameOrEmail')"
+                [(ngModel)]="loginFormModel.userName"
+                (ngModelChange)="checkForValidation('userName')"
                 [ngModelOptions]="{ standalone: true }"
-                placeholder="Username or Email"
+                placeholder="{{
+                  'Pages.Login.Form.Controls.Username.Label' | translate
+                }}"
                 class="w-full md:w-30rem"
                 style="padding: 1rem" />
-              <div *ngIf="loginValidationControl?.userNameOrEmail">
+              <div *ngIf="loginValidationControl?.userName">
                 <small class="p-error">{{
-                  loginValidationControl?.userNameOrEmail
+                  loginValidationControl?.userName
                 }}</small>
               </div>
             </div>
@@ -53,7 +55,9 @@
                 [(ngModel)]="loginFormModel.password"
                 (ngModelChange)="checkForValidation('password')"
                 [ngModelOptions]="{ standalone: true }"
-                placeholder="Password"
+                placeholder="{{
+                  'Pages.Login.Form.Controls.Password.Label' | translate
+                }}"
                 [toggleMask]="true"
                 styleClass="w-full"
                 inputStyleClass="w-full p-3"
