@@ -3,78 +3,103 @@
   class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
   <div class="flex flex-column align-items-center justify-content-center">
     <div>
-      <div
-        class="w-full surface-card py-8 px-5 sm:px-8 border-round border-1 border-200">
-        <div class="text-center mb-5">
-          <div class="text-900 text-5xl font-semibold mb-3">
-            {{ 'Pages.Login.Title' | translate }}
-          </div>
-          <div class="text-900 text-3xl font-medium mb-3">
-            {{ 'Pages.Login.SubTitle' | translate }}
-          </div>
-          <span class="text-600 font-medium">{{
-            'Pages.Login.Info' | translate
-          }}</span>
+      <div class="w-full surface-card border-round border-1 border-200">
+        <div class="flex justify-content-end flex-wrap py-4 px-4">
+          <p-dropdown
+            class="p-link"
+            [options]="countries"
+            [(ngModel)]="selectedCountry"
+            optionLabel="name"
+            [ngModelOptions]="{ standalone: true }"
+            (onChange)="onLanguageChange(selectedCountry.languageCode)">
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2">
+                <span
+                  [class]="
+                    'fi fi-' + selectedCountry.code.toLowerCase()
+                  "></span>
+              </div>
+            </ng-template>
+            <ng-template let-country pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <span [class]="'fi fi-' + country.code.toLowerCase()"></span>
+                <div>{{ country.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
         </div>
-        <div>
-          <form (ngSubmit)="onSubmit()" autocomplete="off">
-            <div class="mb-5">
-              <label
-                for="email"
-                class="block text-900 text-xl font-medium mb-2"
-                >{{
-                  'Pages.Login.Form.Controls.Username.Label' | translate
-                }}</label
-              >
-              <input
-                pInputText
-                type="text"
-                [(ngModel)]="loginFormModel.userName"
-                (ngModelChange)="checkForValidation('userName')"
-                [ngModelOptions]="{ standalone: true }"
-                placeholder="{{
-                  'Pages.Login.Form.Controls.Username.Label' | translate
-                }}"
-                class="w-full md:w-30rem"
-                style="padding: 1rem" />
-              <div *ngIf="loginValidationControl?.userName">
-                <small class="p-error">{{
-                  loginValidationControl?.userName
-                }}</small>
-              </div>
+        <div class="py-8 px-5 sm:px-8">
+          <div class="text-center mb-5">
+            <div class="text-900 text-5xl font-semibold mb-3">
+              {{ 'Pages.Login.Title' | translate }}
             </div>
-            <div class="mb-5">
-              <label
-                for="password"
-                class="block text-900 font-medium text-xl mb-2"
-                >{{
-                  'Pages.Login.Form.Controls.Password.Label' | translate
-                }}</label
-              >
-              <p-password
-                [(ngModel)]="loginFormModel.password"
-                (ngModelChange)="checkForValidation('password')"
-                [ngModelOptions]="{ standalone: true }"
-                placeholder="{{
-                  'Pages.Login.Form.Controls.Password.Label' | translate
-                }}"
-                [toggleMask]="true"
-                styleClass="w-full"
-                inputStyleClass="w-full p-3"
-                [feedback]="false"></p-password>
-              <div *ngIf="loginValidationControl?.password">
-                <small class="p-error">{{
-                  loginValidationControl?.password
-                }}</small>
-              </div>
+            <div class="text-900 text-3xl font-medium mb-3">
+              {{ 'Pages.Login.SubTitle' | translate }}
             </div>
-            <button
-              type="submit"
-              pButton
-              pRipple
-              label="{{ 'Pages.Login.Form.Buttons.Submit' | translate }}"
-              class="w-full p-3 text-xl"></button>
-          </form>
+            <span class="text-600 font-medium">{{
+              'Pages.Login.Info' | translate
+            }}</span>
+          </div>
+          <div>
+            <form (ngSubmit)="onSubmit()" autocomplete="off">
+              <div class="mb-5">
+                <label
+                  for="email"
+                  class="block text-900 text-xl font-medium mb-2"
+                  >{{
+                    'Pages.Login.Form.Controls.Username.Label' | translate
+                  }}</label
+                >
+                <input
+                  pInputText
+                  type="text"
+                  [(ngModel)]="loginFormModel.userName"
+                  (ngModelChange)="checkForValidation('userName')"
+                  [ngModelOptions]="{ standalone: true }"
+                  placeholder="{{
+                    'Pages.Login.Form.Controls.Username.Label' | translate
+                  }}"
+                  class="w-full md:w-30rem"
+                  style="padding: 1rem" />
+                <div *ngIf="loginValidationControl?.userName">
+                  <small class="p-error">{{
+                    loginValidationControl?.userName
+                  }}</small>
+                </div>
+              </div>
+              <div class="mb-5">
+                <label
+                  for="password"
+                  class="block text-900 font-medium text-xl mb-2"
+                  >{{
+                    'Pages.Login.Form.Controls.Password.Label' | translate
+                  }}</label
+                >
+                <p-password
+                  [(ngModel)]="loginFormModel.password"
+                  (ngModelChange)="checkForValidation('password')"
+                  [ngModelOptions]="{ standalone: true }"
+                  placeholder="{{
+                    'Pages.Login.Form.Controls.Password.Label' | translate
+                  }}"
+                  [toggleMask]="true"
+                  styleClass="w-full"
+                  inputStyleClass="w-full p-3"
+                  [feedback]="false"></p-password>
+                <div *ngIf="loginValidationControl?.password">
+                  <small class="p-error">{{
+                    loginValidationControl?.password
+                  }}</small>
+                </div>
+              </div>
+              <button
+                type="submit"
+                pButton
+                pRipple
+                label="{{ 'Pages.Login.Form.Buttons.Submit' | translate }}"
+                class="w-full p-3 text-xl"></button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

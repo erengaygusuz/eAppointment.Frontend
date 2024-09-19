@@ -22,6 +22,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { TokenService } from '../../services/token.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +37,8 @@ import { MessageService } from 'primeng/api';
     IconFieldModule,
     InputIconModule,
     TranslateModule,
-    ToastModule
+    ToastModule,
+    DropdownModule
   ],
   templateUrl: './login.component.html',
   styles: [
@@ -66,6 +68,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   toastErrorSummary: string = '';
 
+  countries: any[] | undefined;
+
+  selectedCountry: any | undefined;
+
   constructor(
     private http: HttpService,
     private router: Router,
@@ -75,7 +81,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private languageService: LanguageService,
     private tokenService: TokenService,
     private messageService: MessageService
-  ) {}
+  ) {
+    this.countries = [
+      { name: '', code: 'TR', languageCode: 'tr-TR' },
+      { name: '', code: 'GB', languageCode: 'en-GB' },
+      { name: '', code: 'US', languageCode: 'en-US' }
+    ];
+  }
 
   ngOnInit(): void {
     this.languageService
@@ -86,7 +98,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Components.Toast.Error.Summary');
+        this.getTranslationData(
+          'Components.Toast.Error.Summary',
+          'Topbar.LanguageOptions'
+        );
 
         this.formValidator.getTranslationData(this.translate);
 
@@ -99,9 +114,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.toastErrorSummary = data;
+    });
+
+    this.translate.get(key2).subscribe(data => {
+      this.countries = this.countries?.map((element, index) => {
+        return { ...element, name: data[index].Name };
+      });
+
+      this.selectedCountry = this.countries!.filter(
+        x => x.languageCode == this.selectedLanguage
+      )[0];
+
+      this.translate.use(this.selectedCountry.languageCode);
     });
   }
 
@@ -157,5 +184,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
 
     this.loginValidationControl = convertedValidationResult;
+  }
+
+  onLanguageChange(language: string) {
+    this.translate.use(language);
+
+    localStorage.setItem('language', language);
+
+    this.selectedCountry = this.countries!.filter(
+      x => x.languageCode == language
+    )[0];
+
+    this.languageService.setLanguage(language);
   }
 }
