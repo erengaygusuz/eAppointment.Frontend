@@ -35,5 +35,5 @@ export const enum PERMISSIONS {
   CREATE_APPOINTMENT = 'Permissions.Appointments.CreateAppointment',
   CANCEL_APPOINTMENT_BY_ID = 'Permissions.Appointments.CancelAppointmentById',
   GET_ALL_APPOINTMENTS_BY_PATIENT_ID = 'Permissions.Appointments.GetAllAppointmentsByPatientId',
-  UPDATE_APPOINTMENT_BY_ID = 'Permissions.Appointments.UpdateAppointmentById',
+  UPDATE_APPOINTMENT_BY_ID = 'Permissions.Appointments.UpdateAppointmentById'
 }

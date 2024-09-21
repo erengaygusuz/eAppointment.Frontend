@@ -42,6 +42,12 @@ export class TokenService {
     return decodedToken ? this.parseStringArray(decodedToken.Permissions) : [];
   }
 
+  getMenuItems(): string[] {
+    const decodedToken = this.getDecodedToken();
+
+    return decodedToken ? this.parseStringArray(decodedToken.MenuItems) : [];
+  }
+
   getUserId(): number {
     const decodedToken = this.getDecodedToken();
     const userId = decodedToken
