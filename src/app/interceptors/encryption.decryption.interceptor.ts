@@ -16,9 +16,15 @@ export const EncryptionDecryptionInterceptor: HttpInterceptorFn = (
 ) => {
   const encryptionDecryptionService = inject(EncryptionDecryptionService);
 
-  const includedRequestURLList = ['/api/users/getall'];
+  const includedRequestURLList = [
+    '/api/users/getall',
+    '/api/roles/getmenuitems'
+  ];
 
-  const includedResponseURLList = ['/api/users/getall'];
+  const includedResponseURLList = [
+    '/api/users/getall',
+    '/api/roles/getmenuitems'
+  ];
 
   const includedRequestFound = includedRequestURLList.filter(element => {
     return req.url.includes(element);
