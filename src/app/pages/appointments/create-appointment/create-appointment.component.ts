@@ -170,7 +170,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
         center: 'title',
         right: 'timeGridWeek,timeGridDay'
       },
-      events: [],
       locales: [trLocale, enGbLocale],
       locale: this.selectedLanguage.split('-')[0]
     };
@@ -182,6 +181,12 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
       {},
       res => {
         this.departments = res.data;
+
+        if (this.selectedDepartment.id > 0) {
+          this.selectedDepartment = this.departments.filter(
+            x => x.id == this.selectedDepartment.id
+          )[0];
+        }
       }
     );
   }
