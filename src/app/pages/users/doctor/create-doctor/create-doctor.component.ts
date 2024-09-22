@@ -81,8 +81,6 @@ export class CreateDoctorComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    this.getAllDepartments();
-
     this.formValidator.getTranslationData(this.translate);
 
     this.languageService
@@ -98,6 +96,8 @@ export class CreateDoctorComponent implements OnInit, OnDestroy {
         this.formValidator.getTranslationData(this.translate);
 
         this.doctorValidationControl = {};
+
+        this.getAllDepartments();
       });
   }
 

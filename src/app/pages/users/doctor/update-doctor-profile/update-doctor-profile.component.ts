@@ -136,6 +136,8 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
         this.formValidator.getTranslationData(this.translate);
 
         this.doctorValidationControl = {};
+
+        this.getAllDepartments();
       });
   }
 
@@ -198,8 +200,6 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
         );
 
         this.uploadedPhoto = `data:${this.doctor.profilePhotoContentType};base64,${this.doctor.profilePhotoBase64Content}`;
-
-        this.getAllDepartments();
       }
     );
   }

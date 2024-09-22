@@ -115,8 +115,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
       this.updateCalendarSize();
     });
 
-    this.getAllDepartments();
-
     this.languageService
       .getLanguage()
       .pipe(takeUntil(this.unsubscribe))
@@ -126,6 +124,8 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
         this.translate.use(this.selectedLanguage);
 
         this.getTranslationData('Pages.CreateAppointment', 'Components.Toast');
+
+        this.getAllDepartments();
       });
   }
 

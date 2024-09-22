@@ -64,8 +64,6 @@ export class MyAppointmentsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.home = { icon: 'pi fa-solid fa-house', routerLink: '/' };
 
-    this.getAllApointmentsByPatientId();
-
     this.columns = [
       { field: 'departmentName', header: '', isSeverity: false },
       { field: 'doctorName', header: '', isSeverity: false },
@@ -86,6 +84,8 @@ export class MyAppointmentsComponent implements OnInit, OnDestroy {
           'Pages.MyAppointments',
           'Enums.AppointmentStatus'
         );
+
+        this.getAllApointmentsByPatientId();
       });
   }
 

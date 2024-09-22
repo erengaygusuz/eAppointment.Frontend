@@ -107,6 +107,8 @@ export class UpdateDoctorComponent implements OnInit, OnDestroy {
         this.formValidator.getTranslationData(this.translate);
 
         this.doctorValidationControl = {};
+
+        this.getAllDepartments();
       });
   }
 
@@ -160,8 +162,6 @@ export class UpdateDoctorComponent implements OnInit, OnDestroy {
           DoctorMappingProfile.GetDoctorByIdQueryResponseModelToUpdateDoctorByIdValidationModel,
           this.doctor
         );
-
-        this.getAllDepartments();
       }
     );
   }
