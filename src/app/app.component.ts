@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { RouterOutlet } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './services/language.service';
 import { Subject, takeUntil } from 'rxjs';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ThemeService } from './services/theme.service';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgxSpinnerModule],
+  imports: [RouterOutlet, NgxSpinnerModule, ToastModule, TranslateModule],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {

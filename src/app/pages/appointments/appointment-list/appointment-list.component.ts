@@ -72,7 +72,6 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
-  toastErrorSummary: string = '';
   toastSuccessSummary: string = '';
 
   constructor(
@@ -185,7 +184,6 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
         };
       });
 
-      this.toastErrorSummary = data['Components.Toast'].Error.Summary;
       this.toastSuccessSummary = data['Components.Toast'].Success.Summary;
     });
   }
@@ -265,18 +263,6 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
           this.validationControl = {};
 
           this.getAllAppointmentsByDoctorId();
-        },
-        err => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
         }
       );
     }

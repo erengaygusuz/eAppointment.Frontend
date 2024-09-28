@@ -8,6 +8,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChartModule } from 'primeng/chart';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home',

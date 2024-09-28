@@ -63,7 +63,6 @@ export class UserListComponent implements OnInit {
 
   globalFilter: object = {};
 
-  toastErrorSummary: string = '';
   toastSuccessSummary: string = '';
 
   constructor(
@@ -150,7 +149,6 @@ export class UserListComponent implements OnInit {
     });
 
     this.translate.get(key2).subscribe(data => {
-      this.toastErrorSummary = data.Error.Summary;
       this.toastSuccessSummary = data.Success.Summary;
     });
   }
@@ -219,18 +217,6 @@ export class UserListComponent implements OnInit {
             });
 
             this.onGlobalFilter();
-          },
-          err => {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.toastErrorSummary,
-              detail:
-                err.error.errorMessages === undefined ||
-                err.error.errorMessages === null
-                  ? ''
-                  : err.error.errorMessages[0],
-              life: 3000
-            });
           }
         );
       }

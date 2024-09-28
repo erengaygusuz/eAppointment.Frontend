@@ -94,7 +94,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
   confirmationDialogMessage: string = '';
   confirmationDialogHeader: string = '';
 
-  toastErrorSummary: string = '';
   toastSuccessSummary: string = '';
 
   constructor(
@@ -149,7 +148,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
     });
 
     this.translate.get(key2).subscribe(data => {
-      this.toastErrorSummary = data.Error.Summary;
       this.toastSuccessSummary = data.Success.Summary;
     });
 
@@ -219,20 +217,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
         this.createAppointmentModel = new CreateAppointmentCommandModel();
 
         this.getAllAppointmentsByPatientId();
-      },
-      err => {
-        this.getAllAppointmentsByPatientId();
-
-        this.messageService.add({
-          severity: 'error',
-          summary: this.toastErrorSummary,
-          detail:
-            err.error.errorMessages === undefined ||
-            err.error.errorMessages === null
-              ? ''
-              : err.error.errorMessages[0],
-          life: 3000
-        });
       }
     );
   }
@@ -290,20 +274,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
           this.createAppointmentModel = new CreateAppointmentCommandModel();
 
           this.getAllAppointmentsByPatientId();
-        },
-        err => {
-          this.getAllAppointmentsByPatientId();
-
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
         }
       );
     }
@@ -331,20 +301,6 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
             });
 
             this.getAllAppointmentsByPatientId();
-          },
-          err => {
-            this.getAllAppointmentsByPatientId();
-
-            this.messageService.add({
-              severity: 'error',
-              summary: this.toastErrorSummary,
-              detail:
-                err.error.errorMessages === undefined ||
-                err.error.errorMessages === null
-                  ? ''
-                  : err.error.errorMessages[0],
-              life: 3000
-            });
           }
         );
       }

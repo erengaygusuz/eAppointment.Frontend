@@ -90,7 +90,6 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
   notCorrectSizeSummaryMessage: string = '';
   notCorrectSizeDetailMessage: string = '';
 
-  toastErrorSummary: string = '';
   toastSuccessSummary: string = '';
 
   constructor(
@@ -153,7 +152,6 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     });
 
     this.translate.get(key3).subscribe(data => {
-      this.toastErrorSummary = data.Error.Summary;
       this.toastSuccessSummary = data.Success.Summary;
     });
   }
@@ -206,36 +204,20 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.adminValidationControl).length > 0)) {
-      this.http.post(
-        'admins/updateprofilebyid',
-        formData,
-        res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.toastSuccessSummary,
-            detail: res.data,
-            life: 3000
-          });
+      this.http.post('admins/updateprofilebyid', formData, res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.toastSuccessSummary,
+          detail: res.data,
+          life: 3000
+        });
 
-          this.getAdminProfileById(this.adminRequestModel.id);
+        this.getAdminProfileById(this.adminRequestModel.id);
 
-          this.clearSelectedFile();
+        this.clearSelectedFile();
 
-          this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
-        },
-        err => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
-        }
-      );
+        this.adminRequestModel = new UpdateAdminProfileByIdCommandModel();
+      });
     }
   }
 

@@ -66,8 +66,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
-  toastErrorSummary: string = '';
-
   countries: any[] | undefined;
 
   selectedCountry: any | undefined;
@@ -79,8 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private readonly mapper: Mapper,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private tokenService: TokenService,
-    private messageService: MessageService
+    private tokenService: TokenService
   ) {
     if (tokenService.getToken() && !tokenService.isTokenExpired()) {
       router.navigate(['/']);
@@ -102,10 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData(
-          'Components.Toast.Error.Summary',
-          'Topbar.LanguageOptions'
-        );
+        this.getTranslationData('Topbar.LanguageOptions');
 
         this.formValidator.getTranslationData(this.translate);
 
@@ -118,12 +112,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  getTranslationData(key1: string, key2: string) {
-    this.translate.get(key1).subscribe(data => {
-      this.toastErrorSummary = data;
-    });
-
-    this.translate.get(key2).subscribe(data => {
+  getTranslationData(key: string) {
+    this.translate.get(key).subscribe(data => {
       this.countries = this.countries?.map((element, index) => {
         return { ...element, name: data[index].Name };
       });
@@ -161,18 +151,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.loginRequestModel = new LoginCommandModel();
           this.loginFormModel = new LoginValidationModel();
           this.loginValidationControl = {};
-        },
-        err => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
         }
       );
     }

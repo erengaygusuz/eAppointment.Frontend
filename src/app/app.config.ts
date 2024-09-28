@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, ErrorHandler, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {
@@ -28,6 +28,7 @@ import {
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
 import { EncryptionDecryptionInterceptor } from './interceptors/encryption.decryption.interceptor';
+import { GlobalErrorHandler } from './handlers/global.error.handler';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -70,6 +71,7 @@ export const appConfig: ApplicationConfig = {
       bootstrapFiletypePdf,
       bootstrapFiletypeXml
     }),
-    importProvidersFrom(NgxSpinnerModule.forRoot({ type: 'timer' }))
+    importProvidersFrom(NgxSpinnerModule.forRoot({ type: 'timer' })),
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ]
 };

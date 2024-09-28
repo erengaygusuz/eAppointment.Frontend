@@ -66,7 +66,6 @@ export class CreateDoctorComponent implements OnInit, OnDestroy {
 
   unsubscribe = new Subject<void>();
 
-  toastErrorSummary: string = '';
   toastSuccessSummary: string = '';
 
   constructor(
@@ -115,7 +114,6 @@ export class CreateDoctorComponent implements OnInit, OnDestroy {
     });
 
     this.translate.get(key2).subscribe(data => {
-      this.toastErrorSummary = data.Error.Summary;
       this.toastSuccessSummary = data.Success.Summary;
     });
   }
@@ -137,33 +135,17 @@ export class CreateDoctorComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.doctorValidationControl).length > 0)) {
-      this.http.post(
-        'doctors/create',
-        this.doctorRequestModel,
-        res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.toastSuccessSummary,
-            detail: res.data,
-            life: 3000
-          });
-          this.doctorRequestModel = new CreateDoctorCommandModel();
-          this.doctorFormModel = new CreateDoctorValidationModel();
-          this.doctorValidationControl = {};
-        },
-        err => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
-        }
-      );
+      this.http.post('doctors/create', this.doctorRequestModel, res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.toastSuccessSummary,
+          detail: res.data,
+          life: 3000
+        });
+        this.doctorRequestModel = new CreateDoctorCommandModel();
+        this.doctorFormModel = new CreateDoctorValidationModel();
+        this.doctorValidationControl = {};
+      });
     }
   }
 

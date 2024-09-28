@@ -10,7 +10,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { MenuItem, MessageService } from 'primeng/api';
 import { HttpService } from '../../../../services/http.service';
 import { AuthService } from '../../../../services/auth.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
 import { PatientMappingProfile } from '../../../../mapping/patient.mapping.profile';
 import { Mapper } from '@dynamic-mapper/angular';
@@ -102,13 +102,11 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
   notCorrectSizeSummaryMessage: string = '';
   notCorrectSizeDetailMessage: string = '';
 
-  toastErrorSummary: string = '';
   toastSuccessSummary: string = '';
 
   constructor(
     private http: HttpService,
     public auth: AuthService,
-    private route: ActivatedRoute,
     private messageService: MessageService,
     private readonly mapper: Mapper,
     private translate: TranslateService,
@@ -166,7 +164,6 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
     });
 
     this.translate.get(key3).subscribe(data => {
-      this.toastErrorSummary = data.Error.Summary;
       this.toastSuccessSummary = data.Success.Summary;
     });
   }
@@ -257,36 +254,20 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.patientValidationControl).length > 0)) {
-      this.http.post(
-        'patients/updateprofilebyid',
-        formData,
-        res => {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.toastSuccessSummary,
-            detail: res.data,
-            life: 3000
-          });
+      this.http.post('patients/updateprofilebyid', formData, res => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.toastSuccessSummary,
+          detail: res.data,
+          life: 3000
+        });
 
-          this.getPatientProfileById(this.patientRequestModel.id);
+        this.getPatientProfileById(this.patientRequestModel.id);
 
-          this.clearSelectedFile();
+        this.clearSelectedFile();
 
-          this.patientRequestModel = new UpdatePatientProfileByIdCommandModel();
-        },
-        err => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
-        }
-      );
+        this.patientRequestModel = new UpdatePatientProfileByIdCommandModel();
+      });
     }
   }
 
