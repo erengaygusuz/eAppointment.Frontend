@@ -983,6 +983,12 @@
           "Cancel": "İptal"
         }
       }
+    },
+    "Unauthorized": {
+      "Content": "Bu sayfayı görmeye yetkiniz bulunmamaktadır."
+    },
+    "NotFound": {
+      "Content": "Aradığınız sayfa bulunamadı."
     }
   },
   "Components": {

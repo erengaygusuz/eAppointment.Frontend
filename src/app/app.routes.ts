@@ -116,11 +116,12 @@ export const routes: Routes = [
         path: 'unauthorized',
         component: UnauthorizedComponent,
         canActivate: [PermissionGuard]
+      },
+      {
+        path: '**',
+        component: NotFoundComponent,
+        canActivate: [PermissionGuard]
       }
     ]
-  },
-  {
-    path: '**',
-    component: NotFoundComponent
   }
 ];

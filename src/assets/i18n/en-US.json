@@ -983,6 +983,12 @@
           "Cancel": "Cancel"
         }
       }
+    },
+    "Unauthorized": {
+      "Content": "You do not have permission to see this page."
+    },
+    "NotFound": {
+      "Content": "The page that you are looking for not found."
     }
   },
   "Components": {

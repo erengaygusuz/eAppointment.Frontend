@@ -82,6 +82,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     private tokenService: TokenService,
     private messageService: MessageService
   ) {
+    if (tokenService.getToken() && !tokenService.isTokenExpired()) {
+      router.navigate(['/']);
+    }
+
     this.countries = [
       { name: '', code: 'TR', languageCode: 'tr-TR' },
       { name: '', code: 'GB', languageCode: 'en-GB' },
