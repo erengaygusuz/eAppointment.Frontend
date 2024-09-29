@@ -126,9 +126,8 @@ export class UpdateAdminComponent implements OnInit, OnDestroy {
 
     getAdminByIdQueryModel.id = id;
 
-    this.http.post<GetAdminByIdQueryResponseModel>(
-      'admins/getbyid',
-      getAdminByIdQueryModel,
+    this.http.get<GetAdminByIdQueryResponseModel>(
+      'admins/getbyid?id=' + getAdminByIdQueryModel.id,
       res => {
         this.admin = new GetAdminByIdQueryResponseModel();
 
@@ -155,7 +154,7 @@ export class UpdateAdminComponent implements OnInit, OnDestroy {
     this.adminRequestModel.id = Number(id);
 
     if (!(Object.keys(this.adminValidationControl).length > 0)) {
-      this.http.post('admins/updatebyid', this.adminRequestModel, res => {
+      this.http.put('admins/updatebyid', this.adminRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: this.toastSuccessSummary,

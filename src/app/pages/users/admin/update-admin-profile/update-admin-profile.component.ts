@@ -161,9 +161,8 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
 
     getAdminProfileByIdQueryModel.id = id;
 
-    this.http.post<GetAdminProfileByIdQueryResponseModel>(
-      'admins/getprofilebyid',
-      getAdminProfileByIdQueryModel,
+    this.http.get<GetAdminProfileByIdQueryResponseModel>(
+      'admins/getprofilebyid?id=' + getAdminProfileByIdQueryModel.id,
       res => {
         this.admin = new GetAdminProfileByIdQueryResponseModel();
 
@@ -204,7 +203,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.adminValidationControl).length > 0)) {
-      this.http.post('admins/updateprofilebyid', formData, res => {
+      this.http.put('admins/updateprofilebyid', formData, res => {
         this.messageService.add({
           severity: 'success',
           summary: this.toastSuccessSummary,

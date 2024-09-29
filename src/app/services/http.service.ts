@@ -66,4 +66,56 @@ export class HttpService {
         }
       });
   }
+
+  put<T>(apiUrl: string, body: any, callback: (res: ResultModel<T>) => void) {
+    this.http
+      .put<ResultModel<T>>(`${environment.API_URL}/${apiUrl}`, body, {
+        headers: {
+          'Accept-Language': (localStorage.getItem('language') || '').toString()
+        }
+      })
+      .subscribe({
+        next: res => {
+          callback(res);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
+        }
+      });
+  }
+
+  get<T>(apiUrl: string, callback: (res: ResultModel<T>) => void) {
+    this.http
+      .get<ResultModel<T>>(`${environment.API_URL}/${apiUrl}`, {
+        headers: {
+          'Accept-Language': (localStorage.getItem('language') || '').toString()
+        }
+      })
+      .subscribe({
+        next: res => {
+          callback(res);
+        },
+        error: (err: HttpErrorResponse) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.toastErrorSummary,
+            detail:
+              err.error.errorMessages === undefined ||
+              err.error.errorMessages === null
+                ? ''
+                : err.error.errorMessages[0],
+            life: 3000
+          });
+        }
+      });
+  }
 }
