@@ -138,9 +138,8 @@ export class UpdatePatientComponent implements OnInit, OnDestroy {
 
     getPatientByIdQueryModel.id = id;
 
-    this.http.post<GetPatientByIdQueryResponseModel>(
-      'patients/getbyid',
-      getPatientByIdQueryModel,
+    this.http.get<GetPatientByIdQueryResponseModel>(
+      'patients/getbyid?id=' + getPatientByIdQueryModel.id,
       res => {
         this.patient = new GetPatientByIdQueryResponseModel();
 
@@ -157,19 +156,15 @@ export class UpdatePatientComponent implements OnInit, OnDestroy {
   }
 
   getAllCities() {
-    this.http.post<GetAllCitiesQueryResponseModel[]>(
-      'cities/getall',
-      {},
-      res => {
-        this.cities = res.data;
+    this.http.get<GetAllCitiesQueryResponseModel[]>('cities/getall', res => {
+      this.cities = res.data;
 
-        this.patientFormModel.city = this.cities.filter(
-          x => x.id == this.patient.cityId
-        )[0];
+      this.patientFormModel.city = this.cities.filter(
+        x => x.id == this.patient.cityId
+      )[0];
 
-        this.getAllCountiesByCityId(this.patientFormModel.city.id);
-      }
-    );
+      this.getAllCountiesByCityId(this.patientFormModel.city.id);
+    });
   }
 
   getAllCountiesByCityId(cityId: number) {
@@ -178,9 +173,9 @@ export class UpdatePatientComponent implements OnInit, OnDestroy {
 
     getAllCountiesByCityIdQuerymodel.cityId = cityId;
 
-    this.http.post<GetAllCountiesByCityIdQueryResponseModel[]>(
-      'counties/getall',
-      getAllCountiesByCityIdQuerymodel,
+    this.http.get<GetAllCountiesByCityIdQueryResponseModel[]>(
+      'counties/getallbycityid?cityId=' +
+        getAllCountiesByCityIdQuerymodel.cityId,
       res => {
         this.counties = res.data;
 
@@ -204,7 +199,7 @@ export class UpdatePatientComponent implements OnInit, OnDestroy {
     this.patientRequestModel.id = Number(id);
 
     if (!(Object.keys(this.patientValidationControl).length > 0)) {
-      this.http.post('patients/updatebyid', this.patientRequestModel, res => {
+      this.http.put('patients/updatebyid', this.patientRequestModel, res => {
         this.messageService.add({
           severity: 'success',
           summary: this.toastSuccessSummary,

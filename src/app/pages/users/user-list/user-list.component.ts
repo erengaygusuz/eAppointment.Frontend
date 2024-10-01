@@ -205,7 +205,7 @@ export class UserListComponent implements OnInit {
     this.confirmationService.confirm({
       header: this.confirmationDialogHeader,
       accept: () => {
-        this.http.post<string>(
+        this.http.put<string>(
           'users/deletebyid',
           deleteUserRequestBody,
           res => {

@@ -162,7 +162,7 @@ export class UpdateAdminProfileComponent implements OnInit, OnDestroy {
     getAdminProfileByIdQueryModel.id = id;
 
     this.http.get<GetAdminProfileByIdQueryResponseModel>(
-      'admins/getprofilebyid?id=' + getAdminProfileByIdQueryModel.id,
+      'admins/getprofilebyid/' + getAdminProfileByIdQueryModel.id,
       res => {
         this.admin = new GetAdminProfileByIdQueryResponseModel();
 

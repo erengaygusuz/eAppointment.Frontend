@@ -165,9 +165,8 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
   }
 
   getAllDepartments() {
-    this.http.post<GetAllDepartmentsQueryResponseModel[]>(
+    this.http.get<GetAllDepartmentsQueryResponseModel[]>(
       'departments/getall',
-      {},
       res => {
         this.departments = res.data;
 
@@ -183,9 +182,8 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
 
     getDoctorProfileByIdQueryModel.id = id;
 
-    this.http.post<GetDoctorProfileByIdQueryResponseModel>(
-      'doctors/getprofilebyid',
-      getDoctorProfileByIdQueryModel,
+    this.http.get<GetDoctorProfileByIdQueryResponseModel>(
+      'doctors/getprofilebyid/' + getDoctorProfileByIdQueryModel.id,
       res => {
         this.doctor = new GetDoctorProfileByIdQueryResponseModel();
 
@@ -224,7 +222,7 @@ export class UpdateDoctorProfileComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.doctorValidationControl).length > 0)) {
-      this.http.post('doctors/updateprofilebyid', formData, res => {
+      this.http.put('doctors/updateprofilebyid', formData, res => {
         this.messageService.add({
           severity: 'success',
           summary: this.toastSuccessSummary,

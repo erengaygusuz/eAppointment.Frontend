@@ -174,9 +174,8 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
 
     getPatientProfileByIdQueryModel.id = id;
 
-    this.http.post<GetPatientProfileByIdQueryResponseModel>(
-      'patients/getprofilebyid',
-      getPatientProfileByIdQueryModel,
+    this.http.get<GetPatientProfileByIdQueryResponseModel>(
+      'patients/getprofilebyid/' + getPatientProfileByIdQueryModel.id,
       res => {
         this.patient = new GetPatientProfileByIdQueryResponseModel();
 
@@ -195,19 +194,15 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
   }
 
   getAllCities() {
-    this.http.post<GetAllCitiesQueryResponseModel[]>(
-      'cities/getall',
-      {},
-      res => {
-        this.cities = res.data;
+    this.http.get<GetAllCitiesQueryResponseModel[]>('cities/getall', res => {
+      this.cities = res.data;
 
-        this.patientFormModel.city = this.cities.filter(
-          x => x.id == this.patient.cityId
-        )[0];
+      this.patientFormModel.city = this.cities.filter(
+        x => x.id == this.patient.cityId
+      )[0];
 
-        this.getAllCountiesByCityId(this.patientFormModel.city.id);
-      }
-    );
+      this.getAllCountiesByCityId(this.patientFormModel.city.id);
+    });
   }
 
   getAllCountiesByCityId(cityId: number) {
@@ -216,9 +211,9 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
 
     getAllCountiesByCityIdQuerymodel.cityId = cityId;
 
-    this.http.post<GetAllCountiesByCityIdQueryResponseModel[]>(
-      'counties/getall',
-      getAllCountiesByCityIdQuerymodel,
+    this.http.get<GetAllCountiesByCityIdQueryResponseModel[]>(
+      'counties/getallbycityid?cityId=' +
+        getAllCountiesByCityIdQuerymodel.cityId,
       res => {
         this.counties = res.data;
 
@@ -254,7 +249,7 @@ export class UpdatePatientProfileComponent implements OnInit, OnDestroy {
     );
 
     if (!(Object.keys(this.patientValidationControl).length > 0)) {
-      this.http.post('patients/updateprofilebyid', formData, res => {
+      this.http.put('patients/updateprofilebyid', formData, res => {
         this.messageService.add({
           severity: 'success',
           summary: this.toastSuccessSummary,

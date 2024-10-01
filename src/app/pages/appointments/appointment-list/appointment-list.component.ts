@@ -198,9 +198,9 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
       AppointmentStatus.NotCompleted.getConvertedValue();
     getAllAppointmentsByDoctorIdAndByStatusQueryModel.doctorId = doctorId;
 
-    this.http.post<GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel[]>(
-      'appointments/getallbydoctorid',
-      getAllAppointmentsByDoctorIdAndByStatusQueryModel,
+    this.http.get<GetAllAppointmentsByDoctorIdAndByStatusQueryResponseModel[]>(
+      'appointments/getallbydoctorid?doctorId=' +
+        getAllAppointmentsByDoctorIdAndByStatusQueryModel.doctorId,
       res => {
         this.appointments = [];
 
@@ -245,7 +245,7 @@ export class AppointmentListComponent implements OnInit, OnDestroy {
       this.updateAppointmentFormModel.status.getConvertedValue();
 
     if (!(Object.keys(this.validationControl).length > 0)) {
-      this.http.post(
+      this.http.put(
         'appointments/updatestatusbyid',
         this.updateAppointmentRequestModel,
         res => {

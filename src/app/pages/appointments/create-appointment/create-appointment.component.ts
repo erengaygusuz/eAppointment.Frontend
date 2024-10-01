@@ -174,9 +174,8 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
   }
 
   getAllDepartments() {
-    this.http.post<GetAllDepartmentsQueryResponseModel[]>(
+    this.http.get<GetAllDepartmentsQueryResponseModel[]>(
       'departments/getall',
-      {},
       res => {
         this.departments = res.data;
 
@@ -203,7 +202,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
       this.date.transform(arg.event.endStr, 'dd.MM.yyyy HH:mm') ?? '';
     this.updateAppointmentRequestModel.status = 4;
 
-    this.http.post(
+    this.http.put(
       'appointments/updatebyid',
       this.updateAppointmentRequestModel,
       res => {
@@ -289,7 +288,7 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
       message: this.confirmationDialogMessage,
       header: this.confirmationDialogHeader,
       accept: () => {
-        this.http.post<string>(
+        this.http.put<string>(
           'appointments/cancelbyid',
           cancelAppointmentByIdCommandModel,
           res => {
@@ -318,9 +317,9 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
     getAllDoctorsByDepartmentIdQueryModel.departmentId = departmentId;
 
     if (departmentId != 0) {
-      this.http.post(
-        'doctors/getallbydepartmentid',
-        getAllDoctorsByDepartmentIdQueryModel,
+      this.http.get(
+        'doctors/getallbydepartmentid?departmentId=' +
+          getAllDoctorsByDepartmentIdQueryModel.departmentId,
         res => {
           this.doctors = res.data;
         }
@@ -338,11 +337,13 @@ export class CreateAppointmentComponent implements OnInit, OnDestroy {
     getAllAppointmentsByPatientIdAndByStatusQueryModel.status = 4;
 
     if (patientId != 0) {
-      this.http.post<
+      this.http.get<
         GetAllAppointmentsByPatientIdAndByStatusQueryResponseModel[]
       >(
-        'appointments/getallbypatientidandbystatus',
-        getAllAppointmentsByPatientIdAndByStatusQueryModel,
+        'appointments/getallbypatientidandbystatus?patientId=' +
+          getAllAppointmentsByPatientIdAndByStatusQueryModel.patientId +
+          '&status=' +
+          getAllAppointmentsByPatientIdAndByStatusQueryModel.status,
         res => {
           this.appointments = res.data;
 

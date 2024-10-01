@@ -51,9 +51,8 @@ export class AppMenuComponent {
 
     getMenuItemsQueryModel.roleName = roleName;
 
-    this.http.post<GetMenuItemsQueryResponseModel>(
-      'roles/getmenuitems',
-      getMenuItemsQueryModel,
+    this.http.get<GetMenuItemsQueryResponseModel>(
+      'roles/getmenuitems?roleName=' + getMenuItemsQueryModel.roleName,
       res => {
         this.menuItems[0].items = res.data.items;
       }

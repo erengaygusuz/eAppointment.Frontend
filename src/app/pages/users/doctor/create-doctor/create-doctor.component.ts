@@ -119,9 +119,8 @@ export class CreateDoctorComponent implements OnInit, OnDestroy {
   }
 
   getAllDepartments() {
-    this.http.post<GetAllDepartmentsQueryResponseModel[]>(
+    this.http.get<GetAllDepartmentsQueryResponseModel[]>(
       'departments/getall',
-      {},
       res => {
         this.departments = res.data;
       }

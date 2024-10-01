@@ -75,19 +75,40 @@ export const EncryptionDecryptionInterceptor: HttpInterceptorFn = (
       return next(req);
     } else if (req.method == 'GET') {
       if (req.url.indexOf('?') > 0) {
-        const encriptURL =
+        const encryptURL =
           req.url.substr(0, req.url.indexOf('?') + 1) +
           encryptionDecryptionService.encryptUsingAES256(
             req.url.substr(req.url.indexOf('?') + 1, req.url.length)
           );
 
         const cloneReq = req.clone({
-          url: encriptURL,
+          url: encryptURL,
           setHeaders: {
             'Content-Type': 'application/json;text/plain',
             Accept: 'application/json;text/plain'
           }
         });
+
+        if (includedResponseFound && includedResponseFound.length > 0) {
+          return next(cloneReq).pipe(
+            map((event: any) => {
+              if (event instanceof HttpResponse) {
+                const decryptedBody =
+                  encryptionDecryptionService.decryptUsingAES256(
+                    event.body.data
+                  );
+
+                const modifiedResponse = event.clone({
+                  body: JSON.parse(decryptedBody)
+                });
+
+                return modifiedResponse;
+              }
+
+              return event;
+            })
+          );
+        }
 
         return next(cloneReq);
       }

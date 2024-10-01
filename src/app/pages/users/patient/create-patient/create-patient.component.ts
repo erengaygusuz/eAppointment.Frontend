@@ -126,13 +126,9 @@ export class CreatePatientComponent implements OnInit, OnDestroy {
   }
 
   getAllCities() {
-    this.http.post<GetAllCitiesQueryResponseModel[]>(
-      'cities/getall',
-      {},
-      res => {
-        this.cities = res.data;
-      }
-    );
+    this.http.get<GetAllCitiesQueryResponseModel[]>('cities/getall', res => {
+      this.cities = res.data;
+    });
   }
 
   getAllCountiesByCityId(cityId: number) {
@@ -141,9 +137,9 @@ export class CreatePatientComponent implements OnInit, OnDestroy {
 
     getAllCountiesByCityIdQuerymodel.cityId = cityId;
 
-    this.http.post<GetAllCountiesByCityIdQueryResponseModel[]>(
-      'counties/getall',
-      getAllCountiesByCityIdQuerymodel,
+    this.http.get<GetAllCountiesByCityIdQueryResponseModel[]>(
+      'counties/getallbycityid?cityId=' +
+        getAllCountiesByCityIdQuerymodel.cityId,
       res => {
         this.counties = res.data;
       }
