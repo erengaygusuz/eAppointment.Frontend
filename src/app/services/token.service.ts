@@ -77,11 +77,11 @@ export class TokenService {
   getRole(): string {
     const decodedToken = this.getDecodedToken();
     return decodedToken
-      ? this.parseStringArray(
+      ? JSON.parse(
           decodedToken[
             'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
           ]
-        )[0]
+        )
       : '';
   }
 

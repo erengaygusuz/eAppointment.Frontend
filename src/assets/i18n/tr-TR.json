@@ -1005,7 +1005,7 @@
           "Title": "Uyarı",
           "Message": "Lütfen bir çıktı alma seçeneği seçiniz"
         }
-      } 
+      }
     },
     "SimpleTable": {
       "SearchBarPlaceHolder": "Ara...",
@@ -1017,7 +1017,7 @@
       "Summary": "Toplamda {{totalItems}} kayıt listelenmektedir.",
       "PaginatorInfo": "Toplam {{totalItems}} kayıttan {{first}} ile {{last}} arası kayıt gösteriliyor"
     },
-    "Toast":{
+    "Toast": {
       "Warning": {
         "Summary": "Uyarı"
       },
@@ -1120,5 +1120,11 @@
       "Cancelled": "İptal Edildi",
       "NotCompleted": "Henüz Tamamlanmadı"
     }
+  },
+  "Roles": {
+    "SuperAdmin": "Üst Yönetici",
+    "Admin": "Yönetici",
+    "Doctor": "Doktor",
+    "Patient": "Hasta"
   }
 }

@@ -137,7 +137,8 @@ export class MyAppointmentsComponent implements OnInit, OnDestroy {
     getAllAppointmentsByPatientIdQueryModel.patientId = patientId;
 
     this.http.get<GetAllAppointmentsByPatientIdQueryResponseModel[]>(
-      'appointments/getallbypatientid?patientId=' + getAllAppointmentsByPatientIdQueryModel.patientId,
+      'appointments/getallbypatientid?patientId=' +
+        getAllAppointmentsByPatientIdQueryModel.patientId,
       res => {
         this.appointments = [];
 

@@ -1005,7 +1005,7 @@
           "Title": "Warning",
           "Message": "Please select an export option"
         }
-      } 
+      }
     },
     "SimpleTable": {
       "SearchBarPlaceHolder": "Search...",
@@ -1017,17 +1017,17 @@
       "Summary": "In total, {{totalItems}} records are listed.",
       "PaginatorInfo": "Showing {{first}} to {{last}} of {{totalItems}} entries"
     },
-    "Toast":{
-      "Warning":{
+    "Toast": {
+      "Warning": {
         "Summary": "Warning"
       },
-      "Error":{
+      "Error": {
         "Summary": "Error"
       },
       "Success": {
         "Summary": "Success"
       },
-      "Info":{
+      "Info": {
         "Summary": "Info"
       }
     },
@@ -1120,5 +1120,11 @@
       "Cancelled": "Cancelled",
       "NotCompleted": "Not Completed"
     }
+  },
+  "Roles": {
+    "SuperAdmin": "Super Admin",
+    "Admin": "Admin",
+    "Doctor": "Doctor",
+    "Patient": "Patient"
   }
 }

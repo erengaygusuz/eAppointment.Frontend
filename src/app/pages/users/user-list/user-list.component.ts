@@ -19,6 +19,8 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GetAllUsersQueryModel } from '../../../models/users/get.all.users.query.model';
 import { GetAllUsersQueryTableResponseModel } from '../../../models/users/get.all.users.query.table.response.model';
+import { Severity } from '../../../models/others/severity.model';
+import { Role } from '../../../enums/Role';
 
 @Component({
   selector: 'app-user-list',
@@ -65,6 +67,10 @@ export class UserListComponent implements OnInit {
 
   toastSuccessSummary: string = '';
 
+  severityList: Severity[] = [];
+
+  roleList = Role.values<Role>();
+
   constructor(
     private http: HttpService,
     public auth: AuthService,
@@ -102,7 +108,7 @@ export class UserListComponent implements OnInit {
         field: 'roleNames',
         sortField: '',
         header: '',
-        isSeverity: false,
+        isSeverity: true,
         isOperationColumn: false,
         isFilterableAndSortable: false
       },
@@ -122,14 +128,14 @@ export class UserListComponent implements OnInit {
       this.translate.use('tr-TR');
     }
 
-    this.getTranslationData('Pages.AllUsers', 'Components.Toast');
+    this.getTranslationData('Pages.AllUsers', 'Components.Toast', 'Roles');
 
     this.translate.onLangChange.subscribe(() => {
-      this.getTranslationData('Pages.AllUsers', 'Components.Toast');
+      this.getTranslationData('Pages.AllUsers', 'Components.Toast', 'Roles');
     });
   }
 
-  getTranslationData(key1: string, key2: string) {
+  getTranslationData(key1: string, key2: string, key3: string) {
     this.translate.get(key1).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };
@@ -150,6 +156,17 @@ export class UserListComponent implements OnInit {
 
     this.translate.get(key2).subscribe(data => {
       this.toastSuccessSummary = data.Success.Summary;
+    });
+
+    this.translate.get(key3).subscribe(data => {
+      this.severityList = this.roleList?.map((element, index) => {
+        return {
+          ...this.severityList,
+          value: this.roleList[index].value,
+          color: this.roleList[index].getColor(),
+          translatedText: data[this.roleList[index].value]
+        };
+      });
     });
   }
 

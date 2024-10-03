@@ -67,7 +67,9 @@
         <i class="pi fa-solid fa-user"></i>
         <span class="inline-flex flex-column">
           <span class="font-bold">{{ tokenService.getName() }}</span>
-          <span class="text-sm">{{ tokenService.getRole() }}</span>
+          <span class="text-sm">{{
+            'Roles.' + tokenService.getRole() | translate
+          }}</span>
         </span>
       </button>
       <button class="p-link layout-topbar-button" (click)="signOut()">
