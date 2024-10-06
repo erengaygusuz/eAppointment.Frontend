@@ -707,6 +707,8 @@ export class HomeComponent implements OnInit {
   }
 
   getTranslationData(key: string) {
+    throw new Error('Valid token not returned');
+
     this.translate.get(key).subscribe(data => {
       this.items = this.items?.map((element, index) => {
         return { ...element, label: data.BreadcrumbItems[index].Name };

@@ -1126,5 +1126,8 @@
     "Admin": "Yönetici",
     "Doctor": "Doktor",
     "Patient": "Hasta"
+  },
+  "Error": {
+    "Message": "Beklenmedik bir hata meydana geldi"
   }
 }
