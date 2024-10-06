@@ -13,6 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class HttpService {
   toastErrorSummary: string = '';
 
+  generalErrorMessage: string = '';
+
   selectedLanguage: string = '';
 
   unsubscribe = new Subject<void>();
@@ -31,13 +33,17 @@ export class HttpService {
 
         this.translate.use(this.selectedLanguage);
 
-        this.getTranslationData('Components.Toast');
+        this.getTranslationData('Components.Toast', 'Error.Message');
       });
   }
 
-  getTranslationData(key: string) {
-    this.translate.get(key).subscribe(data => {
+  getTranslationData(key1: string, key2: string) {
+    this.translate.get(key1).subscribe(data => {
       this.toastErrorSummary = data.Error.Summary;
+    });
+
+    this.translate.get(key2).subscribe(data => {
+      this.generalErrorMessage = data;
     });
   }
 
@@ -53,16 +59,25 @@ export class HttpService {
           callback(res);
         },
         error: (err: HttpErrorResponse) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
+          if (err.status == 0) {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail: this.generalErrorMessage,
+              life: 3000
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail:
+                err.error.errorMessages === undefined ||
+                err.error.errorMessages === null
+                  ? ''
+                  : err.error.errorMessages[0],
+              life: 3000
+            });
+          }
         }
       });
   }
@@ -79,16 +94,25 @@ export class HttpService {
           callback(res);
         },
         error: (err: HttpErrorResponse) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
+          if (err.status == 0) {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail: this.generalErrorMessage,
+              life: 3000
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail:
+                err.error.errorMessages === undefined ||
+                err.error.errorMessages === null
+                  ? ''
+                  : err.error.errorMessages[0],
+              life: 3000
+            });
+          }
         }
       });
   }
@@ -105,16 +129,25 @@ export class HttpService {
           callback(res);
         },
         error: (err: HttpErrorResponse) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.toastErrorSummary,
-            detail:
-              err.error.errorMessages === undefined ||
-              err.error.errorMessages === null
-                ? ''
-                : err.error.errorMessages[0],
-            life: 3000
-          });
+          if (err.status == 0) {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail: this.generalErrorMessage,
+              life: 3000
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.toastErrorSummary,
+              detail:
+                err.error.errorMessages === undefined ||
+                err.error.errorMessages === null
+                  ? ''
+                  : err.error.errorMessages[0],
+              life: 3000
+            });
+          }
         }
       });
   }
