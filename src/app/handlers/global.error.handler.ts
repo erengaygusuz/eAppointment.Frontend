@@ -40,7 +40,6 @@ export class GlobalErrorHandler implements ErrorHandler, OnDestroy {
 
   getTranslationData(...keys: string[]) {
     this.translate.get(keys).subscribe(data => {
-      console.log(data);
       this.messageService.add({
         severity: 'error',
         summary: data['Components.Toast.Error.Summary'],
