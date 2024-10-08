@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from '../../services/app.layout.service';
 import { TopBarService } from '../../services/topbar.service';
@@ -25,7 +25,7 @@ import { ButtonModule } from 'primeng/button';
   ],
   templateUrl: './app.topbar.component.html'
 })
-export class AppTopBarComponent implements OnInit {
+export class AppTopBarComponent implements OnInit, OnDestroy {
   items!: MenuItem[];
 
   @ViewChild('menubutton') menuButton!: ElementRef;
@@ -71,6 +71,11 @@ export class AppTopBarComponent implements OnInit {
 
         this.getTranslationData('Topbar.LanguageOptions');
       });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getTranslationData(key: string) {

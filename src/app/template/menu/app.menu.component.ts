@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LayoutService } from '../../services/app.layout.service';
 import { CommonModule } from '@angular/common';
 import { AppMenuitemComponent } from '../menu-item/app.menuitem.component';
@@ -15,7 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
   imports: [CommonModule, AppMenuitemComponent],
   templateUrl: './app.menu.component.html'
 })
-export class AppMenuComponent {
+export class AppMenuComponent implements OnInit, OnDestroy {
   menuItems: any;
 
   selectedLanguage: string = '';
@@ -33,7 +33,9 @@ export class AppMenuComponent {
         items: []
       }
     ];
+  }
 
+  ngOnInit(): void {
     this.languageService
       .getLanguage()
       .pipe(takeUntil(this.unsubscribe))
@@ -42,6 +44,11 @@ export class AppMenuComponent {
 
         this.getMenuItems();
       });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getMenuItems() {
