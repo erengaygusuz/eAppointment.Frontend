@@ -5,9 +5,9 @@
       <form (ngSubmit)="onSubmit()" autocomplete="off">
         <div class="p-fluid p-formgrid grid">
           <div class="field col-12 md:col-6">
-            {{
+            <label htmlFor="patientFormModel.firstName">{{
               'Pages.CreatePatient.Form.Controls.Firstname.Label' | translate
-            }}
+            }}</label>
             <input
               pInputText
               type="text"
@@ -21,7 +21,9 @@
             </div>
           </div>
           <div class="field col-12 md:col-6">
-            {{ 'Pages.CreatePatient.Form.Controls.Lastname.Label' | translate }}
+            <label htmlFor="patientFormModel.lastName">{{
+              'Pages.CreatePatient.Form.Controls.Lastname.Label' | translate
+            }}</label>
             <input
               pInputText
               type="text"
@@ -161,13 +163,13 @@
         <div class="flex align-items-end justify-content-end mt-5">
           <p-button
             pRipple
-            label="{{ 'Pages.CreatePatient.Form.Buttons.Submit' | translate }}"
+            label="{{ 'Pages.UpdatePatient.Form.Buttons.Submit' | translate }}"
             icon="pi fa-solid fa-check"
             [text]="true"
             type="submit" />
           <p-button
             pRipple
-            label="{{ 'Pages.CreatePatient.Form.Buttons.Cancel' | translate }}"
+            label="{{ 'Pages.UpdatePatient.Form.Buttons.Cancel' | translate }}"
             icon="pi fa-solid fa-arrow-left"
             [text]="true"
             [routerLink]="['/users']" />
