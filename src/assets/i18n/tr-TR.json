@@ -163,18 +163,18 @@
           "Firstname": {
             "Label": "Ad",
             "ValidationMessages": {
-              "NotEmpty": "Lütfen ad alanını boş bırakmayınız",
-              "MinLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
-              "MaxLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
+              "NotNull": "Lütfen ad alanını boş bırakmayınız",
+              "MinimumLength": "Lütfen ad alanı için minimum 3 karakter giriniz",
+              "MaximumLength": "Lütfen ad alanı için maksimum 50 karakter giriniz",
               "NotUseNumbers": "Lütfen ad alanı için rakam kullanmayınız"
             }
           },
           "Lastname": {
             "Label": "Soyad",
             "ValidationMessages": {
-              "NotEmpty": "Lütfen soyad alanını boş bırakmayınız",
-              "MinLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
-              "MaxLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
+              "NotNull": "Lütfen soyad alanını boş bırakmayınız",
+              "MinimumLength": "Lütfen soyad alanı için minimum 3 karakter giriniz",
+              "MaximumLength": "Lütfen soyad alanı için maksimum 50 karakter giriniz",
               "NotUseNumbers": "Lütfen soyad alanı için rakam kullanmayınız"
             }
           },

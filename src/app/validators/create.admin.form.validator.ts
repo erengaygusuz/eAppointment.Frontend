@@ -16,21 +16,21 @@ export class CreateAdminFormValidator extends Validator<CreateAdminValidationMod
   generateRules(data: any) {
     this.ruleFor('firstName')
       .notEmpty()
-      .withMessage(data.Firstname.ValidationMessages.NotEmpty)
+      .withMessage(data.Firstname.ValidationMessages.NotNull)
       .minLength(3)
-      .withMessage(data.Firstname.ValidationMessages.MinLength)
+      .withMessage(data.Firstname.ValidationMessages.MinimumLength)
       .maxLength(50)
-      .withMessage(data.Firstname.ValidationMessages.MaxLength)
+      .withMessage(data.Firstname.ValidationMessages.MaximumLength)
       .matches(new RegExp('^((?![0-9]).)*$'))
       .withMessage(data.Firstname.ValidationMessages.NotUseNumbers);
 
     this.ruleFor('lastName')
       .notEmpty()
-      .withMessage(data.Lastname.ValidationMessages.NotEmpty)
+      .withMessage(data.Lastname.ValidationMessages.NotNull)
       .minLength(3)
-      .withMessage(data.Lastname.ValidationMessages.MinLength)
+      .withMessage(data.Lastname.ValidationMessages.MinimumLength)
       .maxLength(50)
-      .withMessage(data.Lastname.ValidationMessages.MaxLength)
+      .withMessage(data.Lastname.ValidationMessages.MaximumLength)
       .matches(new RegExp('^((?![0-9]).)*$'))
       .withMessage(data.Lastname.ValidationMessages.NotUseNumbers);
 
